@@ -1,0 +1,47 @@
+<!-- Popover -->
+
+ <div id="adjuntar_archivo" style="background-color: white;
+  padding:10px;
+  font-size: 17px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  margin: auto;
+  width: 90%;">
+ <span class=" icon-attach-6"></span> Adjuntar Archivo
+ </div>
+ <div class="curso-adjunto">
+    <div class="porcentaje"><div class="avance"></div></div>  
+ </div>
+ 
+
+{{#each datos}}
+<div class="card card-adjuntos" id_tar="{{id_adj}}">
+    <div class="titulo">
+        {{titulo}}
+        <div class="sub info">creado: <b>{{fecha}}</b></div>
+    </div>
+    <div class="informacion">
+     <!-- {{usuario}} <br> -->
+     <table width="100%">
+       
+     
+      {{#each archivos}}
+        <tr  onclick="descargar_archivo('https://zaionnet.000webhostapp.com/carga/{{codigo}}','{{nombre}}')">
+          <td width="20px" style="padding:3px">
+            {{icono}}
+          </td>
+          <td style="padding:3px">
+            {{nombre}} <br>
+            <small style="color:#9E9E9E">{{usuario}}</small>             
+          </td>
+
+        </tr>
+        
+      {{/each}}
+      </table>
+    </div>
+   
+</div>
+
+
+{{/each}}

@@ -1,0 +1,26 @@
+<!-- Popover -->
+<!-- Speed Dial Wrap -->
+  
+
+{{#each datos}}
+<div class="vpanel panel-curso-tema" id_tema="{{id_tem}}">
+  <table width="100%" style="border-spacing:0px">
+    <tr> 
+      <td width="10px">
+        
+      </td>
+      <td  valign="top" style="padding-top:5px">
+        <b style="font-size: 16px;"> {{tema}}</b>
+        <br>
+        <div style="color:#90A4AE;font-size: 13px"><span class="icon-clock-8" ></span> {{habilitacion}}</div>
+        <!-- <div style="color:#90A4AE;font-size: 12px"><span class="icon-clock-3"></span> {{fecha_creacion}}</div> -->
+        <div style="color:#90A4AE;font-size: 13px"><span class="icon-comment-6"></span> 05 <span class="icon-attach-6" style="margin-left:15px"></span> 01</div>
+
+      </td>
+    </tr>
+  </table>
+
+</div>
+{{else}}
+sin cursos
+{{/each}}
