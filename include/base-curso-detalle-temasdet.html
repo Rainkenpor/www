@@ -3,7 +3,13 @@
 		<b>{{tema}}</b><br>
 		{{descripcion}}
 	</div>
-	<span style="background-color: #4CAF50;color:white;padding:7px;box-shadow: 0px 0px 5px rgba(0,0,0,.4);font-size: 12px;border-radius: 5px;float: right;">{{fecha_habilitacion}}</span>	
+	<span style="background-color: #4CAF50;color:white;padding:7px;box-shadow: 0px 0px 5px rgba(0,0,0,.4);font-size: 12px;border-radius: 5px;float: right;">{{fecha_habilitacion}}</span>
+<br>
+Comentarios
+<br>
+	<textarea id="txt_tema" rows="10" cols="80" placeholder="Escribir nota" style="margin-top:50px">
+  </textarea>
+
 {{else}}
 sin informacion
 {{/each}}

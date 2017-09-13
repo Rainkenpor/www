@@ -77,26 +77,26 @@
 
             <div class="login">
                  <!-- <div class="content-block-title">Inline with custom toolbar</div> -->
-                  
+
                       <div style="padding:10px;  width:auto">
                       <!-- <img src="src/logo.png" alt=""> -->
                         <!-- <div id="calendar-inline-container"></div> -->
                         <div style="text-align: center;margin-top: 20px">
-                            <img src="src/logo_login.png" height="150px" alt="">    
+                            <img src="src/logo_login.png" height="150px" alt="">
                         </div>
-                        
+
                         <div style="font-size: 35px;color:#607D8B;text-align: center;margin-bottom:17px;font-weight:bold">
                         Curso
                         </div>
 
-                        <div onclick="login()" class="google"> 
+                        <div onclick="login()" class="google">
                                 <span class="icon-google" style="padding-right: 5px;border-right:2px solid white;margin-right: 3px"></span>
                                 Iniciar sesión con Google</div>
                       </div>
                       <div style="color:#E0E0E0;margin-top:10px" id="login_console">
-                          
+
                       </div>
-                    
+
             </div>
 
         </div>
@@ -105,7 +105,7 @@
 
 <!-- ========================================================================================================================================= -->
     <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
-
+    <script type="text/javascript" src="lib/ckeditor/ckeditor.js"></script>
     <!-- <script type="text/javascript" src="js/pushnotification.js"></script> -->
     <script type="text/javascript" src="lib/MSOpenTech/winstore-jscompat.js"></script>
     <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
@@ -116,18 +116,18 @@
         // If we need to use custom DOM library, let's save it to $$ variable:
         var $$ = Dom7;
     </script>
-    
+
     <script type="text/javascript" src="js/my-inicialize.js"></script>
     <script type="text/javascript" src="js/base-inicio.js"></script>
     <script type="text/javascript" src="js/base-modal.js"></script>
-    <!-- <script>
+    <script>
     for(key in localStorage) {localStorage.removeItem(key);};
     var Gusuario_id=183;
     $$('.login').hide();
-    start(); 
-    </script>   -->
-    <script type="text/javascript" src="js/my-login.js"></script> 
-    
+    start();
+    </script>
+    <!-- <script type="text/javascript" src="js/my-login.js"></script>  -->
+
     <script type="text/javascript" src="js/my-app.js"></script>
     <script type="text/javascript" src="js/my-app-text.js"></script>
     <script type="text/javascript" src="js/my-notify.js"></script>

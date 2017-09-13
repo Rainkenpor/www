@@ -34,7 +34,7 @@ function llenado_include(){
 
 		  	include=$$(this).attr('include');
 		  	storage=$$(this).attr('storage');
-		  	
+
 		  	// console.log(JSON.parse(localStorage.getItem(storage)));
 		  	elemento=$$(this);
 		  	llenado_elemento(elemento,include,storage);
@@ -44,7 +44,7 @@ function llenado_include(){
 	if (contador>0) llenado_include();
 }
 // ----------------------------------------------------------------------------------------------------------------------------------------
-function llenado_elemento(elemento,include,storage,is_cronograma){ 
+function llenado_elemento(elemento,include,storage,is_cronograma){
 	// console.log(localStorage.getItem(storage));
 	$$.ajax({url:'include/'+include,async:false,success: function(resp) {
   		var compiledTemplate = Template7.compile(resp);
@@ -54,7 +54,7 @@ function llenado_elemento(elemento,include,storage,is_cronograma){
   			console.log({"datos":JSON.parse(localStorage.getItem(storage)) });
   			console.log(include);
   			elemento.html(compiledTemplate({"datos":JSON.parse(localStorage.getItem(storage)) }));
-  		}            
+  		}
   	}});
 }
 // ----------------------------------------------------------------------------------------------------------------------------------------
@@ -173,7 +173,7 @@ function escuchas(){
     		if (mySwiper_inicio) {
     			mySwiper_inicio.slideTo(0);
     			$$('.contenedor-inicio .boton').removeClass("activo");
-    			$$('.contenedor-inicio .boton[index="0"]').addClass("activo"); 
+    			$$('.contenedor-inicio .boton[index="0"]').addClass("activo");
     		}
     		if (mySwiper_curso){mySwiper_curso.slideTo(0);}
 	      mySwiper.slideTo($$(this).attr('index'));
@@ -224,20 +224,20 @@ function escuchas(){
 		    	if (rol==1) {mySwiper_curso_det.slideTo(0);$$('.contenedor-curso .boton[index="0"]').addClass('activo'); }
 		    	if (rol==2) {mySwiper_curso_det.slideTo(4);$$('.contenedor-curso .boton[index="4"]').addClass('activo'); }
 	    }
-	    if ($$(this).hasClass('panel-curso-nuevo')){	    	
+	    if ($$(this).hasClass('panel-curso-nuevo')){
 			id_curso=$$(this).attr('id_curso');
 			curso=$$(this).attr('curso');
 			datos = '[{"id_curso":"'+id_curso+'", "curso":"'+curso+'"}]';localStorage.setItem('varios', datos);
-			
+
 			if ($$(this).attr('name')=='Nuevo Tema'){
-				modal($$(this).attr('name'),null,null,'nuevo_tema');    		
+				modal($$(this).attr('name'),null,null,'nuevo_tema');
 				llenado_elemento($$(".fondo-blur #contenedor #data"),'base-curso-detalle-nuevotem.html','varios');
 			}
 			if ($$(this).attr('name')=='Nueva Tarea'){
-				modal($$(this).attr('name'),null,null,'nuevo_tarea');    		
+				modal($$(this).attr('name'),null,null,'nuevo_tarea');
 				llenado_elemento($$(".fondo-blur #contenedor #data"),'base-curso-detalle-nuevotar.html','varios');
 			}
-			
+
 			calendario('modal_fecha');
 	    }
 	    if ($$(this).hasClass('panel-curso-tarea') || ($$(this).hasClass('timeline-item-inner') && $$(this).attr('id_tarea')>0)) {
@@ -251,6 +251,7 @@ function escuchas(){
 		    vconsole('TEMA SELECCIONADO: '+id_tema);
 		    modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tema,'tema');
 		    llenado_peticion('base-curso-detalle-temasdet.html','curso_temasdet_'+id_tema,'.fondo-blur #contenedor #data');
+        editor('txt_tema');
 	    }
 
 	});
@@ -325,6 +326,10 @@ function calendario(id){
 
 }
 
+function editor(id){
+    CKEDITOR.replace( id );
+}
+
 
 function cronograma(storage){
       var array=JSON.parse(localStorage.getItem(storage));
@@ -358,10 +363,10 @@ function cronograma(storage){
         t_mes=array[a].mes;
         t_dia=array[a].dia;
       }
-      console.log(elementos); 
+      console.log(elementos);
       var context_curso = {"elementos":elementos};
-      
+
       // $$('.cursos.detalle .contenido').html(compiledTemplate(context_curso));
       return context_curso;
-          
+
 }
