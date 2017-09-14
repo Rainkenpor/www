@@ -161,8 +161,8 @@ function escuchas(){
 			modal_ok($$(this),tipo);
 		}
 		if ($$(this).attr('cerrar')){
-			$$('.fondo-blur').removeClass('jackInTheBox').removeClass('animated').addClass('fadeOutUp animated');
-			setTimeout(function() {$$('.fondo-blur').remove();}, 400);
+			$$(this).parents('.fondo-blur').removeClass('jackInTheBox').removeClass('animated').addClass('fadeOutUp animated');
+			setTimeout(function() {$$(this).parents('.fondo-blur').remove();}, 400);
 		}
 	});
 
@@ -249,13 +249,25 @@ function escuchas(){
 	    if ($$(this).hasClass('panel-curso-tema') || ($$(this).hasClass('timeline-item-inner') && $$(this).attr('id_tema')>0)) {
 	    	id_tema=($$(this).attr('id_tema'));
 		    vconsole('TEMA SELECCIONADO: '+id_tema);
-		    modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tema,'tema');
+		    modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tema,'tema',null,10);
 		    llenado_peticion('base-curso-detalle-temasdet.html','curso_temasdet_'+id_tema,'.fondo-blur #contenedor #data');
-        editor('txt_tema');
+        
 	    }
 
 	});
-
+	//-------------------------------------------------------------------------------------------------------------------------------------
+	// submodal
+	//-------------------------------------------------------------------------------------------------------------------------------------
+	$$(document).on('click','.submodal',function(){
+		if ($$(this).attr('tipo')=="tema"){
+			if ($$(this).attr('opcion')=="nota"){
+				modal($$(".swiper-slide[name='curso'] .titulo small").html()+ ' nota',null,null,null,11);
+				datos = '[{"id_tem":"'+$$(this).attr('id')+'"}]';localStorage.setItem('varios', datos);
+				llenado_elemento($$(".fondo-blur[id='11'] #contenedor #data"),'base-curso-detalle-temasdet_nota.html','varios');
+				editor('txt_tema');	
+			}	
+		}
+	});
 
 	// seleccion de favorito
 	// ----------------------------------------------------------------------------------------------------------
@@ -264,8 +276,10 @@ function escuchas(){
 	})
 };
 
-function modal(titulo,id,tipo,tipo_crear){
-	txt='<div class="fondo-blur">';
+function modal(titulo,id,tipo,tipo_crear,nivel){
+	// nivel indica el z-index
+	if (!nivel) nivel=9999;
+	txt='<div class="fondo-blur" id="'+nivel+'" style="z-index:'+nivel+'">';
 	txt+='<div id="contenedor" class="jackInTheBox animated">';
 	txt+='<div style="background-color:#2196F3;padding:6px;height:26px;color:white;font-size:18px;border-radius:5px 5px 0px 0px;">'+titulo;
 
