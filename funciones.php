@@ -62,7 +62,7 @@ if ($conn->connect_error) {
 		$v_usuario=$_POST['usu'];
 		$v_correo=htmlspecialchars($_POST['email'],ENT_QUOTES);
 		$v_imagen=$_POST['imagen'];
-		$strQuery = "insert into admin_usu (id_tiplog,id_login,usuario,nombre,correo,imagen,id_est) ".	
+		$strQuery = "insert into admin_usu (id_tiplog,id_login,usuario,nombre,correo,imagen,id_est) ".
                             " values (1,'$v_id','$v_usuario','$v_usuario','$v_correo','$v_imagen',1)  ON DUPLICATE KEY UPDATE entrada=entrada+1";
 
 	  	$conn->multi_query($strQuery);
@@ -388,7 +388,7 @@ if ($conn->connect_error) {
 		$v_curso=htmlspecialchars($_POST['curso'],ENT_QUOTES);
 		$v_descripcion=htmlspecialchars($_POST['descripcion'],ENT_QUOTES);
 		$v_tema=htmlspecialchars($_POST['tema'],ENT_QUOTES);
-		
+
 		$v_finaliza=htmlspecialchars($_POST['fecha_habilitacion'],ENT_QUOTES);
 
 		if (isset($_POST['tema']) && trim($_POST['tema'])!=''){
@@ -402,7 +402,23 @@ if ($conn->connect_error) {
 		}
 	}
 
-	if ($v_opcion=='curso_temas'){
+  if ($v_opcion=='curso_tema_comentario'){
+		$v_usuario=htmlspecialchars($_POST['usuario'],ENT_QUOTES);
+		$v_comentario=htmlspecialchars($_POST['comentario'],ENT_QUOTES);
+		$v_tema=htmlspecialchars($_POST['tema'],ENT_QUOTES);
+
+		if (isset($_POST['tema']) && trim($_POST['tema'])!=''){
+
+			$strQuery = "insert into curs_tem_comment (id_tem,comentario,id_usu) values ('$v_tema','$v_comentario',$v_usuario)";
+			$conn->multi_query($strQuery);
+
+			echo $strQuery;
+		}else{
+			echo 'Debe de ingresar el titulo del tema';
+		}
+	}
+
+  if ($v_opcion=='curso_temas'){
 		$v_curso=htmlspecialchars($_POST['id'],ENT_QUOTES);
 		$v_encontrado=0;
 
@@ -457,7 +473,28 @@ if ($conn->connect_error) {
 			echo json_encode($data);
 		}
 	}
-	
+
+  if ($v_opcion=='curso_temascomment'){
+		$v_tema=htmlspecialchars($_POST['id'],ENT_QUOTES);
+		$v_encontrado=0;
+
+		$strQuery = "select *,DATE_FORMAT(fecha_creacion,'%d/%m/%Y') creado from curs_tem_comment where id_tem=$v_tema order by fecha_creacion desc" ;
+		if ($conn->multi_query($strQuery)){
+			if ($result=$conn->store_result()){
+				while($row=$result->fetch_assoc()){
+					$data[] = json_encode($row);
+					$v_encontrado=1;
+				}
+				$result->free();
+			}
+		}
+		if ($v_encontrado==0){
+			echo 0;
+		}else{
+			echo json_encode($data);
+		}
+	}
+
 	// cronograma
 	// -----------------------------------------------------------------------------------------------------------------------------------
 		if ($v_opcion=='curso_cronograma'){
@@ -477,7 +514,7 @@ if ($conn->connect_error) {
 						DATE_FORMAT(fecha_finalizacion,'%b') mes
 						from curs_tar
 						where id_curs=$v_curso
-					union all 
+					union all
  					select 'tem' tipo,id_tem codigo, tema titulo,descripcion,fecha_habilitacion,
                         DATE_FORMAT(fecha_habilitacion,'%d') dia,
                         DATE_FORMAT(fecha_habilitacion,'%b') mes
@@ -558,7 +595,7 @@ if ($conn->connect_error) {
 		}
 	}
 
-	
+
 
 
 

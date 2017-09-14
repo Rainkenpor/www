@@ -156,14 +156,19 @@ function escuchas(){
 			mySwiper_curso_det.slideTo($$(this).attr('index'));
 		}
 		// modal
-	    if ($$(this).attr('crear')){
-	    	tipo=$$(this).attr('tipo');
+	  if ($$(this).attr('crear')){
+	   	tipo=$$(this).attr('tipo');
 			modal_ok($$(this),tipo);
 		}
 		if ($$(this).attr('cerrar')){
 			$$(this).parents('.fondo-blur').removeClass('jackInTheBox').removeClass('animated').addClass('fadeOutUp animated');
 			setTimeout(function() {$$(this).parents('.fondo-blur').remove();}, 400);
 		}
+    if ($$(this).attr('enviar')){
+      tipo=$$(this).attr('tipo');
+			modal_enviar($$(this),tipo);
+    }
+
 	});
 
 	//-------------------------------------------------------------------------------------------------------------------------------------
@@ -251,7 +256,7 @@ function escuchas(){
 		    vconsole('TEMA SELECCIONADO: '+id_tema);
 		    modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tema,'tema',null,10);
 		    llenado_peticion('base-curso-detalle-temasdet.html','curso_temasdet_'+id_tema,'.fondo-blur #contenedor #data');
-        
+
 	    }
 
 	});
@@ -260,12 +265,23 @@ function escuchas(){
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	$$(document).on('click','.submodal',function(){
 		if ($$(this).attr('tipo')=="tema"){
+      if ($$(this).attr('opcion')=="comentario"){
+				modal($$(".swiper-slide[name='curso'] .titulo small").html()+ ' - comentario',null,null,null,11);
+        id_tem=$$(this).attr('id');
+				datos = '[{"id_tem":"'+$$(this).attr('id')+'"}]';localStorage.setItem('varios', datos);
+				llenado_elemento($$(".fondo-blur[id='11'] #contenedor #data"),'base-curso-detalle-temasdet_comentario.html','varios');
+        setInterval(function () {
+          localStorage.removeItem('curso_temascomment_'+id_tem);
+          llenado_peticion('base-curso-detalle-temasdet_comentario_listado.html','curso_temascomment_'+id_tem,".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado");
+        }, 5000);
+
+			}
 			if ($$(this).attr('opcion')=="nota"){
 				modal($$(".swiper-slide[name='curso'] .titulo small").html()+ ' nota',null,null,null,11);
 				datos = '[{"id_tem":"'+$$(this).attr('id')+'"}]';localStorage.setItem('varios', datos);
 				llenado_elemento($$(".fondo-blur[id='11'] #contenedor #data"),'base-curso-detalle-temasdet_nota.html','varios');
-				editor('txt_tema');	
-			}	
+				editor('txt_tema');
+			}
 		}
 	});
 
