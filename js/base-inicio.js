@@ -3,6 +3,8 @@ var mySwiper_curso;
 var mySwiper_curso_det;
 var myEscucha=0;
 
+var intervalo_actual;
+var intervalos=[]; //array que almacena los intervalos
 
 function start(){
   // recorrido base
@@ -161,8 +163,18 @@ function escuchas(){
 			modal_ok($$(this),tipo);
 		}
 		if ($$(this).attr('cerrar')){
-			$$(this).parents('.fondo-blur').removeClass('jackInTheBox').removeClass('animated').addClass('fadeOutUp animated');
-			setTimeout(function() {$$(this).parents('.fondo-blur').remove();}, 400);
+      vid=$$(this).parents('.fondo-blur').attr('id');
+      vid=vid.toString();
+      $$(this).parents('.fondo-blur').removeClass('jackInTheBox').removeClass('animated').addClass('fadeOutUp animated');
+      // si es un submodal de comentario de curso
+      if (intervalos[vid]){
+          clearInterval(intervalos[vid]);
+          storage_clear('curso_temascomment_');
+          delete intervalos[vid];
+      }
+      elemento=$$(this);
+
+			setTimeout(function() {elemento.parents('.fondo-blur').remove();verificar_alto();elemento=undefined;}, 200);
 		}
     if ($$(this).attr('enviar')){
       tipo=$$(this).attr('tipo');
@@ -270,11 +282,15 @@ function escuchas(){
         id_tem=$$(this).attr('id');
 				datos = '[{"id_tem":"'+$$(this).attr('id')+'"}]';localStorage.setItem('varios', datos);
 				llenado_elemento($$(".fondo-blur[id='11'] #contenedor #data"),'base-curso-detalle-temasdet_comentario.html','varios');
-        setInterval(function () {
-          localStorage.removeItem('curso_temascomment_'+id_tem);
-          llenado_peticion('base-curso-detalle-temasdet_comentario_listado.html','curso_temascomment_'+id_tem,".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado");
+        datos = {elemento:".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_tem,usuario:Gusuario_id};
+        script(datos);
+        intervalo_actual=setInterval(function () {
+          // localStorage.removeItem('curso_temascomment_'+id_tem);
+          datos = {elemento:".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_tem,usuario:Gusuario_id};
+          script(datos);
         }, 5000);
-
+        intervalos['11']=intervalo_actual;
+        intervalo_actual=null;
 			}
 			if ($$(this).attr('opcion')=="nota"){
 				modal($$(".swiper-slide[name='curso'] .titulo small").html()+ ' nota',null,null,null,11);
@@ -294,7 +310,7 @@ function escuchas(){
 
 function modal(titulo,id,tipo,tipo_crear,nivel){
 	// nivel indica el z-index
-	if (!nivel) nivel=9999;
+	if (!nivel) nivel=10;
 	txt='<div class="fondo-blur" id="'+nivel+'" style="z-index:'+nivel+'">';
 	txt+='<div id="contenedor" class="jackInTheBox animated">';
 	txt+='<div style="background-color:#2196F3;padding:6px;height:26px;color:white;font-size:18px;border-radius:5px 5px 0px 0px;">'+titulo;
@@ -314,6 +330,7 @@ function modal(titulo,id,tipo,tipo_crear,nivel){
 	txt+=	'</div>';
 
 	$$('.page-content').prepend(txt);
+  verificar_alto();
 }
 
 function calendario(id){
@@ -399,4 +416,14 @@ function cronograma(storage){
       // $$('.cursos.detalle .contenido').html(compiledTemplate(context_curso));
       return context_curso;
 
+}
+
+function storage_clear(search,value){
+  for(key in localStorage) {
+    vconsole(key);
+    if (key.search(search)>=0){
+        vconsole('Eliminando storage:' + key);
+        localStorage.removeItem(key);
+    }
+  }
 }

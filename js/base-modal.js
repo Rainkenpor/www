@@ -14,7 +14,6 @@ function modal_ok(elemento,tipo){
 		$$('.fondo-blur').removeClass('jackInTheBox').removeClass('animated').addClass('fadeOutUp animated');
 	}
 	if (tipo=='nuevo_tema'){
-		alert('tema');
 		var arr=localStorage.getItem('varios');
 		vtitulo=$$('.fondo-blur #contenedor #titulo').val();
 		vdescripcion=$$('.fondo-blur #contenedor #descripcion').val();

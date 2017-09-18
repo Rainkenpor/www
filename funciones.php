@@ -476,9 +476,11 @@ if ($conn->connect_error) {
 
   if ($v_opcion=='curso_temascomment'){
 		$v_tema=htmlspecialchars($_POST['id'],ENT_QUOTES);
+    $gusuario=htmlspecialchars($_POST['usuario'],ENT_QUOTES);
 		$v_encontrado=0;
 
-		$strQuery = "select *,DATE_FORMAT(fecha_creacion,'%d/%m/%Y') creado from curs_tem_comment where id_tem=$v_tema order by fecha_creacion desc" ;
+		$strQuery = " select a.*,d.usuario,d.imagen,c.curso,DATE_FORMAT(a.fecha_creacion,'%d/%m/%Y') creado,$gusuario gusuario from curs_tem_comment a,curs_tem b,curs_nom c,admin_usu d
+                  where a.id_tem=b.id_tem and b.id_curs=c.id_curs and a.id_usu=d.id_usu and a.id_tem=$v_tema order by a.fecha_creacion desc" ;
 		if ($conn->multi_query($strQuery)){
 			if ($result=$conn->store_result()){
 				while($row=$result->fetch_assoc()){

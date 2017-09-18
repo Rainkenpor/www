@@ -3,11 +3,11 @@ var Gusuario_nombre='';
 
 // devolver 2= no devuelve respuesta
 function script(datos,devolver){
-  // devolver es opcional null = no ; 1 = si
+  // devolver es opcional null = no ; 1 = si; 2 = ejecuta el query sin storage
   vconsole('>INICIANDO SCRIPT<');
-  vconsole( JSON.stringify(datos));
+  // vconsole( JSON.stringify(datos));
+  if (datos.nopreload == undefined) {vconsole('oooo');myApp.showIndicator();}
 
-  myApp.showIndicator();
   var v_async=true;
   var glob_resp;
 
@@ -25,7 +25,6 @@ function script(datos,devolver){
       glob_resp=resp;
       if (devolver!=2){
         vconsole( JSON.stringify(datos));
-        
 
         if (resp!=''){
   	    	resp2=JSON.parse(resp);
@@ -35,14 +34,28 @@ function script(datos,devolver){
           // ====================================================================================================
             for (v_resp in resp2){info.push(JSON.parse(resp2[v_resp]));}
             if (datos.id){
-    		      localStorage.setItem(datos.opcion+'_'+datos.id, JSON.stringify(info));
+              storage=datos.opcion+'_'+datos.id;
             }else{
-              localStorage.setItem(datos.opcion, JSON.stringify(info));
+              storage=datos.opcion;
             }
-            if (!devolver){
+            existeCambio=0;
+              
+            if (localStorage.getItem(storage)){
+              if (localStorage.getItem(storage)==JSON.stringify(info))
+              existeCambio=1;
+            }
+            localStorage.setItem(storage, JSON.stringify(info));
+            if (!devolver && existeCambio==0){
               elemento=$$('.swiper-slide[storage='+datos.opcion+']');
               llenado_elemento(elemento,elemento.attr('include'),elemento.attr('storage'));
             }
+          // ====================================================================================================
+          // si se utiliza un include se llenara un elemento especifico
+          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>'+storage+ ' ** '+existeCambio);
+          if (datos.elemento && existeCambio==0){
+              elemento=$$(datos.elemento);
+              llenado_elemento(elemento,datos.include,storage);
+          }
           // ====================================================================================================
           }catch(e){
 
@@ -53,7 +66,7 @@ function script(datos,devolver){
         // script_carga(datos.opcion);
     }
     myApp.hideIndicator();
-    
+
     },
     error: function searchError(xhr, err) {
       vconsole("Error on ajax call: " + err);
@@ -63,8 +76,8 @@ function script(datos,devolver){
        myApp.hideIndicator();
     }
   });
- 
-  if (devolver){ 
+
+  if (devolver){
     vconsole('respuesta');
     vconsole(glob_resp);
     return glob_resp;

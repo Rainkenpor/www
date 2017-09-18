@@ -1,19 +1,23 @@
 {{#each datos}}
-<div class="vpanel panel-curso-tema" id_tema="{{id_tem}}">
-  <table width="100%" style="border-spacing:0px">
+  {{#if_compare id_usu "==" gusuario}}
+    <div style="float:right;margin-right:5px;margin-top:5px;border-radius:5px; padding:5px; background-color:white;border:1px solid #ccc;width: calc(100% - 70px)" id_tema="{{id_tem}}">
+  {{else}}
+    <div style="float:left;margin-right:5px;margin-top:5px;border-radius:5px; padding:5px; background-color:white;border:1px solid #ccc;width: calc(100% - 70px)" id_tema="{{id_tem}}">
+  {{/if_compare}}
+
+  <table>
     <tr>
-      <td width="10px">
-
+      <td width="30px">
+        <img src="{{imagen}}" alt="" style="width:30px; height:30px; border-radius:100%">
       </td>
-      <td  valign="top" style="padding-top:5px">
+      <td>
+        <div style="font-weight:bold;color:#2196F3">{{usuario}}</div>
         {{comentario}}
-        <br>
-
       </td>
     </tr>
   </table>
 
-</div>
+  </div>
 {{else}}
-sin cursos
+  sin cursos
 {{/each}}
