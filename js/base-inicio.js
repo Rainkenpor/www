@@ -165,16 +165,14 @@ function escuchas(){
 		if ($$(this).attr('cerrar')){
       vid=$$(this).parents('.fondo-blur').attr('id');
       vid=vid.toString();
-      $$(this).parents('.fondo-blur').removeClass('jackInTheBox').removeClass('animated').addClass('fadeOutUp animated');
+      // $$(this).parents('.fondo-blur').removeClass('jackInTheBox').removeClass('animated').addClass('fadeOutUp animated');
       // si es un submodal de comentario de curso
       if (intervalos[vid]){
           clearInterval(intervalos[vid]);
           storage_clear('curso_temascomment_');
           delete intervalos[vid];
       }
-      elemento=$$(this);
-
-			setTimeout(function() {elemento.parents('.fondo-blur').remove();verificar_alto();elemento=undefined;}, 200);
+      $$(this).parents('.fondo-blur').remove();
 		}
     if ($$(this).attr('enviar')){
       tipo=$$(this).attr('tipo');
@@ -312,7 +310,7 @@ function modal(titulo,id,tipo,tipo_crear,nivel){
 	// nivel indica el z-index
 	if (!nivel) nivel=10;
 	txt='<div class="fondo-blur" id="'+nivel+'" style="z-index:'+nivel+'">';
-	txt+='<div id="contenedor" class="jackInTheBox animated">';
+	txt+='<div id="contenedor">';
 	txt+='<div style="background-color:#2196F3;padding:6px;height:26px;color:white;font-size:18px;border-radius:5px 5px 0px 0px;">'+titulo;
 
 	if (tipo){
@@ -329,7 +327,7 @@ function modal(titulo,id,tipo,tipo_crear,nivel){
 	txt+=	'</div>';
 	txt+=	'</div>';
 
-	$$('.page-content').prepend(txt);
+	$$('body').prepend(txt);
   verificar_alto();
 }
 
