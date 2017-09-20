@@ -98,8 +98,6 @@ function llenado_datos(opcion){
 }
 // ----------------------------------------------------------------------------------------------------------------------------------------
 function escuchas(){
-
-
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	mySwiper.on('slideChangeStart', function () {
 	    $$('.toolbar-inner table tr td').removeClass("activo");
@@ -125,8 +123,6 @@ function escuchas(){
 		});
 	});
 	//-------------------------------------------------------------------------------------------------------------------------------------
-
-
 
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	// general
@@ -298,8 +294,16 @@ function escuchas(){
 			}
 		}
 	});
-
-	// seleccion de favorito
+  //
+  // keyup
+  //
+  $$(document).on('keyup','.fondo-blur #data input[type="text"]',function(event){
+    if (event.keyCode==13){
+      tipo='tema_comentario';
+      modal_enviar($$(this),tipo);
+    }
+  });
+  // seleccion de favorito
 	// ----------------------------------------------------------------------------------------------------------
 	$$(document).on('click','.fondo-blur #contenedor .favorito',function(){
 		$$(this).removeClass('icon-star-empty').addClass('icon-star');
