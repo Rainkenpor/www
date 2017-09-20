@@ -39,7 +39,7 @@ function script(datos,devolver){
               storage=datos.opcion;
             }
             existeCambio=0;
-              
+
             if (localStorage.getItem(storage)){
               if (localStorage.getItem(storage)==JSON.stringify(info))
               existeCambio=1;
@@ -55,6 +55,7 @@ function script(datos,devolver){
           if (datos.elemento && existeCambio==0){
               elemento=$$(datos.elemento);
               llenado_elemento(elemento,datos.include,storage);
+              $(elemento).animate({scrollTop: 9999}, 1000);
           }
           // ====================================================================================================
           }catch(e){

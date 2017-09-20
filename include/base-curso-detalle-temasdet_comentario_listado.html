@@ -1,4 +1,4 @@
-{{#each datos}}
+{{#each datos reverse="true"}}
   {{#if_compare id_usu "==" gusuario}}
     <div style="float:right;margin-right:5px;margin-top:5px;border-radius:5px; padding:5px; background-color:white;border:1px solid #ccc;width: calc(100% - 70px)" id_tema="{{id_tem}}">
   {{else}}
@@ -11,7 +11,7 @@
         <img src="{{imagen}}" alt="" style="width:30px; height:30px; border-radius:100%">
       </td>
       <td>
-        <div style="font-weight:bold;color:#2196F3">{{usuario}}</div>
+        <div style="font-weight:bold;color:#2196F3;font-size:11px">{{usuario}}</div>
         {{comentario}}
       </td>
     </tr>

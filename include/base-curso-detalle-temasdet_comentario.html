@@ -1,8 +1,10 @@
 {{#each datos}}
-  <div style="height: calc(100% - 45px); width:100%;overflow:auto " id='tema_comentario_listado'>
+  <div style="height: calc(100% - 55px); width:100%;overflow:auto;margin-bottom:10px" id='tema_comentario_listado'>
   </div>
   <input type="text" id="txt_comentario" class="form-control" style="width:calc(100% - 60px);float:left">
-  <div class="boton" enviar="1" id_tema="{{id_tem}}" tipo="tema_comentario" style="float:right"> <span class="icon-paper-plane" style="color:#2196F3;font-size: 27px"></span></div>
+  <div class="boton" enviar="1" id_tema="{{id_tem}}" tipo="tema_comentario" style="float:right">
+    <span class="icon-paper-plane" style="color:#2196F3;font-size: 27px"></span>
+  </div>
   <div style="clear:both; border-bottom:1px solid #ccc;padding-top:3px"></div>
 {{else}}
   sin informacion
