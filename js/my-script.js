@@ -6,7 +6,7 @@ function script(datos,devolver){
   // devolver es opcional null = no ; 1 = si; 2 = ejecuta el query sin storage
   vconsole('>INICIANDO SCRIPT<');
   // vconsole( JSON.stringify(datos));
-  if (datos.nopreload == undefined) {vconsole('oooo');myApp.showIndicator();}
+  if (datos.nopreload == undefined) {myApp.showIndicator();}
 
   var v_async=true;
   var glob_resp;
@@ -24,7 +24,7 @@ function script(datos,devolver){
       vconsole('......................RESPUESTA OK......................');
       glob_resp=resp;
       if (devolver!=2){
-        vconsole( JSON.stringify(datos));
+        // vconsole( JSON.stringify(datos));
 
         if (resp!=''){
   	    	resp2=JSON.parse(resp);
@@ -45,13 +45,17 @@ function script(datos,devolver){
               existeCambio=1;
             }
             localStorage.setItem(storage, JSON.stringify(info));
-            if (!devolver && existeCambio==0){
-              elemento=$$('.swiper-slide[storage='+datos.opcion+']');
+            if (datos.elemento && existeCambio==0){
+              vconsole('>>>>>'+datos.elemento);
+              elemento=$$(datos.elemento);
+              vconsole(elemento.attr('storage'));
+              vconsole(storage);
+
               llenado_elemento(elemento,elemento.attr('include'),elemento.attr('storage'));
             }
           // ====================================================================================================
           // si se utiliza un include se llenara un elemento especifico
-          console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>'+storage+ ' ** '+existeCambio);
+          // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>'+storage+ ' ** '+existeCambio);
           if (datos.elemento && existeCambio==0){
               elemento=$$(datos.elemento);
               llenado_elemento(elemento,datos.include,storage);

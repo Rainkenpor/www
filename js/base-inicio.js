@@ -67,13 +67,17 @@ function llenado_peticion(include,storage,elemento){
 		st1=storage.split('_');
 		if (st1.length===3){
 			st2=st1[0]+'_'+st1[1]
-			datos = {opcion:st2,id:st1[2], usuario:Gusuario_id};
+			datos = {elemento:elemento,opcion:st2,id:st1[2], usuario:Gusuario_id};
 			console.log(datos);
-			script(datos,1);
+			// script(datos,1);
+      $$(elemento).html('cargando...');
+      script(datos);
 		}else{
-			datos = {opcion:storage,usuario:Gusuario_id};
+			datos = {elemento:elemento,opcion:storage,usuario:Gusuario_id};
 			console.log(datos);
-			script(datos,1);
+			// script(datos,1);
+      $$(elemento).html('cargando...');
+      script(datos);
 		}
 	}
   	elemento=$$(elemento);
@@ -88,12 +92,12 @@ function llenado_peticion(include,storage,elemento){
 function llenado_datos(opcion){
 	var datos;
 	console.log(Gusuario_id);
-	if (!(localStorage.getItem('inicio_notificacion')))	{datos = {opcion:"inicio_notificacion",usuario:Gusuario_id};script(datos);}
-	if (!(localStorage.getItem('inicio_perfil')))		{datos = {opcion:"inicio_perfil",usuario:Gusuario_id};	script(datos);}
-	if (!(localStorage.getItem('evento-listado')))		{datos = {opcion:"evento_listado",usuario:Gusuario_id};	script(datos);}
-	if (!(localStorage.getItem('curso_listado')))		{datos = {opcion:"curso_listado",usuario:Gusuario_id};	script(datos);}
-	if (!(localStorage.getItem('favorito_listado')))	{datos = {opcion:"favorito_listado",usuario:Gusuario_id};	script(datos);}
-	if (!(localStorage.getItem('foro_listado')))		{datos = {opcion:"foro_listado",usuario:Gusuario_id};		script(datos);}
+	if (!(localStorage.getItem('inicio_notificacion')))	{datos = {elemento:'.swiper-slide[storage="inicio_notificacion"]' ,opcion:"inicio_notificacion",usuario:Gusuario_id};script(datos);}
+	if (!(localStorage.getItem('inicio_perfil')))		    {datos = {elemento:'.swiper-slide[storage="inicio_perfil"]'       ,opcion:"inicio_perfil",usuario:Gusuario_id};	script(datos);}
+	if (!(localStorage.getItem('evento-listado')))		  {datos = {elemento:'.swiper-slide[storage="evento-listado"]'      ,opcion:"evento_listado",usuario:Gusuario_id};	script(datos);}
+	if (!(localStorage.getItem('curso_listado')))		    {datos = {elemento:'.swiper-slide[storage="curso_listado"]'       ,opcion:"curso_listado",usuario:Gusuario_id};	script(datos);}
+	if (!(localStorage.getItem('favorito_listado')))	  {datos = {elemento:'.swiper-slide[storage="favorito_listado"]'    ,opcion:"favorito_listado",usuario:Gusuario_id};	script(datos);}
+	if (!(localStorage.getItem('foro_listado')))		    {datos = {elemento:'.swiper-slide[storage="foro_listado"]'        ,opcion:"foro_listado",usuario:Gusuario_id};		script(datos);}
 
 }
 // ----------------------------------------------------------------------------------------------------------------------------------------
@@ -146,9 +150,9 @@ function escuchas(){
 		      if ($$(this).attr('index')==0)
 		      	llenado_peticion('base-curso-detalle-cronograma.html','curso_cronograma_'+id_curso,'.swiper-container-curso-detalle #curso_cronograma');
 		      if ($$(this).attr('index')==1)
-				llenado_peticion('base-curso-detalle-tareas.html','curso_tareas_'+id_curso,'.swiper-container-curso-detalle #curso_tareas');
-			  if ($$(this).attr('index')==2)
-				llenado_peticion('base-curso-detalle-temas.html','curso_temas_'+id_curso,'.swiper-container-curso-detalle #curso_tema');
+				    llenado_peticion('base-curso-detalle-tareas.html','curso_tareas_'+id_curso,'.swiper-container-curso-detalle #curso_tareas');
+			    if ($$(this).attr('index')==2)
+				    llenado_peticion('base-curso-detalle-temas.html','curso_temas_'+id_curso,'.swiper-container-curso-detalle #curso_tema');
 			// if ($$(this).attr('index')==2)
 				// llenado_peticion('base-curso-detalle-tareas.html','curso_tareas_'+id_curso,'.swiper-container-curso-detalle #curso_tareas');
 			mySwiper_curso_det.slideTo($$(this).attr('index'));
