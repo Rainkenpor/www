@@ -48,9 +48,15 @@ function llenado_include(){
 // ----------------------------------------------------------------------------------------------------------------------------------------
 function llenado_elemento(elemento,include,storage,is_cronograma){
 	// console.log(localStorage.getItem(storage));
+  vconsole('+++++++++++++++++++++++++++++++++++++++++++++++++++');
+  vconsole(elemento);
+  vconsole(include);
+  vconsole(storage);
+  vconsole('+++++++++++++++++++++++++++++++++++++++++++++++++++');
 	$$.ajax({url:'include/'+include,async:false,success: function(resp) {
   		var compiledTemplate = Template7.compile(resp);
   		if (is_cronograma){
+
 			elemento.html(compiledTemplate(cronograma(storage)));
   		}else{
   			console.log({"datos":JSON.parse(localStorage.getItem(storage)) });
@@ -66,20 +72,25 @@ function llenado_peticion(include,storage,elemento){
 	if (!(localStorage.getItem(storage))){
 		st1=storage.split('_');
 		if (st1.length===3){
+
 			st2=st1[0]+'_'+st1[1]
-			datos = {elemento:elemento,opcion:st2,id:st1[2], usuario:Gusuario_id};
+			datos = {elemento:elemento,include:include,opcion:st2,id:st1[2], usuario:Gusuario_id};
+
+      if (st1[1]==='cronograma')
+      datos = {elemento:elemento,include:include,opcion:st2,id:st1[2], usuario:Gusuario_id,is_cronograma:1};
+
 			console.log(datos);
 			// script(datos,1);
-      $$(elemento).html('cargando...');
+      $$(elemento).html('<div style="text-align:center;padding:20px"><img src="src/logo_login.png" height="80px" alt=""><br>Cargando</div>');
       script(datos);
 		}else{
-			datos = {elemento:elemento,opcion:storage,usuario:Gusuario_id};
+			datos = {elemento:elemento,include:include,opcion:storage,usuario:Gusuario_id};
 			console.log(datos);
 			// script(datos,1);
-      $$(elemento).html('cargando...');
+      $$(elemento).html('<div style="text-align:center;padding:20px"><img src="src/logo_login.png" height="80px" alt=""><br>Cargando</div>');
       script(datos);
 		}
-	}
+	}else{
   	elemento=$$(elemento);
   	// llenado_elemento(elemento,include,storage);
   		if (st1[1]==='cronograma'){
@@ -87,6 +98,7 @@ function llenado_peticion(include,storage,elemento){
   		}else{
   			llenado_elemento(elemento,include,storage);
        }
+  }
 }
 // ----------------------------------------------------------------------------------------------------------------------------------------
 function llenado_datos(opcion){
@@ -280,11 +292,11 @@ function escuchas(){
         id_tem=$$(this).attr('id');
 				datos = '[{"id_tem":"'+$$(this).attr('id')+'"}]';localStorage.setItem('varios', datos);
 				llenado_elemento($$(".fondo-blur[id='11'] #contenedor #data"),'base-curso-detalle-temasdet_comentario.html','varios');
-        datos = {elemento:".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_tem,usuario:Gusuario_id};
+        datos = {autoscroll:1,elemento:".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_tem,usuario:Gusuario_id};
         script(datos);
         intervalo_actual=setInterval(function () {
           // localStorage.removeItem('curso_temascomment_'+id_tem);
-          datos = {elemento:".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_tem,usuario:Gusuario_id};
+          datos = {autoscroll:1,elemento:".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_tem,usuario:Gusuario_id};
           script(datos);
         }, 5000);
         intervalos['11']=intervalo_actual;
@@ -386,7 +398,6 @@ function editor(id){
 
 function cronograma(storage){
       var array=JSON.parse(localStorage.getItem(storage));
-      console.log(array);
       var elementos=[];
       var t_mes=0;var t_dia=0;var pos_ant=0;
       for (a in array){
@@ -416,9 +427,7 @@ function cronograma(storage){
         t_mes=array[a].mes;
         t_dia=array[a].dia;
       }
-      console.log(elementos);
       var context_curso = {"elementos":elementos};
-
       // $$('.cursos.detalle .contenido').html(compiledTemplate(context_curso));
       return context_curso;
 

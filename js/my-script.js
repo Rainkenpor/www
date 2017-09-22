@@ -48,18 +48,21 @@ function script(datos,devolver){
             if (datos.elemento && existeCambio==0){
               vconsole('>>>>>'+datos.elemento);
               elemento=$$(datos.elemento);
-              vconsole(elemento.attr('storage'));
+              vconsole(datos.include);
               vconsole(storage);
+              vconsole(datos.is_cronograma);
+              if (!datos.include) datos.include=elemento.attr('include');
 
-              llenado_elemento(elemento,elemento.attr('include'),elemento.attr('storage'));
+              llenado_elemento(elemento,datos.include,storage,datos.is_cronograma);
+              if (datos.autoscroll) $(elemento).animate({scrollTop: 9999}, 1000);
             }
           // ====================================================================================================
           // si se utiliza un include se llenara un elemento especifico
           // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>'+storage+ ' ** '+existeCambio);
           if (datos.elemento && existeCambio==0){
-              elemento=$$(datos.elemento);
-              llenado_elemento(elemento,datos.include,storage);
-              $(elemento).animate({scrollTop: 9999}, 1000);
+              // elemento=$$(datos.elemento);
+              // llenado_elemento(elemento,datos.include,storage);
+              //
           }
           // ====================================================================================================
           }catch(e){
