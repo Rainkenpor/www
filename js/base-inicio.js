@@ -257,11 +257,11 @@ function escuchas(){
 			datos = '[{"id_curso":"'+id_curso+'", "curso":"'+curso+'"}]';localStorage.setItem('varios', datos);
 
 			if ($$(this).attr('name')=='Nuevo Tema'){
-				modal($$(this).attr('name'),null,null,'nuevo_tema');
+				modal({titulo:$$(this).attr('name'),boton_ok:1, boton_ok_tipo:'nuevo_tema', boton_ok_titulo: 'Crear'});
 				llenado_elemento($$(".fondo-blur #contenedor #data"),'base-curso-detalle-nuevotem.html','varios');
 			}
 			if ($$(this).attr('name')=='Nueva Tarea'){
-				modal($$(this).attr('name'),null,null,'nuevo_tarea');
+				modal({titulo:$$(this).attr('name'),boton_ok:1, boton_ok_tipo:'nuevo_tarea', boton_ok_titulo: 'Crear'});
 				llenado_elemento($$(".fondo-blur #contenedor #data"),'base-curso-detalle-nuevotar.html','varios');
 			}
 
@@ -270,13 +270,15 @@ function escuchas(){
 	    if ($$(this).hasClass('panel-curso-tarea') || ($$(this).hasClass('timeline-item-inner') && $$(this).attr('id_tarea')>0)) {
 	    	id_tarea=($$(this).attr('id_tarea'));
 		    vconsole('TAREA SELECCIONADA: '+id_tarea);
-		    modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tarea,'tar');
+        // favorito:1, fav_tipo:'###', fav_id:###, fav_select=1 < si se ha seleccionado como favorito previamente
+		    modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tar',fav_id:id_tarea});
 		    llenado_peticion('base-curso-detalle-tareasdet.html','curso_tareasdet_'+id_tarea,'.fondo-blur #contenedor #data');
 	    }
 	    if ($$(this).hasClass('panel-curso-tema') || ($$(this).hasClass('timeline-item-inner') && $$(this).attr('id_tema')>0)) {
 	    	id_tema=($$(this).attr('id_tema'));
 		    vconsole('TEMA SELECCIONADO: '+id_tema);
-		    modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tema,'tem',null,10);
+		    // modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tema,'tem',null,10);
+        modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tem',fav_id:id_tema,nivel:10});
 		    llenado_peticion('base-curso-detalle-temasdet.html','curso_temasdet_'+id_tema,'.fondo-blur #contenedor #data');
 
 	    }
@@ -288,7 +290,8 @@ function escuchas(){
 	$$(document).on('click','.submodal',function(){
 		if ($$(this).attr('tipo')=="tema"){
       if ($$(this).attr('opcion')=="comentario"){
-				modal($$(".swiper-slide[name='curso'] .titulo small").html()+ ' - comentario',null,null,null,11);
+				// modal($$(".swiper-slide[name='curso'] .titulo small").html()+ ' - comentario',null,null,null,11);
+        modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html()+' - Comentario',nivel:11});
         id_tem=$$(this).attr('id');
 				datos = '[{"id_tem":"'+$$(this).attr('id')+'"}]';localStorage.setItem('varios', datos);
 				llenado_elemento($$(".fondo-blur[id='11'] #contenedor #data"),'base-curso-detalle-temasdet_comentario.html','varios');
@@ -303,7 +306,8 @@ function escuchas(){
         intervalo_actual=null;
 			}
 			if ($$(this).attr('opcion')=="nota"){
-				modal($$(".swiper-slide[name='curso'] .titulo small").html()+ ' nota',null,null,null,11);
+				// modal($$(".swiper-slide[name='curso'] .titulo small").html()+ ' nota',null,null,null,11);
+        modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html()+' - Nota',nivel:11});
 				datos = '[{"id_tem":"'+$$(this).attr('id')+'"}]';localStorage.setItem('varios', datos);
 				llenado_elemento($$(".fondo-blur[id='11'] #contenedor #data"),'base-curso-detalle-temasdet_nota.html','varios');
 				editor('txt_tema');
@@ -350,9 +354,9 @@ function modal(datos){
 
 	if (datos.favorito){
     if (datos.fav_select){
-      txt+=	'<span class="favorito icon-star-empty" id="'+datos.fav_id+'" tipo="'+datos.fav_tipo+'" style="float:right"></span>';
-    }else{
       txt+=	'<span class="favorito icon-star" id="'+datos.fav_id+'" tipo="'+datos.fav_tipo+'" style="float:right"></span>';
+    }else{
+      txt+=	'<span class="favorito icon-star-empty" id="'+datos.fav_id+'" tipo="'+datos.fav_tipo+'" style="float:right"></span>';
     }
 
 	}
@@ -361,9 +365,12 @@ function modal(datos){
 	txt+=	'<div id="data"></div>';
 	txt+=	'<div id="opciones">';
 	txt+=	'<span class="boton" cerrar="true">Cerrar</span>';
-	if (tipo_crear)	txt+=	'<span class="boton" crear="true" tipo="'+tipo_crear+'" style="background-color: #2196F3;color:white; padding:10px 50px;margin-left:5px">Crear</span>';
-	txt+=	'</div>';
 
+  //  para indicar el boton
+  //  boton_ok:1, boton_ok_tipo:"####", boton_ok_titulo: "######"
+	if (datos.boton_ok)	txt+=	'<span class="boton" crear="true" tipo="'+datos.boton_ok_tipo+'" style="background-color: #2196F3;color:white; padding:10px 50px;margin-left:5px">'+datos.boton_ok_titulo+'</span>';
+
+	txt+=	'</div>';
 	txt+=	'</div>';
 	txt+=	'</div>';
 
