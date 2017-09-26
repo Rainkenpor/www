@@ -270,13 +270,13 @@ function escuchas(){
 	    if ($$(this).hasClass('panel-curso-tarea') || ($$(this).hasClass('timeline-item-inner') && $$(this).attr('id_tarea')>0)) {
 	    	id_tarea=($$(this).attr('id_tarea'));
 		    vconsole('TAREA SELECCIONADA: '+id_tarea);
-		    modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tarea,'tarea');
+		    modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tarea,'tar');
 		    llenado_peticion('base-curso-detalle-tareasdet.html','curso_tareasdet_'+id_tarea,'.fondo-blur #contenedor #data');
 	    }
 	    if ($$(this).hasClass('panel-curso-tema') || ($$(this).hasClass('timeline-item-inner') && $$(this).attr('id_tema')>0)) {
 	    	id_tema=($$(this).attr('id_tema'));
 		    vconsole('TEMA SELECCIONADO: '+id_tema);
-		    modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tema,'tema',null,10);
+		    modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tema,'tem',null,10);
 		    llenado_peticion('base-curso-detalle-temasdet.html','curso_temasdet_'+id_tema,'.fondo-blur #contenedor #data');
 
 	    }
@@ -321,20 +321,40 @@ function escuchas(){
   });
   // seleccion de favorito
 	// ----------------------------------------------------------------------------------------------------------
-	$$(document).on('click','.fondo-blur #contenedor .favorito',function(){
-		$$(this).removeClass('icon-star-empty').addClass('icon-star');
+	$$(document).on('click','.favorito',function(){
+    if ($$(this).hasClass('icon-star-empty')){
+		    $$(this).removeClass('icon-star-empty').addClass('icon-star');
+        vtipo=$$(this).attr('tipo');
+        vid=$$(this).attr('id');
+        datos = {opcion:'favorito',select:1,usuario:Gusuario_id,tipo:vtipo,id:vid};
+        script(datos);
+
+    }else{
+      $$(this).removeClass('icon-star').addClass('icon-star-empty');
+      datos = {opcion:'favorito',usuario:Gusuario_id,tipo:vtipo,id:vid};
+      script(datos);
+    }
 	})
 };
 
-function modal(titulo,id,tipo,tipo_crear,nivel){
+function modal(datos){
+  // titulo,id,tipo,tipo_crear,nivel
 	// nivel indica el z-index
-	if (!nivel) nivel=10;
-	txt='<div class="fondo-blur" id="'+nivel+'" style="z-index:'+nivel+'">';
+	if (!datos.nivel) datos.nivel=10;
+	txt='<div class="fondo-blur" id="'+datos.nivel+'" style="z-index:'+datos.nivel+'">';
 	txt+='<div id="contenedor">';
-	txt+='<div style="background-color:#2196F3;padding:6px;height:26px;color:white;font-size:18px;border-radius:5px 5px 0px 0px;">'+titulo;
+	txt+='<div style="background-color:#2196F3;padding:6px;height:26px;color:white;font-size:18px;border-radius:5px 5px 0px 0px;">'+datos.titulo;
 
-	if (tipo){
-		txt+=	'<span class="favorito icon-star-7" id="'+id+'" tipo="'+tipo+'" style="float:right"></span>';
+  // para indicar favoritos los requisitos son
+  //  favorito:1, fav_tipo:'###', fav_id:###, fav_select=1 < si se ha seleccionado como favorito previamente
+
+	if (datos.favorito){
+    if (datos.fav_select){
+      txt+=	'<span class="favorito icon-star-empty" id="'+datos.fav_id+'" tipo="'+datos.fav_tipo+'" style="float:right"></span>';
+    }else{
+      txt+=	'<span class="favorito icon-star" id="'+datos.fav_id+'" tipo="'+datos.fav_tipo+'" style="float:right"></span>';
+    }
+
 	}
 
 	txt+=	'</div>';

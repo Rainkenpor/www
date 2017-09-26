@@ -23,6 +23,7 @@ function script(datos,devolver){
     success: function respuesta(resp) {
       vconsole('......................RESPUESTA OK......................');
       glob_resp=resp;
+      vconsole(resp);
       if (devolver!=2){
         // vconsole( JSON.stringify(datos));
 

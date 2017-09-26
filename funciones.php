@@ -598,9 +598,24 @@ if ($conn->connect_error) {
 	}
 
 
+  // favoritos
+	// -----------------------------------------------------------------------------------------------------------------------------------
+	if ($v_opcion=='favorito'){
+		$v_usuario=htmlspecialchars($_POST['usuario'],ENT_QUOTES);
+		$v_tipo=htmlspecialchars($_POST['tipo'],ENT_QUOTES);
+		$v_id=htmlspecialchars($_POST['id'],ENT_QUOTES);
+    $v_select=htmlspecialchars($_POST['select'],ENT_QUOTES);
 
-
-
+      if ($_POST['select']){
+  			$strQuery = "insert into favorito (id_usu,tipo,tipo_id) values ($v_usuario,'$v_tipo',$v_id)";
+  			$conn->multi_query($strQuery);
+  			echo 1;
+      }else{
+        $strQuery = "delete from favorito where id_usu=$v_usuario and tipo='$v_tipo' and tipo_id=$v_id";
+  			$conn->multi_query($strQuery);
+  			echo 1;
+      }
+	}
 
 //Comentarios
 
