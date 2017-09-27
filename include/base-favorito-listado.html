@@ -1,0 +1,19 @@
+
+{{#each datos}}
+<div class="vpanel panel-curso" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
+  <table width="100%" style="border-spacing:0px">
+    <tr>
+      <td  valign="top" style="padding-top:5px">
+        <b style="font-size: 16px;padding:5px">{{tipo}} - {{tema}} </b>
+        <br>
+        <div style="color:#90A4AE;font-size: 13px"><span class="icon-book-4"></span> {{curso}}</div>
+        <!-- <div style="color:#90A4AE;font-size: 12px"><span class="icon-clock-3"></span> {{fecha_creacion}}</div> -->
+        <div style="color:#90A4AE;font-size: 13px"><span class="icon-comment-2"></span> {{descripcion}}</div>
+      </td>
+    </tr>
+  </table>
+
+</div>
+{{else}}
+sin cursos
+{{/each}}

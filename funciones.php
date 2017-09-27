@@ -447,6 +447,7 @@ if ($conn->connect_error) {
 
 	if ($v_opcion=='curso_temasdet'){
 		$v_tema=htmlspecialchars($_POST['id'],ENT_QUOTES);
+    $v_usuario=htmlspecialchars($_POST['usuario'],ENT_QUOTES);
 		$v_encontrado=0;
 
 		if (isset($_POST['eliminar'])){
@@ -457,7 +458,7 @@ if ($conn->connect_error) {
 			$conn->multi_query($strQuery);
 		}
 
-		$strQuery = "select * from curs_tem where id_tem=$v_tema" ;
+		$strQuery = "select * from curs_tem a left join favorito b on a.id_tem=b.tipo_id and b.tipo='tem' and b.id_usu=$v_usuario where a.id_tem=$v_tema" ;
 		if ($conn->multi_query($strQuery)){
 			if ($result=$conn->store_result()){
 				while($row=$result->fetch_assoc()){
@@ -616,6 +617,28 @@ if ($conn->connect_error) {
   			echo 1;
       }
 	}
+  if ($v_opcion=='favorito_listado'){
+    $v_usuario=htmlspecialchars($_POST['usuario'],ENT_QUOTES);
+
+        $strQuery = "select 'tem' tipo,a.id_fav,b.id_tem,b.tema,b.descripcion,b.id_curs,c.curso from favorito a, curs_tem b,curs_nom c where a.tipo_id=b.id_tem and a.tipo='tem' and b.id_curs=c.id_curs and a.id_usu=$v_usuario
+                    union all
+                    select 'tar' tipo,a.id_fav,b.id_tar,b.tarea,b.descripcion,b.id_curs,c.curso from favorito a, curs_tar b,curs_nom c where a.tipo_id=b.id_tar and a.tipo='tar' and b.id_curs=c.id_curs and a.id_usu=$v_usuario";
+        if ($conn->multi_query($strQuery)){
+    			if ($result=$conn->store_result()){
+    				while($row=$result->fetch_assoc()){
+    					$data[] = json_encode($row);
+    					$v_encontrado=1;
+    				}
+    				$result->free();
+    			}
+    		}
+    		if ($v_encontrado==0){
+    			echo 0;
+    		}else{
+    			echo json_encode($data);
+    		}
+
+  }
 
 //Comentarios
 
