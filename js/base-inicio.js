@@ -280,7 +280,7 @@ function escuchas(){
 		    // modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tema,'tem',null,10);
         modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tem',fav_id:id_tema,nivel:10});
 		    llenado_peticion('base-curso-detalle-temasdet.html','curso_temasdet_'+id_tema,'.fondo-blur #contenedor #data');
-
+ 
 	    }
 
 	});
