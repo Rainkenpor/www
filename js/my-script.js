@@ -21,9 +21,9 @@ function script(datos,devolver){
     url: 'https://zaionnet.000webhostapp.com/funcion.php',
     method:'POST',
     success: function respuesta(resp) {
-      vconsole('......................RESPUESTA OK......................');
+      // vconsole('......................RESPUESTA OK......................');
       glob_resp=resp;
-      vconsole(resp);
+      // vconsole(resp);
       if (devolver!=2){
         // vconsole( JSON.stringify(datos));
 
@@ -62,6 +62,7 @@ function script(datos,devolver){
             if (datos.storageclear){
               resp2.forEach(function(valor,indice,array){
                 data=JSON.parse(valor);
+                vconsole('limpiando->'+data.storage);
                 storage_clear(data.storage)
               });
 

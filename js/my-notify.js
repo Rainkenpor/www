@@ -13,8 +13,9 @@
 
         push.on('registration', function(data) {
             vconsole(data.registrationId);
-            vconsole(Gusuario_id);
+            
             Gusuario_disp=script({opcion:"usuario_dispositivo", usuario:Gusuario_id,dispositivo: data.registrationId },1);
+            vconsole('Dispositivo -> '+ Gusuario_disp);
         });
         push.on('notification', function(data) {
             vconsole('<li>'+data.title+"</li>");

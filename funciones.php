@@ -137,7 +137,7 @@ if ($conn->connect_error) {
       $conn->multi_query($strQuery);
       $result=$conn->store_result();
       $row=$result->fetch_assoc();
-      echo $row['conteo'];
+      echo $row['id'];
 
 	}
 
