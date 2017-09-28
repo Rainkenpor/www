@@ -37,6 +37,29 @@ if ($conn->connect_error) {
 
 //echo "Información del host: " . mysqli_POST_host_info($conn) . PHP_EOL;
 
+
+  if ($v_opcion=='admin_storageclear'){
+      $v_dispositivo=htmlspecialchars($_POST['dispositivo'],ENT_QUOTES);
+      $strQuery = "select * from admin_storage_clear where id_usu_disp='$v_dispositivo'";
+      if ($conn->multi_query($strQuery)){
+        if ($result=$conn->store_result()){
+          while($row=$result->fetch_assoc()){
+            $data[] = json_encode($row);
+
+            $v_encontrado=1;
+          }
+          $result->free();
+        }
+      }
+      if ($v_encontrado==0){
+        echo 0;
+      }else {
+        echo json_encode($data);
+      }
+
+      $strQuery = "delete from admin_storage_clear where id_usu_disp='$v_dispositivo'";
+  	  $conn->multi_query($strQuery);
+  }
 // usuario
 // -----------------------------------------------------------------------------------------------------------------------------------
 	if ($v_opcion=='usuario_entrar'){
@@ -109,7 +132,13 @@ if ($conn->connect_error) {
 		$strQuery = "insert into admin_usu_disp (codigo,id_usu) ".
 								"values ('$v_dispositivo',$v_usuario)  ON DUPLICATE KEY UPDATE num_entrada=num_entrada+1";
 	  	$conn->multi_query($strQuery);
-		echo 1;
+
+      $strQuery = "	select id from  admin_usu_disp  where codigo='$v_dispositivo'";
+      $conn->multi_query($strQuery);
+      $result=$conn->store_result();
+      $row=$result->fetch_assoc();
+      echo $row['conteo'];
+
 	}
 
 	if ($v_opcion=='inicio_perfil'){

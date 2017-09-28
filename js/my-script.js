@@ -1,6 +1,6 @@
-var Gusuario_id =0;
-var Gusuario_nombre='';
-
+var Gusuario_id     =0;
+var Gusuario_nombre ='';
+var Gusuario_disp   ='';
 // devolver 2= no devuelve respuesta
 function script(datos,devolver){
   // devolver es opcional null = no ; 1 = si; 2 = ejecuta el query sin storage
@@ -46,6 +46,7 @@ function script(datos,devolver){
               existeCambio=1;
             }
             localStorage.setItem(storage, JSON.stringify(info));
+
             if (datos.elemento && existeCambio==0){
               vconsole('>>>>>'+datos.elemento);
               elemento=$$(datos.elemento);
@@ -57,14 +58,14 @@ function script(datos,devolver){
               llenado_elemento(elemento,datos.include,storage,datos.is_cronograma);
               if (datos.autoscroll) $(elemento).animate({scrollTop: 9999}, 1000);
             }
-          // ====================================================================================================
-          // si se utiliza un include se llenara un elemento especifico
-          // console.log('>>>>>>>>>>>>>>>>>>>>>>>>>>>>'+storage+ ' ** '+existeCambio);
-          if (datos.elemento && existeCambio==0){
-              // elemento=$$(datos.elemento);
-              // llenado_elemento(elemento,datos.include,storage);
-              //
-          }
+          // storage clear
+            if (datos.storageclear){
+              resp2.forEach(function(valor,indice,array){
+                data=JSON.parse(valor);
+                storage_clear(data.storage)
+              });
+
+            }
           // ====================================================================================================
           }catch(e){
 
