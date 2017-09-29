@@ -71,4 +71,5 @@ var mainView = myApp.addView('.view-main', {
  // Init slider and store its instance in mySwiper variable
   var mySwiper = myApp.swiper('.swiper-container-menu', {
     pagination:'.swiper-pagination',
+    shortSwipes:false
   });

@@ -1,19 +1,27 @@
 
 {{#each datos}}
-<div class="vpanel panel-curso" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
-  <table width="100%" style="border-spacing:0px">
-    <tr>
-      <td  valign="top" style="padding-top:5px">
-        <b style="font-size: 16px;padding:5px">{{tipo}} - {{tema}} </b>
-        <br>
-        <div style="color:#90A4AE;font-size: 13px"><span class="icon-book-4"></span> {{curso}}</div>
-        <!-- <div style="color:#90A4AE;font-size: 12px"><span class="icon-clock-3"></span> {{fecha_creacion}}</div> -->
-        <div style="color:#90A4AE;font-size: 13px"><span class="icon-comment-2"></span> {{descripcion}}</div>
-      </td>
-    </tr>
-  </table>
-
+{{#if_compare tipo "==" "tem"}}
+<div class="vpanel panel-curso-tema" id_curso="{{id_curs}}" curso="{{curso}}" style="padding-top:0px" id_tema="{{id_tem}}">
+  <div style="padding:9px 6px;background-color:#2196F3;color:white;    border-radius: 5px 5px 0px 0px;">
+    <b style="font-size: 16px;">{{tema}} </b><br>
+    <small>{{curso}}</small>
+  </div>
+  <!-- <div style="color:#90A4AE;font-size: 12px"><span class="icon-clock-3"></span> {{fecha_creacion}}</div> -->
+  <div style="color:#90A4AE;font-size: 13px;overflow:hidden;max-height:150px"> {{descripcion}}</div>
 </div>
+{{/if_compare}}
+{{#if_compare tipo "==" "tar"}}
+<div class="vpanel panel-curso-tarea" id_curso="{{id_curs}}" curso="{{curso}}" style="padding-top:0px" id_tarea="{{id_tem}}">
+  <div style="padding:9px 6px;background-color:#4CAF50;color:white;    border-radius: 5px 5px 0px 0px;">
+    <b style="font-size: 16px;">{{tema}} </b><br>
+    <small>{{curso}}</small>
+  </div>
+  <!-- <div style="color:#90A4AE;font-size: 12px"><span class="icon-clock-3"></span> {{fecha_creacion}}</div> -->
+  <div style="color:#90A4AE;font-size: 13px;overflow:hidden;max-height:150px"> {{descripcion}}</div>
+</div>
+{{/if_compare}}
+
+
 {{else}}
 sin cursos
 {{/each}}
