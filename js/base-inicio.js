@@ -120,7 +120,10 @@ function escuchas(){
 	    if (mySwiper.realIndex === 0) {$$("#btn-home").parents('td').addClass("activo");}
 	    if (mySwiper.realIndex === 1) {$$("#btn-tarea").parents('td').addClass("activo");}
 	    if (mySwiper.realIndex === 2) {$$("#btn-curso").parents('td').addClass("activo");}
-	    if (mySwiper.realIndex === 3) {$$("#btn-destacado").parents('td').addClass("activo");}
+	    if (mySwiper.realIndex === 3) {
+        if (!(localStorage.getItem('favorito_listado')))	  {datos = {elemento:'.swiper-slide[storage="favorito_listado"]'    ,opcion:"favorito_listado",usuario:Gusuario_id};	script(datos);}
+        $$("#btn-destacado").parents('td').addClass("activo");
+      }
 	    if (mySwiper.realIndex === 4) {$$("#btn-comentario").parents('td').addClass("activo");}
 
       if (mySwiper_inicio) {mySwiper_inicio.slideTo(0);$$('.contenedor-inicio .boton').removeClass("activo");$$('.contenedor-inicio .boton[index="0"]').addClass("activo");}
@@ -165,8 +168,8 @@ function escuchas(){
 				    llenado_peticion('base-curso-detalle-tareas.html','curso_tareas_'+id_curso,'.swiper-container-curso-detalle #curso_tareas');
 			    if ($$(this).attr('index')==2)
 				    llenado_peticion('base-curso-detalle-temas.html','curso_temas_'+id_curso,'.swiper-container-curso-detalle #curso_tema');
-			// if ($$(this).attr('index')==2)
-				// llenado_peticion('base-curso-detalle-tareas.html','curso_tareas_'+id_curso,'.swiper-container-curso-detalle #curso_tareas');
+			   //if ($$(this).attr('index')==3)
+				 // llenado_peticion('base-curso-detalle-tareas.html','curso_tareas_'+id_curso,'.swiper-container-curso-detalle #curso_tareas');
 			mySwiper_curso_det.slideTo($$(this).attr('index'));
 		}
 		// modal
@@ -205,6 +208,7 @@ function escuchas(){
     		if (mySwiper_curso){mySwiper_curso.slideTo(0);}
 	      mySwiper.slideTo($$(this).attr('index'));
 	      $$('.fondo-blur').remove();
+        if (!(localStorage.getItem('favorito_listado')))	  {datos = {elemento:'.swiper-slide[storage="favorito_listado"]'    ,opcion:"favorito_listado",usuario:Gusuario_id};	script(datos);}
 	});
 
 	//-------------------------------------------------------------------------------------------------------------------------------------
