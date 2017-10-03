@@ -22,33 +22,35 @@ function start(){
 
     // Pull to refresh content
 
-
-    $(".pull-to-refresh-content").pullToRefresh({ refresh: 80,lockRefresh: true,resetSpeed: '1000ms'})
-        .on("start.pulltorefresh", function (evt, y){
-          // $state.html('Start!! ' + evt + ', '+y)
-        })
-
-        .on("move.pulltorefresh", function (evt, percentage){
-          console.log('Move.. ' + evt + ', '+percentage)
-        })
-
-        .on("end.pulltorefresh", function (evt){
-          // alert('finalizado');
-          // $state.html('End.. ' + evt)
-          // $(this).html("Pull-me please");
-        })
-
-        .on("refresh.pulltorefresh", function (evt, y){
-          console.log('Refresh.. ' + evt + ', '+y)
-        });
-
-
-		if (myEscucha==0){
-			escuchas();
-			myEscucha=1;
-		}
       }
   });
+
+// setTimeout(function () {
+// vconsole('*************************iniciando');
+  // Pull to refresh content
+  var ptrContent = $$('.pull-to-refresh-content');
+
+  myApp.initPullToRefresh(ptrContent);
+
+  //  $$('.pull-to-refresh-content').html('<div class="pull-to-refresh-layer"><div class="preloader"></div><div class="pull-to-refresh-arrow"></div></div>');
+//   // vconsole(ptrContent);
+//   // Add 'refresh' listener on it
+  ptrContent.on('ptr:refresh', function (e) {
+  // Emulate 2s loading
+  setTimeout(function () {
+      // Random image
+      // When loading done, we need to reset it
+      alert("hecho");
+      myApp.pullToRefreshDone();
+  }, 2000);
+});
+// }, 8000);
+
+  if (myEscucha==0){
+    escuchas();
+    myEscucha=1;
+  }
+
 
 }
 // ----------------------------------------------------------------------------------------------------------------------------------------
