@@ -19,6 +19,30 @@ function start(){
       	// llenado de datos
 		  llenado_include();
 		// escuchas
+
+    // Pull to refresh content
+
+
+    $(".pull-to-refresh-content").pullToRefresh({ refresh: 80,lockRefresh: true,resetSpeed: '1000ms'})
+        .on("start.pulltorefresh", function (evt, y){
+          // $state.html('Start!! ' + evt + ', '+y)
+        })
+
+        .on("move.pulltorefresh", function (evt, percentage){
+          console.log('Move.. ' + evt + ', '+percentage)
+        })
+
+        .on("end.pulltorefresh", function (evt){
+          // alert('finalizado');
+          // $state.html('End.. ' + evt)
+          // $(this).html("Pull-me please");
+        })
+
+        .on("refresh.pulltorefresh", function (evt, y){
+          console.log('Refresh.. ' + evt + ', '+y)
+        });
+
+
 		if (myEscucha==0){
 			escuchas();
 			myEscucha=1;
@@ -208,7 +232,7 @@ function escuchas(){
     		if (mySwiper_curso){mySwiper_curso.slideTo(0);}
 	      mySwiper.slideTo($$(this).attr('index'));
 	      $$('.fondo-blur').remove();
-        if (!(localStorage.getItem('favorito_listado')))	  {datos = {elemento:'.swiper-slide[storage="favorito_listado"]'    ,opcion:"favorito_listado",usuario:Gusuario_id};	script(datos);}
+        if (!(localStorage.getItem('favorito_listado'))) {datos = {elemento:'.swiper-slide[storage="favorito_listado"]',opcion:"favorito_listado",usuario:Gusuario_id};	script(datos);}
 	});
 
 	//-------------------------------------------------------------------------------------------------------------------------------------

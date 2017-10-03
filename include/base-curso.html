@@ -7,16 +7,20 @@
   </div>
  -->
 <div class="swpanel" style="height: calc(100% - 22px);overflow: auto: ;">
-	<div class="swiper-container swiper-container-curso ">
+	<div class="swiper-container swiper-container-curso pull-to-refresh-content ">
+
+		<div class="pull-to-refresh-layer">
+		      <div class="preloader"></div>
+		      <div class="pull-to-refresh-arrow"></div>
+		    </div>
+
+
 	      <div class="swiper-wrapper">
 	        	<div class="swiper-slide" style="background-color: white;overflow: auto"  include='base-curso-listado.html' storage='curso_listado'>
-
 	        	</div>
 	        	<div class="swiper-slide" id="curso_detalle" style="background-color: transparent;padding:0px;overflow: auto" include='base-curso-detalle.html'>
-
-			</div>
-		</div>
-		
+						</div>
+				</div>
 	</div>
 </div>
 
