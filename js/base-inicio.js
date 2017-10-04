@@ -36,7 +36,6 @@ function start(elemento){
     });
   }
 }
-
 // ----------------------------------------------------------------------------------------------------------------------------------------
 function llenado_elemento(elemento,include,storage,is_cronograma){
 	$$.ajax({url:'include/'+include,async:false,success: function(resp) {
@@ -46,79 +45,41 @@ function llenado_elemento(elemento,include,storage,is_cronograma){
   		}else{
   			elemento.html(compiledTemplate({"datos":JSON.parse(localStorage.getItem(storage)) }));
   		}
+      elemento.attr({storage:storage});
+      elemento.attr({vinclude:include});
+      if (is_cronograma)
+        elemento.attr({is_cronograma:1});
   	}});
     if (!(localStorage.getItem(storage)))	{
-      datos = {elemento:elemento ,opcion:storage,usuario:Gusuario_id};
+      if (is_cronograma){
+        datos = {elemento:elemento ,storage:storage,include:include, usuario:Gusuario_id,is_cronograma};
+      }else{
+        datos = {elemento:elemento ,storage:storage,include:include, usuario:Gusuario_id};
+      }
       script(datos);
     }
 }
-// ----------------------------------------------------------------------------------------------------------------------------------------
-function llenado_peticion(include,storage,elemento){
-	contador=0;
-	st1=storage.split('_');
-	if (!(localStorage.getItem(storage))){
-		st1=storage.split('_');
-		if (st1.length===3){
-
-			st2=st1[0]+'_'+st1[1]
-			datos = {elemento:elemento,include:include,opcion:st2,id:st1[2], usuario:Gusuario_id};
-
-      if (st1[1]==='cronograma')
-      datos = {elemento:elemento,include:include,opcion:st2,id:st1[2], usuario:Gusuario_id,is_cronograma:1};
-
-			console.log(datos);
-			// script(datos,1);
-      $$(elemento).html('<div style="text-align:center;padding:20px"><img src="src/logo_login.png" height="80px" alt=""><br>Cargando</div>');
-      script(datos);
-		}else{
-			datos = {elemento:elemento,include:include,opcion:storage,usuario:Gusuario_id};
-			console.log(datos);
-			// script(datos,1);
-      $$(elemento).html('<div style="text-align:center;padding:20px"><img src="src/logo_login.png" height="80px" alt=""><br>Cargando</div>');
-      script(datos);
-		}
-	}else{
-  	elemento=$$(elemento);
-  	// llenado_elemento(elemento,include,storage);
-  		if (st1[1]==='cronograma'){
-  			llenado_elemento(elemento,include,storage,1);
-  		}else{
-  			llenado_elemento(elemento,include,storage);
-       }
-  }
-}
-// ----------------------------------------------------------------------------------------------------------------------------------------
-// function llenado_datos(opcion){
-// 	var datos;
-// 	if (!(localStorage.getItem('inicio_notificacion')))	{datos = {elemento:'.swiper-slide[storage="inicio_notificacion"]' ,opcion:"inicio_notificacion",usuario:Gusuario_id};script(datos);}
-// 	if (!(localStorage.getItem('inicio_perfil')))		    {datos = {elemento:'.swiper-slide[storage="inicio_perfil"]'       ,opcion:"inicio_perfil",usuario:Gusuario_id};	script(datos);}
-// 	if (!(localStorage.getItem('evento-listado')))		  {datos = {elemento:'.swiper-slide[storage="evento-listado"]'      ,opcion:"evento_listado",usuario:Gusuario_id};	script(datos);}
-// 	if (!(localStorage.getItem('curso_listado')))		    {datos = {elemento:'.swiper-slide[storage="curso"]'       ,opcion:"curso",usuario:Gusuario_id};	script(datos);}
-// 	if (!(localStorage.getItem('favorito_listado')))	  {datos = {elemento:'.swiper-slide[storage="favorito_listado"]'    ,opcion:"favorito_listado",usuario:Gusuario_id};	script(datos);}
-// 	if (!(localStorage.getItem('foro_listado')))		    {datos = {elemento:'.swiper-slide[storage="foro_listado"]'        ,opcion:"foro_listado",usuario:Gusuario_id};		script(datos);}
-//
-// }
 // ----------------------------------------------------------------------------------------------------------------------------------------
 function escuchas(){
   var ptrContent = $$('.pull-to-refresh-content');
   myApp.initPullToRefresh(ptrContent);
   ptrContent.on('ptr:refresh', function (e) {
-    setTimeout(function () {
-      vconsole("hecho");
-      myApp.pullToRefreshDone();
-    }, 2000);
+    vstorage=$$(this).attr('storage');
+    vinclude=$$(this).attr('vinclude');
+    vcronograma=$$(this).attr('is_cronograma');
+    // vconsole($$(this).attr('storage'));
+    storage_clear(vstorage);
+    vconsole(vinclude);
+    llenado_elemento($$(this),vinclude,vstorage,vcronograma);
+    myApp.pullToRefreshDone();
   });
-
-	//-------------------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------------------
 	mySwiper.on('slideChangeStart', function () {
 	    $$('.toolbar-inner table tr td').removeClass("activo");
 	    if (mySwiper.realIndex === 0) {$$("#btn-home").parents('td').addClass("activo");}
 	    if (mySwiper.realIndex === 1) {$$("#btn-tarea").parents('td').addClass("activo");}
 	    if (mySwiper.realIndex === 2) {$$("#btn-curso").parents('td').addClass("activo");}
-	    if (mySwiper.realIndex === 3) {
-        if (!(localStorage.getItem('favorito_listado')))	  {datos = {elemento:'.swiper-slide[storage="favorito_listado"]'    ,opcion:"favorito_listado",usuario:Gusuario_id};	script(datos);}
-        $$("#btn-destacado").parents('td').addClass("activo");
-      }
+	    if (mySwiper.realIndex === 3) {$$("#btn-destacado").parents('td').addClass("activo");}
 	    if (mySwiper.realIndex === 4) {$$("#btn-comentario").parents('td').addClass("activo");}
 
       if (mySwiper_inicio) {mySwiper_inicio.slideTo(0);$$('.contenedor-inicio .boton').removeClass("activo");$$('.contenedor-inicio .boton[index="0"]').addClass("activo");}
@@ -136,11 +97,9 @@ function escuchas(){
 		    if (mySwiper.realIndex === 4) {$$("#btn-comentario").parents('td').addClass("activo");}
 		});
 	});
-	//-------------------------------------------------------------------------------------------------------------------------------------
-
-	//-------------------------------------------------------------------------------------------------------------------------------------
-	// general
-	//-------------------------------------------------------------------------------------------------------------------------------------
+//-------------------------------------------------------------------------------------------------------------------------------------
+// general
+//-------------------------------------------------------------------------------------------------------------------------------------
 	$$(document).on('click','.boton',function(){
 		// menus
 		if ($$(this).hasClass('menu')){
@@ -160,9 +119,9 @@ function escuchas(){
 		      if ($$(this).attr('index')==0)
             llenado_elemento($$('.swiper-container-curso-detalle #curso_cronograma'),'base-curso-detalle-cronograma.html','curso_'+id_curso+'_cronograma',1);
 		      if ($$(this).attr('index')==1)
-				    llenado_peticion('base-curso-detalle-tareas.html','curso_tareas_'+id_curso,'.swiper-container-curso-detalle #curso_tareas');
+				    llenado_elemento($('.swiper-container-curso-detalle #curso_tareas'),'base-curso-detalle-tareas.html','curso_'+id_curso+'_tareas');
 			    if ($$(this).attr('index')==2)
-				    llenado_peticion('base-curso-detalle-temas.html','curso_temas_'+id_curso,'.swiper-container-curso-detalle #curso_tema');
+            llenado_elemento($('.swiper-container-curso-detalle #curso_tema'),'base-curso-detalle-temas.html','curso_'+id_curso+'_temas');
 			   //if ($$(this).attr('index')==3)
 				 // llenado_peticion('base-curso-detalle-tareas.html','curso_tareas_'+id_curso,'.swiper-container-curso-detalle #curso_tareas');
 			mySwiper_curso_det.slideTo($$(this).attr('index'));
@@ -231,13 +190,12 @@ function escuchas(){
 
 			// llenando las pantallas del detalle
 			if (rol==1){
-				llenado_peticion('base-curso-detalle-cronograma.html','curso_cronograma_'+id_curso,'.swiper-container-curso-detalle #curso_cronograma');
+          llenado_elemento($$('.swiper-container-curso-detalle #curso_cronograma'),'base-curso-detalle-cronograma.html','curso_'+id_curso+'_cronograma',1);
 				// llenado_peticion('base-curso-detalle-tareas.html'    ,'curso_tareas_'+id_curso,    '.swiper-container-curso-detalle #curso_tareas');
 			}else{
 				datos = '[{ "id_curs":"'+id_curso+'", "curso":"'+curso+'", "rol":"'+rol+'"}]'; localStorage.setItem('varios', datos);
 				llenado_elemento($$('.swiper-container-curso-detalle #curso_nuevo') ,'base-curso-detalle-nuevo.html','varios');
 			}
-
 
 			if (rol==1) {$$('.contenedor-curso .boton[index="4"]').css({'display':'none'});}
 			if (rol==2) {$$('.contenedor-curso .boton[index="4"]').css({'display':'inline'});}
@@ -271,15 +229,14 @@ function escuchas(){
 		    vconsole('TAREA SELECCIONADA: '+id_tarea);
         // favorito:1, fav_tipo:'###', fav_id:###, fav_select=1 < si se ha seleccionado como favorito previamente
 		    modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tar',fav_id:id_tarea});
-		    llenado_peticion('base-curso-detalle-tareasdet.html','curso_tareasdet_'+id_tarea,'.fondo-blur #contenedor #data');
+		    llenado_elemento($('.fondo-blur #contenedor #data'),'base-curso-detalle-tareasdet.html','curso_'+id_tarea+'_tareasdet',);
 	    }
 	    if ($$(this).hasClass('panel-curso-tema') || ($$(this).hasClass('timeline-item-inner') && $$(this).attr('id_tema')>0)) {
 	    	id_tema=($$(this).attr('id_tema'));
 		    vconsole('TEMA SELECCIONADO: '+id_tema);
 		    // modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tema,'tem',null,10);
         modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tem',fav_id:id_tema,nivel:10});
-		    llenado_peticion('base-curso-detalle-temasdet.html','curso_temasdet_'+id_tema,'.fondo-blur #contenedor #data');
-
+        llenado_elemento($('.fondo-blur #contenedor #data'),'base-curso-detalle-temasdet.html','curso_'+id_tema+'_temasdet',);
 	    }
 
 	});
@@ -294,8 +251,8 @@ function escuchas(){
         id_tem=$$(this).attr('id');
 				datos = '[{"id_tem":"'+$$(this).attr('id')+'"}]';localStorage.setItem('varios', datos);
 				llenado_elemento($$(".fondo-blur[id='11'] #contenedor #data"),'base-curso-detalle-temasdet_comentario.html','varios');
-        datos = {autoscroll:1,elemento:".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_tem,usuario:Gusuario_id};
-        script(datos);
+        // datos = {autoscroll:1,elemento:".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_tem,usuario:Gusuario_id};
+        // script(datos);
         intervalo_actual=setInterval(function () {
           // localStorage.removeItem('curso_temascomment_'+id_tem);
           datos = {autoscroll:1,elemento:".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_tem,usuario:Gusuario_id};
@@ -461,7 +418,6 @@ function cronograma(storage){
 
 function storage_clear(search){
   for(key in localStorage) {
-    vconsole(key);
     if (key.search(search)>=0){
         vconsole('Eliminando storage:' + key);
         localStorage.removeItem(key);

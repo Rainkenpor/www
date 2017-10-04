@@ -6,13 +6,34 @@ function script(datos,devolver){
   // devolver es opcional null = no ; 1 = si; 2 = ejecuta el query sin storage
 
   // convirtiendo tipo de datos
+  if (!datos.opcion)
+    datos.opcion=datos.storage;
+    
   var subelementos=datos.opcion;
   if (subelementos){
+    vconsole(subelementos);
     var subelementos2=subelementos.split('_');
-    if ((subelementos2.length)>1){
-      vconsole(subelementos2[1]);
+    if ((subelementos2.length)==3){
+      codigo1=subelementos2[1];
+      if (codigo1>0){
+        datos.opcion=subelementos2[0]+'_'+subelementos2[2];
+        datos.id=codigo1;
+      }
+      vconsole('>>>>>>>'+datos.opcion);
+      vconsole(datos);
+    }
+    if (subelementos2.length==5){
+      codigo1=subelementos2[1];
+      codigo2=subelementos2[3];
+      if (codigo1>0 && codigo2>0){
+        datos.opcion=subelementos2[0]+'_'+subelementos2[2]+'_'+subelementos2[4];
+        datos.id=codigo1;
+        datos.id2=codigo2;
+      }
+      vconsole('>>>>>>>'+datos.opcion);
     }
   }
+
 
   if (datos.nopreload == undefined) {myApp.showIndicator();}
   var v_async=true;
@@ -42,11 +63,7 @@ function script(datos,devolver){
           try{
           // ====================================================================================================
             for (v_resp in resp2){info.push(JSON.parse(resp2[v_resp]));}
-            if (datos.id){
-              storage=datos.opcion+'_'+datos.id;
-            }else{
-              storage=datos.opcion;
-            }
+            storage=subelementos;
             existeCambio=0;
 
             if (localStorage.getItem(storage)){
@@ -56,12 +73,7 @@ function script(datos,devolver){
             localStorage.setItem(storage, JSON.stringify(info));
 
             if (datos.elemento && existeCambio==0){
-              elemento=$$(datos.elemento);
-              // vconsole(datos.include);
-              // vconsole(storage);
-              // vconsole(datos.is_cronograma);
-              if (!datos.include) datos.include=elemento.attr('include');
-
+              elemento=datos.elemento;
               llenado_elemento(elemento,datos.include,storage,datos.is_cronograma);
               if (datos.autoscroll) $(elemento).animate({scrollTop: 9999}, 1000);
             }
