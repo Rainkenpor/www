@@ -4,14 +4,22 @@ var Gusuario_disp   ='';
 // devolver 2= no devuelve respuesta
 function script(datos,devolver){
   // devolver es opcional null = no ; 1 = si; 2 = ejecuta el query sin storage
-  vconsole('>INICIANDO SCRIPT<');
-  // vconsole( JSON.stringify(datos));
-  if (datos.nopreload == undefined) {myApp.showIndicator();}
 
+  // convirtiendo tipo de datos
+  var subelementos=datos.opcion;
+  if (subelementos){
+    var subelementos2=subelementos.split('_');
+    if ((subelementos2.length)>1){
+      vconsole(subelementos2[1]);
+    }
+  }
+
+  if (datos.nopreload == undefined) {myApp.showIndicator();}
   var v_async=true;
   var glob_resp;
 
   if (devolver){ v_async=false; vconsole('EN ESPERA');}
+
   $$.ajax({
     dataType: 'jsonp',
     data: datos,
@@ -48,11 +56,10 @@ function script(datos,devolver){
             localStorage.setItem(storage, JSON.stringify(info));
 
             if (datos.elemento && existeCambio==0){
-              vconsole('>>>>>'+datos.elemento);
               elemento=$$(datos.elemento);
-              vconsole(datos.include);
-              vconsole(storage);
-              vconsole(datos.is_cronograma);
+              // vconsole(datos.include);
+              // vconsole(storage);
+              // vconsole(datos.is_cronograma);
               if (!datos.include) datos.include=elemento.attr('include');
 
               llenado_elemento(elemento,datos.include,storage,datos.is_cronograma);

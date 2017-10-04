@@ -200,7 +200,7 @@ if ($conn->connect_error) {
 		}
 	}
 
-	if ($v_opcion=='curso_listado'){
+	if ($v_opcion=='curso'){
 		$v_usuario=htmlspecialchars($_POST['usuario'],ENT_QUOTES);
 		$v_encontrado=0;
 

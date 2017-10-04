@@ -1,0 +1,15 @@
+-notificacion
+-evento
+-curso
+  -curso_xxx
+    -curso_xxx_cronograma
+    -curso_xxx_tarea
+      -curso_xxx_tarea_xxx
+    -curso_xxx_tema
+      -curso_xxx_tema_xxx
+      -curso_xxx_tema_xxx_comentario
+      -curso_xxx_tema_xxx_nota
+    -curso_xxx_adjunto
+      -curso_xxx_adjunto_xxx
+-favorito
+-comentario
