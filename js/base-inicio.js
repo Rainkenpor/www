@@ -117,7 +117,7 @@ function escuchas(){
 			if (!mySwiper_curso_det) mySwiper_curso_det = myApp.swiper('.swiper-container-curso-detalle',{onlyExternal:true,speed:0});
 		      id_curso=($$(this).parents('#curso_detalle').attr('id_curso'));
 		      if ($$(this).attr('index')==0)
-            llenado_elemento($$('.swiper-container-curso-detalle #curso_cronograma'),'base-curso-detalle-cronograma.html','curso_'+id_curso+'_cronograma',1);
+            llenado_elemento($$('.swiper-container-curso-detalle #curso_cronograma'),'base-cronograma.html','curso_'+id_curso+'_cronograma',1);
 		      if ($$(this).attr('index')==1)
 				    llenado_elemento($('.swiper-container-curso-detalle #curso_tareas'),'base-curso-detalle-tareas.html','curso_'+id_curso+'_tareas');
 			    if ($$(this).attr('index')==2)
@@ -190,7 +190,7 @@ function escuchas(){
 
 			// llenando las pantallas del detalle
 			if (rol==1){
-          llenado_elemento($$('.swiper-container-curso-detalle #curso_cronograma'),'base-curso-detalle-cronograma.html','curso_'+id_curso+'_cronograma',1);
+          llenado_elemento($$('.swiper-container-curso-detalle #curso_cronograma'),'base-cronograma.html','curso_'+id_curso+'_cronograma',1);
 				// llenado_peticion('base-curso-detalle-tareas.html'    ,'curso_tareas_'+id_curso,    '.swiper-container-curso-detalle #curso_tareas');
 			}else{
 				datos = '[{ "id_curs":"'+id_curso+'", "curso":"'+curso+'", "rol":"'+rol+'"}]'; localStorage.setItem('varios', datos);
@@ -397,6 +397,7 @@ function cronograma(storage){
           datos_crono['tarea']=array[a].tipo;
           datos_crono['titulo']=array[a].titulo;
           datos_crono['descripcion']=array[a].descripcion;
+          datos_crono['curso']=array[a].curso;
           elementos[pos_ant]['datos'].push(datos_crono);
         }else{
           datos_crono=[];
@@ -404,6 +405,7 @@ function cronograma(storage){
           datos_crono['tarea']=array[a].tipo;
           datos_crono['titulo']=array[a].titulo;
           datos_crono['descripcion']=array[a].descripcion;
+          datos_crono['curso']=array[a].curso;
           elementos[pos_ant]['datos'].push(datos_crono);
         }
 

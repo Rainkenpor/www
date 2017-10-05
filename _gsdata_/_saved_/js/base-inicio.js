@@ -146,7 +146,7 @@ function escuchas(){
 			if (!mySwiper_curso_det) mySwiper_curso_det = myApp.swiper('.swiper-container-curso-detalle',{onlyExternal:true,speed:0});
 		      id_curso=($$(this).parents('#curso_detalle').attr('id_curso'));
 		      if ($$(this).attr('index')==0)
-		      	llenado_peticion('base-curso-detalle-cronograma.html','curso_cronograma_'+id_curso,'.swiper-container-curso-detalle #curso_cronograma');
+		      	llenado_peticion('base-cronograma.html','curso_cronograma_'+id_curso,'.swiper-container-curso-detalle #curso_cronograma');
 		      if ($$(this).attr('index')==1)
 				llenado_peticion('base-curso-detalle-tareas.html','curso_tareas_'+id_curso,'.swiper-container-curso-detalle #curso_tareas');
 			  if ($$(this).attr('index')==2)
@@ -205,7 +205,7 @@ function escuchas(){
 
 			// llenando las pantallas del detalle
 			if (rol==1){
-				llenado_peticion('base-curso-detalle-cronograma.html','curso_cronograma_'+id_curso,'.swiper-container-curso-detalle #curso_cronograma');
+				llenado_peticion('base-cronograma.html','curso_cronograma_'+id_curso,'.swiper-container-curso-detalle #curso_cronograma');
 				// llenado_peticion('base-curso-detalle-tareas.html'    ,'curso_tareas_'+id_curso,    '.swiper-container-curso-detalle #curso_tareas');
 			}else{
 				datos = '[{ "id_curs":"'+id_curso+'", "curso":"'+curso+'", "rol":"'+rol+'"}]'; localStorage.setItem('varios', datos);

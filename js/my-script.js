@@ -8,7 +8,7 @@ function script(datos,devolver){
   // convirtiendo tipo de datos
   if (!datos.opcion)
     datos.opcion=datos.storage;
-    
+
   var subelementos=datos.opcion;
   if (subelementos){
     vconsole(subelementos);

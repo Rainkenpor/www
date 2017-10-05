@@ -167,6 +167,38 @@ if ($conn->connect_error) {
 		}
 	}
 
+  // eventos
+  // -----------------------------------------------------------------------------------------------------------------------------------
+    if ($v_opcion=='evento'){
+    $vusuario=htmlspecialchars($_POST['usuario'],ENT_QUOTES);
+
+    $strQuery = "select b.id_curs,b.curso,'tar' tipo,a.id_tar codigo, a.tarea titulo,a.descripcion,a.fecha_creacion,a.fecha_finalizacion,
+                  DATE_FORMAT(a.fecha_finalizacion,'%d') dia,
+                  DATE_FORMAT(a.fecha_finalizacion,'%b') mes
+                  from curs_tar a,curs_nom b,curs_asig c
+                  where a.id_curs=b.id_curs and b.id_curs=c.id_curs and c.id_usu=$vusuario
+                  union all
+                  select b.id_curs,b.curso,'tem' tipo,a.id_tem codigo, a.tema titulo,a.descripcion,a.fecha_habilitacion,a.fecha_habilitacion,
+                  DATE_FORMAT(a.fecha_habilitacion,'%d') dia,
+                  DATE_FORMAT(a.fecha_habilitacion,'%b') mes
+                  from curs_tem a,curs_nom b,curs_asig c
+                  where a.id_curs=b.id_curs and b.id_curs=c.id_curs and c.id_usu=$vusuario
+                  order by 8 desc,2" ;
+    if ($conn->multi_query($strQuery)){
+      if ($result=$conn->store_result()){
+        while($row=$result->fetch_assoc()){
+          $data[] = json_encode($row);
+          $v_encontrado=1;
+        }
+        $result->free();
+      }
+    }
+    if ($v_encontrado==0){
+      echo 0;
+    }else{
+      echo json_encode($data);
+    }
+  }
 
 //curso
 // -----------------------------------------------------------------------------------------------------------------------------------
