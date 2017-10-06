@@ -38,20 +38,28 @@ function start(elemento){
 }
 // ----------------------------------------------------------------------------------------------------------------------------------------
 function llenado_elemento(elemento,include,storage,is_cronograma){
-  if(!localStorage.getItem(include))$$.ajax({url:'include/'+include,async:false,success: function(resp) {localStorage.setItem(include,resp);}});
-      resp=localStorage.getItem(include);
-  		var compiledTemplate = Template7.compile(resp);
-  		if (is_cronograma){
-			elemento.html(compiledTemplate(cronograma(storage)));
-  		}else{
-  			elemento.html(compiledTemplate({"datos":JSON.parse(localStorage.getItem(storage)) }));
-  		}
-      elemento.attr({storage:storage});
-      elemento.attr({vinclude:include});
-      if (is_cronograma)
-        elemento.attr({is_cronograma:1});
+  vconsole(storage);
+    if (localStorage.getItem(storage) || storage==null)	{
+      if (elemento.attr('storage')!==storage || !elemento.attr('storage')){
+        vconsole('utilizado');
+        if(!localStorage.getItem(include))$$.ajax({url:'include/'+include,async:false,success: function(resp) {localStorage.setItem(include,resp);}});
+        resp=localStorage.getItem(include);
+    		var compiledTemplate = Template7.compile(resp);
+    		if (is_cronograma){
+  			elemento.html(compiledTemplate(cronograma(storage)));
+    		}else{
+    			elemento.html(compiledTemplate({"datos":JSON.parse(localStorage.getItem(storage)) }));
+    		}
+        elemento.attr({storage:storage});
+        elemento.attr({vinclude:include});
+        if (is_cronograma)
+          elemento.attr({is_cronograma:1});
 
-    if (!(localStorage.getItem(storage)))	{
+      }else{
+        vconsole('reutilizado');
+      }
+    }else{
+      vconsole(1);
       if (is_cronograma){
         datos = {elemento:elemento ,storage:storage,include:include, usuario:Gusuario_id,is_cronograma};
       }else{
@@ -126,9 +134,9 @@ function escuchas(){
 		      if ($$(this).attr('index')==0)
             llenado_elemento($$('.swiper-container-curso-detalle #curso_cronograma'),'base-cronograma.html','curso_'+id_curso+'_cronograma',1);
 		      if ($$(this).attr('index')==1)
-				    llenado_elemento($('.swiper-container-curso-detalle #curso_tareas'),'base-curso-detalle-tareas.html','curso_'+id_curso+'_tareas');
+				    llenado_elemento($$('.swiper-container-curso-detalle #curso_tareas'),'base-curso-detalle-tareas.html','curso_'+id_curso+'_tareas');
 			    if ($$(this).attr('index')==2)
-            llenado_elemento($('.swiper-container-curso-detalle #curso_tema'),'base-curso-detalle-temas.html','curso_'+id_curso+'_temas');
+            llenado_elemento($$('.swiper-container-curso-detalle #curso_tema'),'base-curso-detalle-temas.html','curso_'+id_curso+'_temas');
 			   //if ($$(this).attr('index')==3)
 				 // llenado_peticion('base-curso-detalle-tareas.html','curso_tareas_'+id_curso,'.swiper-container-curso-detalle #curso_tareas');
 			mySwiper_curso_det.slideTo($$(this).attr('index'));
@@ -239,14 +247,14 @@ function escuchas(){
 		    vconsole('TAREA SELECCIONADA: '+id_tarea);
         // favorito:1, fav_tipo:'###', fav_id:###, fav_select=1 < si se ha seleccionado como favorito previamente
 		    modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tar',fav_id:id_tarea});
-		    llenado_elemento($('.fondo-blur #contenedor #data'),'base-curso-detalle-tareasdet.html','curso_'+id_tarea+'_tareasdet',);
+		    llenado_elemento($$('.fondo-blur #contenedor #data'),'base-curso-detalle-tareasdet.html','curso_'+id_tarea+'_tareasdet',);
 	    }
 	    if ($$(this).hasClass('panel-curso-tema') || ($$(this).hasClass('timeline-item-inner') && $$(this).attr('id_tema')>0)) {
 	    	id_tema=($$(this).attr('id_tema'));
 		    vconsole('TEMA SELECCIONADO: '+id_tema);
 		    // modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tema,'tem',null,10);
         modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tem',fav_id:id_tema,nivel:10});
-        llenado_elemento($('.fondo-blur #contenedor #data'),'base-curso-detalle-temasdet.html','curso_'+id_tema+'_temasdet',);
+        llenado_elemento($$('.fondo-blur #contenedor #data'),'base-curso-detalle-temasdet.html','curso_'+id_tema+'_temasdet',);
 	    }
 
 	});

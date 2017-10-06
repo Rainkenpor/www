@@ -74,6 +74,8 @@ function script(datos,devolver){
 
             if (datos.elemento && existeCambio==0){
               elemento=datos.elemento;
+              elemento.attr({storage:''});
+              elemento.attr({vinclude:''});
               llenado_elemento(elemento,datos.include,storage,datos.is_cronograma);
               if (datos.autoscroll) $(elemento).animate({scrollTop: 9999}, 1000);
             }

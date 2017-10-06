@@ -37,10 +37,17 @@ if (!isIos) {
 
 // Initialize app
 var myApp = new Framework7({
-  tapHold: true,
+  // tapHold: true,
   material: isIos? false : true,
-  template7Pages: true,
-  pushState: !!Framework7.prototype.device.os,
+template7Pages: true,
+precompileTemplates: true,
+swipePanel: 'left',
+swipePanelActiveArea: '30',
+swipeBackPage: true,
+animateNavBackIcon: true,
+tapHoldPreventClicks:false,
+activeState:false,
+pushState: !!Framework7.prototype.device.os,
 });
 
 function vconsole(txt){
@@ -57,9 +64,8 @@ function pad (str, max) {
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we want to use dynamic navbar, we need to enable it for this view:
-    uniqueHistory:true,
-    SwipeBackPage:true,
-
+    dynamicNavbar: true,
+    domCache: true,
 });
 
 
