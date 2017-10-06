@@ -1,9 +1,0 @@
-2017-09-11 17:09:00: File Monitoring not available on: mtp://UUI/Storage/curso2.0/www
-2017-09-11 17:09:00: On File Change Monitoring started on file:///~Walter De Paz/Documents/curso 2.0/www
-2017-09-11 17:09:00: -- Análisis iniciado por On File Change First Full Analyze Upon File Monitoring Start
-2017-09-11 17:09:02: Cambios: 1, Conflictos: 0, CopiaFecha: 0, CopiaEstado: 0, Errores: 0, All: 122
-2017-09-11 17:09:02: Left to Right: Copy File: 1 
-2017-09-11 17:09:02: == Sinc comenzada por On File Change First Full Analyze Upon File Monitoring Start
-2017-09-11 17:09:02: Copiar Sobre 'mtp://UUI/Storage/curso2.0/www/index.html' -> 'C:/Users/Walter De Paz/Documents/curso 2.0/www/index.html'
-2017-09-11 17:09:14: == Sinc. Completa. Tiempo: 00:00:12, Velocidad: 0 bytes/s, OK: 1, Errores: 0
-2017-09-11 17:09:15: 

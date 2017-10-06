@@ -1,8 +1,0 @@
-2017-09-07 17:06:23: -- Análisis iniciado por On File Change Incremental
-2017-09-07 17:06:25: /js/base-inicio.js: R:Body<>; Conflicto: Archivo Modificado en ambos lados
-2017-09-07 17:06:25: Análisis completado con Conflictos. Resuelva los Conflictos seleccionando la dirección de sincronización adecuada y luego haga clic para sincronizar
-2017-09-07 17:06:25: Cambios: 1, Conflictos: 1, CopiaFecha: 0, CopiaEstado: 0, Errores: 0, All: 120
-2017-09-07 17:06:25: == Sinc comenzada por On File Change Incremental
-2017-09-07 17:06:25: /js/base-inicio.js: unresolved conflict results in No Copy
-2017-09-07 17:06:26: == Sinc. Completa. Tiempo: 00:00:01, Velocidad: 0 bytes/s, OK: 0, Errores: 0, Conflicts: 1
-2017-09-07 17:06:26: 

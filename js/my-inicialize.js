@@ -51,9 +51,9 @@ pushState: !!Framework7.prototype.device.os,
 });
 
 function vconsole(txt){
-  $$('#login_console').append('<br>'+txt)
-  $$('.swiper-slide[name="inicio-log"]').append('<br>'+txt);
-  console.log(txt);
+  // $$('#login_console').append('<br>'+txt)
+  // $$('.swiper-slide[name="inicio-log"]').append('<br>'+txt);
+  // console.log(txt);
   // $$("#app-status-ul").append('<br>'+txt);
 }
 function pad (str, max) {

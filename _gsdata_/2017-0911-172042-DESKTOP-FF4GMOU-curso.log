@@ -1,8 +1,0 @@
-2017-09-11 17:20:43: -- Análisis iniciado por On File Change Incremental
-2017-09-11 17:20:44: Cambios: 1, Conflictos: 0, CopiaFecha: 0, CopiaEstado: 0, Errores: 0, All: 122
-2017-09-11 17:20:44: Right to Left: Copy File: 1 
-2017-09-11 17:20:44: == Sinc comenzada por On File Change Incremental
-2017-09-11 17:20:45: C:/Users/Walter De Paz/Documents/curso 2.0/www/js/base-inicio.js: Source file has changed between Analyze and Sync from '[file] size=16,766 accu-time=2017-09-11 17:20:40 attr=Archive' to 'size=16,766 time=2017-09-11 17:20:44', noted in source file state
-2017-09-11 17:20:45: Copiar Sobre 'C:/Users/Walter De Paz/Documents/curso 2.0/www/js/base-inicio.js' -> 'mtp://UUI/Storage/curso2.0/www/js/base-inicio.js'
-2017-09-11 17:20:46: == Sinc. Completa. Tiempo: 00:00:02, Velocidad: 16.3 KB/s, OK: 1, Errores: 0
-2017-09-11 17:20:46: 
