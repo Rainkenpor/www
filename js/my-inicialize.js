@@ -37,14 +37,9 @@ if (!isIos) {
 
 // Initialize app
 var myApp = new Framework7({
-tapHold: true,
+  tapHold: true,
   material: isIos? false : true,
   template7Pages: true,
-  precompileTemplates: true,
-  swipePanel: 'left',
-  swipePanelActiveArea: '30',
-  swipeBackPage: true,
-  animateNavBackIcon: true,
   pushState: !!Framework7.prototype.device.os,
 });
 

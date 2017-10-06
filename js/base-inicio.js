@@ -38,7 +38,8 @@ function start(elemento){
 }
 // ----------------------------------------------------------------------------------------------------------------------------------------
 function llenado_elemento(elemento,include,storage,is_cronograma){
-	$$.ajax({url:'include/'+include,async:false,success: function(resp) {
+  if(!localStorage.getItem(include))$$.ajax({url:'include/'+include,async:false,success: function(resp) {localStorage.setItem(include,resp);}});
+      resp=localStorage.getItem(include);
   		var compiledTemplate = Template7.compile(resp);
   		if (is_cronograma){
 			elemento.html(compiledTemplate(cronograma(storage)));
@@ -49,7 +50,7 @@ function llenado_elemento(elemento,include,storage,is_cronograma){
       elemento.attr({vinclude:include});
       if (is_cronograma)
         elemento.attr({is_cronograma:1});
-  	}});
+
     if (!(localStorage.getItem(storage)))	{
       if (is_cronograma){
         datos = {elemento:elemento ,storage:storage,include:include, usuario:Gusuario_id,is_cronograma};
@@ -61,9 +62,11 @@ function llenado_elemento(elemento,include,storage,is_cronograma){
 }
 // ----------------------------------------------------------------------------------------------------------------------------------------
 function escuchas(){
+  vconsole('iniciando escuchas');
   var ptrContent = $$('.pull-to-refresh-content');
   myApp.initPullToRefresh(ptrContent);
   ptrContent.on('ptr:refresh', function (e) {
+    vconsole('listen > refresh');
     vstorage=$$(this).attr('storage');
     vinclude=$$(this).attr('vinclude');
     vcronograma=$$(this).attr('is_cronograma');
@@ -75,6 +78,7 @@ function escuchas(){
   });
 //-------------------------------------------------------------------------------------------------------------------------------------
 	mySwiper.on('slideChangeStart', function () {
+    vconsole('listen > slideChangeStart');
 	    $$('.toolbar-inner table tr td').removeClass("activo");
 	    if (mySwiper.realIndex === 0) {$$("#btn-home").parents('td').addClass("activo");}
 	    if (mySwiper.realIndex === 1) {$$("#btn-tarea").parents('td').addClass("activo");}
@@ -87,7 +91,9 @@ function escuchas(){
 	});
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	$$(mySwiper_inicio).change(function(){
+
 		mySwiper_inicio.on('slideChangeStart', function () {
+      vconsole('listen > slideChangeStart');
 		    console.log('slide change start '+mySwiper.realIndex);
 		    $$('.toolbar-inner table tr td').removeClass("activo");
 		    if (mySwiper.realIndex === 0) {$$("#btn-home").parents('td').addClass("activo");}
@@ -101,6 +107,7 @@ function escuchas(){
 // general
 //-------------------------------------------------------------------------------------------------------------------------------------
 	$$(document).on('click','.boton',function(){
+    vconsole('listen > boton');
 		// menus
 		if ($$(this).hasClass('menu')){
 		      $$(this).parent().find('.boton').each(function(e){
@@ -154,6 +161,7 @@ function escuchas(){
 	// menu
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	$$(document).on('click','.toolbar-inferior div',function(){
+    vconsole('listen > toolbar-inferior div');
     		if (mySwiper_inicio) {
     			mySwiper_inicio.slideTo(0);
     			$$('.contenedor-inicio .boton').removeClass("activo");
@@ -169,6 +177,7 @@ function escuchas(){
 	// inicio > notificacion
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	$$(document).on('click','.checkbox',function(){
+    vconsole('listen > checkbox');
 		if ($$(this).find('.icon-circle-empty').length>0){
 			$$(this).find('.icon-circle-empty').addClass('icon-ok-circled').removeClass('icon-circle-empty').css({'color':'#4CAF50'});
 		}else{
@@ -180,6 +189,7 @@ function escuchas(){
   	// elementos vpanel, vpanel2(sin diseño) - seleccion de cursos y seleccion de tareas
   	//-------------------------------------------------------------------------------------------------------------------------------------
 	$$(document).on('click','.vpanel, .vpanel2',function(){
+    vconsole('listen > vpanel1-2');
 		if ($$(this).hasClass('panel-curso')){
 			id_curso=($$(this).attr('id_curso'));
 			curso=($$(this).attr('curso'));
@@ -244,6 +254,7 @@ function escuchas(){
 	// submodal
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	$$(document).on('click','.submodal',function(){
+    vconsole('listen > submodal');
 		if ($$(this).attr('tipo')=="tema"){
       if ($$(this).attr('opcion')=="comentario"){
 				// modal($$(".swiper-slide[name='curso'] .titulo small").html()+ ' - comentario',null,null,null,11);
@@ -274,6 +285,7 @@ function escuchas(){
   // keyup
   //
   $$(document).on('keyup','.fondo-blur #data input[type="text"]',function(event){
+    vconsole('listen > fondo-blur input');
     if (event.keyCode==13){
       tipo='tema_comentario';
       modal_enviar($$(this),tipo);
@@ -282,6 +294,7 @@ function escuchas(){
   // seleccion de favorito
 	// ----------------------------------------------------------------------------------------------------------
 	$$(document).on('click','.favorito',function(){
+    vconsole('listen > favorito');
     if ($$(this).hasClass('icon-star-empty')){
 		    $$(this).removeClass('icon-star-empty').addClass('icon-star');
         vtipo=$$(this).attr('tipo');
