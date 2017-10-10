@@ -61,6 +61,10 @@ function pad (str, max) {
   return str.length < max ? pad("0" + str, max) : str;
 }
 
+
+document.addEventListener('deviceready', function(){
+StatusBar.backgroundColorByHexString('#3399FF');});
+
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we want to use dynamic navbar, we need to enable it for this view:

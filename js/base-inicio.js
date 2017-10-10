@@ -40,7 +40,7 @@ function start(elemento){
 function llenado_elemento(elemento,include,storage,is_cronograma){
   vconsole(storage);
     if (localStorage.getItem(storage) || storage==null)	{
-      if (elemento.attr('storage')!==storage || !elemento.attr('storage')){
+
         vconsole('utilizado');
         if(!localStorage.getItem(include))$$.ajax({url:'include/'+include,async:false,success: function(resp) {localStorage.setItem(include,resp);}});
         resp=localStorage.getItem(include);
@@ -55,9 +55,7 @@ function llenado_elemento(elemento,include,storage,is_cronograma){
         if (is_cronograma)
           elemento.attr({is_cronograma:1});
 
-      }else{
-        vconsole('reutilizado');
-      }
+
     }else{
       vconsole(1);
       if (is_cronograma){
@@ -114,13 +112,13 @@ function escuchas(){
 //-------------------------------------------------------------------------------------------------------------------------------------
 // general
 //-------------------------------------------------------------------------------------------------------------------------------------
-	$$(document).on('click','.boton',function(){
+	$$(document).on('click','.boton',function(event){
     vconsole('listen > boton');
+    event.preventDefault();
+    event.stopImmediatePropagation();
 		// menus
 		if ($$(this).hasClass('menu')){
-		      $$(this).parent().find('.boton').each(function(e){
-		        $$(this).removeClass('activo');
-		      })
+		      $$(this).parent().find('.boton').removeClass('activo');
 		    	$$(this).addClass('activo');
 		}
 		// menus inicio
@@ -168,7 +166,8 @@ function escuchas(){
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	// menu
 	//-------------------------------------------------------------------------------------------------------------------------------------
-	$$(document).on('click','.toolbar-inferior div',function(){
+	$$(document).on('click','.toolbar-inferior div',function(event){
+    event.preventDefault();
     vconsole('listen > toolbar-inferior div');
     		if (mySwiper_inicio) {
     			mySwiper_inicio.slideTo(0);
@@ -184,7 +183,8 @@ function escuchas(){
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	// inicio > notificacion
 	//-------------------------------------------------------------------------------------------------------------------------------------
-	$$(document).on('click','.checkbox',function(){
+	$$(document).on('click','.checkbox',function(event){
+    event.preventDefault();
     vconsole('listen > checkbox');
 		if ($$(this).find('.icon-circle-empty').length>0){
 			$$(this).find('.icon-circle-empty').addClass('icon-ok-circled').removeClass('icon-circle-empty').css({'color':'#4CAF50'});
@@ -196,7 +196,8 @@ function escuchas(){
 	//-------------------------------------------------------------------------------------------------------------------------------------
   	// elementos vpanel, vpanel2(sin diseño) - seleccion de cursos y seleccion de tareas
   	//-------------------------------------------------------------------------------------------------------------------------------------
-	$$(document).on('click','.vpanel, .vpanel2',function(){
+	$$(document).on('click','.vpanel, .vpanel2',function(event){
+    event.preventDefault();
     vconsole('listen > vpanel1-2');
 		if ($$(this).hasClass('panel-curso')){
 			id_curso=($$(this).attr('id_curso'));
@@ -401,6 +402,8 @@ function editor(id){
 
 
 function cronograma(storage){
+      var conteo_temas=0;
+      var conteo_tareas=0;
       var array=JSON.parse(localStorage.getItem(storage));
       var elementos=[];
       var t_mes=0;var t_dia=0;var pos_ant=0;
@@ -410,9 +413,14 @@ function cronograma(storage){
         if (array[a].mes!=t_mes || array[a].dia != t_dia){
           elementos[vconteo]=[];
           elementos[vconteo]['datos']=[];
+          elementos[vconteo]['conteo_tem']=0;
+          elementos[vconteo]['conteo_tar']=0;
           datos_crono=[];
           elementos[vconteo]['mes']=array[a].mes;
           elementos[vconteo]['dia']=array[a].dia;
+
+          if (array[a].tipo=='tar'){ elementos[vconteo]['conteo_tar']++;}else{elementos[vconteo]['conteo_tem']++;}
+
           pos_ant=vconteo;
           datos_crono['codigo']=array[a].codigo;
           datos_crono['tarea']=array[a].tipo;
@@ -427,12 +435,14 @@ function cronograma(storage){
           datos_crono['titulo']=array[a].titulo;
           datos_crono['descripcion']=array[a].descripcion;
           datos_crono['curso']=array[a].curso;
+          if (array[a].tipo=='tar'){ elementos[pos_ant]['conteo_tar']++;}else{elementos[pos_ant]['conteo_tem']++;}
           elementos[pos_ant]['datos'].push(datos_crono);
         }
 
         t_mes=array[a].mes;
         t_dia=array[a].dia;
       }
+      console.log(elementos);
       var context_curso = {"elementos":elementos};
       // $$('.cursos.detalle .contenido').html(compiledTemplate(context_curso));
       return context_curso;

@@ -2,7 +2,8 @@
 
 {{#each datos}}
 
-<div class="vpanel panel-curso-nuevo" name="Nuevo Tema" style="margin-top: 10px;padding-top:10px; padding-bottom: 10px"
+
+<div class="vpanel panel-curso-nuevo" name="Nuevo Tema" style="margin-top: 10px;padding-top:10px; padding-bottom: 10px;width:calc(50% - 5px);height:70px;display:inline-block;margin-right:3px"
 id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
   <table width="100%" style="border-spacing:0px">
     <tr>
@@ -19,7 +20,7 @@ id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
   </table>
 </div>
 
-<div class="vpanel panel-curso-nuevo" name="Nueva Tarea" style="margin-top: 10px;padding-top:10px; padding-bottom: 10px" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
+<div class="vpanel panel-curso-nuevo" name="Nueva Tarea" style="margin-top: 10px;padding-top:10px; padding-bottom: 10px;width:calc(50% - 5px);height:70px;display:inline-block" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
   <table width="100%" style="border-spacing:0px">
     <tr>
       <td width="50px">
@@ -36,7 +37,7 @@ id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
 
 </div>
 
-<div class="vpanel panel-curso-nuevo" name="Nueva Evento" style="margin-top: 10px;padding-top:10px; padding-bottom: 10px" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
+<div class="vpanel panel-curso-nuevo" name="Nueva Evento" style="padding-top:10px; padding-bottom: 10px;height:70px" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
   <table width="100%" style="border-spacing:0px">
     <tr>
       <td width="50px">
@@ -50,6 +51,23 @@ id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
       </td>
     </tr>
   </table>
-
 </div>
+
+
+<div class="vpanel panel-curso-nuevo" name="Nueva Evento" style="padding-top:10px; padding-bottom: 10px;height:70px" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
+  <table width="100%" style="border-spacing:0px">
+    <tr>
+      <td width="50px">
+            <span class="icon-users" style="font-size: 34px"></span>
+          
+      </td>
+      <td  valign="top" style="padding-top:5px">
+        <b style="font-size: 16px;"> Administrador de Alumnos</b>
+        <div style="color:#90A4AE;font-size: 13px">Permite administrar a los alumnos asignados al curso.</div>
+
+      </td>
+    </tr>
+  </table>
+</div>
+
 {{/each}}

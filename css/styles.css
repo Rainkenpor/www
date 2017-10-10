@@ -98,13 +98,11 @@
 	font-size: 25px;
 	background-color: #/*ECEFF1*/;
 	color:#BBDEFB;
-	transition: 0.2s;
 }
 .swiper-slide .swpanel .boton.activo{
 	background-color: white;
 	color:#2196F3;
 	padding:10px 20px;
-	transition: 0.2s;
 	/*box-shadow: 0px 0px  3px rgba(0,0,0,.5);*/
 }
 .swiper-slide .lazo-i{
