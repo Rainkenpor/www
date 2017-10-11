@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set('America/Guatemala');
 
     // Allow from any origin
     if (isset($_SERVER['HTTP_ORIGIN'])) {
@@ -36,7 +37,11 @@ if ($conn->connect_error) {
 
 
 //echo "Información del host: " . mysqli_POST_host_info($conn) . PHP_EOL;
-
+  if ($v_opcion=='admin_datetime'){
+    $data['fecha']=date("d/m/y");
+    $data['hora']=date("H:i:s");
+    echo json_encode($data);
+  }
 
   if ($v_opcion=='admin_storageclear'){
       $v_dispositivo=htmlspecialchars($_POST['dispositivo'],ENT_QUOTES);

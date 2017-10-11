@@ -6,6 +6,11 @@ var myEscucha=0;
 var intervalo_actual;
 var intervalos=[]; //array que almacena los intervalos
 
+function carga_datetime(){
+  datos = {opcion:'admin_datetime'};
+  console.log(script(datos,2));
+}
+
 function start(elemento){
   if (!elemento){
     $$('[include]').each(function(e){
@@ -206,11 +211,9 @@ function escuchas(){
 			// swiper de cursos
 			if (!mySwiper_curso) mySwiper_curso = myApp.swiper('.swiper-container-curso',{onlyExternal:true,speed:300});
 			if (!mySwiper_curso_det) mySwiper_curso_det = myApp.swiper('.swiper-container-curso-detalle',{onlyExternal:true,speed:0});
-
 			// llenando las pantallas del detalle
 			if (rol==1){
-          llenado_elemento($$('.swiper-container-curso-detalle #curso_cronograma'),'base-cronograma.html','curso_'+id_curso+'_cronograma',1);
-				// llenado_peticion('base-curso-detalle-tareas.html'    ,'curso_tareas_'+id_curso,    '.swiper-container-curso-detalle #curso_tareas');
+        llenado_elemento($$('.swiper-container-curso-detalle #curso_cronograma'),'base-cronograma.html','curso_'+id_curso+'_cronograma',1);
 			}else{
 				datos = '[{ "id_curs":"'+id_curso+'", "curso":"'+curso+'", "rol":"'+rol+'"}]'; localStorage.setItem('varios', datos);
 				llenado_elemento($$('.swiper-container-curso-detalle #curso_nuevo') ,'base-curso-detalle-nuevo.html','varios');
@@ -231,7 +234,6 @@ function escuchas(){
 			id_curso=$$(this).attr('id_curso');
 			curso=$$(this).attr('curso');
 			datos = '[{"id_curso":"'+id_curso+'", "curso":"'+curso+'"}]';localStorage.setItem('varios', datos);
-
 			if ($$(this).attr('name')=='Nuevo Tema'){
 				modal({titulo:$$(this).attr('name'),boton_ok:1, boton_ok_tipo:'nuevo_tema', boton_ok_titulo: 'Crear'});
 				llenado_elemento($$(".fondo-blur #contenedor #data"),'base-curso-detalle-nuevotem.html','varios');
@@ -240,8 +242,6 @@ function escuchas(){
 				modal({titulo:$$(this).attr('name'),boton_ok:1, boton_ok_tipo:'nuevo_tarea', boton_ok_titulo: 'Crear'});
 				llenado_elemento($$(".fondo-blur #contenedor #data"),'base-curso-detalle-nuevotar.html','varios');
 			}
-
-			calendario('modal_fecha');
 	    }
 	    if ($$(this).hasClass('panel-curso-tarea') || ($$(this).hasClass('timeline-item-inner') && $$(this).attr('id_tarea')>0)) {
 	    	id_tarea=($$(this).attr('id_tarea'));
@@ -286,7 +286,7 @@ function escuchas(){
         modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html()+' - Nota',nivel:11});
 				datos = '[{"id_tem":"'+$$(this).attr('id')+'"}]';localStorage.setItem('varios', datos);
 				llenado_elemento($$(".fondo-blur[id='11'] #contenedor #data"),'base-curso-detalle-temasdet_nota.html','varios');
-				editor('txt_tema');
+				// editor('txt_tema');
 			}
 		}
 	});
@@ -320,86 +320,33 @@ function escuchas(){
 };
 
 function modal(datos){
-  // titulo,id,tipo,tipo_crear,nivel
-	// nivel indica el z-index
+  // titulo,id,tipo,tipo_crear,nivel	// nivel indica el z-index
 	if (!datos.nivel) datos.nivel=10;
 	txt='<div class="fondo-blur" id="'+datos.nivel+'" style="z-index:'+datos.nivel+'">';
 	txt+='<div id="contenedor">';
 	txt+='<div style="background-color:#2196F3;padding:20px 6px;height:26px;color:white;font-size:18px;border-radius:5px 5px 0px 0px;">'+datos.titulo;
-
   // para indicar favoritos los requisitos son
   //  favorito:1, fav_tipo:'###', fav_id:###, fav_select=1 < si se ha seleccionado como favorito previamente
-
 	if (datos.favorito){
     if (datos.fav_select){
       txt+=	'<span class="favorito icon-star" id="'+datos.fav_id+'" tipo="'+datos.fav_tipo+'" style="float:right"></span>';
     }else{
       txt+=	'<span class="favorito icon-star-empty" id="'+datos.fav_id+'" tipo="'+datos.fav_tipo+'" style="float:right"></span>';
     }
-
 	}
-
 	txt+=	'</div>';
 	txt+=	'<div id="data"></div>';
 	txt+=	'<div id="opciones">';
 	txt+=	'<span class="boton" cerrar="true">Cerrar</span>';
-
   //  para indicar el boton
   //  boton_ok:1, boton_ok_tipo:"####", boton_ok_titulo: "######"
 	if (datos.boton_ok)	txt+=	'<span class="boton" crear="true" tipo="'+datos.boton_ok_tipo+'" style="background-color: #2196F3;color:white; padding:10px 50px;margin-left:5px">'+datos.boton_ok_titulo+'</span>';
-
 	txt+=	'</div>';
 	txt+=	'</div>';
 	txt+=	'</div>';
-
 	$$('body').prepend(txt);
-  verificar_alto();
+  // verificar_alto();
 }
-
-function calendario(id){
-	var monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto' , 'Septiembre' , 'Octubre', 'Noviembre', 'Diciembre'];
-	var dayNames =  ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
-	var dayNamesShort1=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
-
-	var calendarInline = myApp.calendar({
-	    // container: '#curso_include_tareas_normal_calendario',
-	    input: '#'+id,
-	    value: [new Date()],
-	    weekHeader: true,
-	     dateFormat: 'dd/MM/yyyy',
-	    dayNamesShort:dayNamesShort1,
-	    toolbarTemplate:
-	        '<div class="toolbar calendar-custom-toolbar">' +
-	            '<div class="toolbar-inner" style="background-color:#2196F3;color:white">' +
-	                '<div class="left">' +
-	                    '<a href="#" class="link icon-only"><i class="icon icon-back"></i></a>' +
-	                '</div>' +
-	                '<div class="center"></div>' +
-	                '<div class="right">' +
-	                    '<a href="#" class="link icon-only"><i class="icon icon-forward"></i></a>' +
-	                '</div>' +
-	            '</div>' +
-	        '</div>',
-	    onOpen: function (p) {
-	        $$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
-	        $$('.calendar-custom-toolbar .left .link').on('click', function () {
-	            calendarInline.prevMonth();
-	        });
-	        $$('.calendar-custom-toolbar .right .link').on('click', function () {
-	            calendarInline.nextMonth();
-	        });
-	    },
-	    onMonthYearChangeStart: function (p) {
-	        $$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
-	    }
-	});
-
-}
-
-function editor(id){
-    CKEDITOR.replace( id );
-}
-
 
 function cronograma(storage){
       var conteo_temas=0;
@@ -438,7 +385,6 @@ function cronograma(storage){
           if (array[a].tipo=='tar'){ elementos[pos_ant]['conteo_tar']++;}else{elementos[pos_ant]['conteo_tem']++;}
           elementos[pos_ant]['datos'].push(datos_crono);
         }
-
         t_mes=array[a].mes;
         t_dia=array[a].dia;
       }
@@ -446,7 +392,32 @@ function cronograma(storage){
       var context_curso = {"elementos":elementos};
       // $$('.cursos.detalle .contenido').html(compiledTemplate(context_curso));
       return context_curso;
+}
 
+function cronograma_expandir(element){
+  array=JSON.parse(localStorage.getItem('evento'));
+  dia=$$(element).attr('dia');
+  mes=$$(element).attr('mes');
+
+  id_curs=$$(element).attr('id_curs');
+  var arr=[];
+  var conteo=0;
+  if (id_curs==null){
+      for (arr in array){
+        if (array[arr].mes==mes){
+          if (array[arr].dia==dia){
+            conteo++;
+            arr[conteo]['datos'].push(array[arr]);
+          }
+        }
+      }
+  }
+  // console.log(id_curs);
+  datos = '[{ "elementos":"'+arr+'"}]';
+  console.log(arr);
+  localStorage.setItem('cronograma-detalle', datos);
+  $$(element).append('<div class="subpanel"></div>');
+  llenado_elemento($$(element).find('.subpanel') ,'base-cronograma-detalle.html','cronograma-detalle');
 }
 
 function storage_clear(search){

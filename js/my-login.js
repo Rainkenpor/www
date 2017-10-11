@@ -22,24 +22,25 @@
         Gusuario_nombre=data.usuario;
         $$('.login').hide();
         $$('.login .google').hide();
+        carga_datetime();
         start();
 
         notificaciones_push();
-        
-        
-        
+
+
+
         $$('.toolbar-inferior').show();
-        
 
 
-       // 
+
+       //
          // myApp.params.swipePanelOnlyClose=false;
          //  mainView.router.load({
          //    template: myApp.templates.index,
          //    animatePages: false,
          //    // context: {carpetas: info,cursos:info_curso},
-         //    reload: true, 
-         //  });  
+         //    reload: true,
+         //  });
 
     } else {
 
@@ -48,8 +49,8 @@
     }
   });
 
-  
- 
+
+
   function login() {
     window.plugins.googleplus.login(
         {
@@ -77,18 +78,18 @@
 
             $$('.login').hide();
             $$('.login .google').hide();
-
+            carga_datetime();
             start();
             notificaciones_push();
               // $$(".panel-left .content-block #login .usuario").html(data.usuario);
               // $$(".panel-left .content-block #login .image-temp").hide();
               // $$(".panel-left .content-block #login #imagen #image").show();
-              
+
 
             // document.querySelector("#feedback").innerHTML = "Hi, " + obj.displayName + ", " + obj.email;
             if (!firebase.auth().currentUser) {
 
-              
+
 
                 // document.querySelector("#feedback").innerHTML ='signing firebase';
                 firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(obj.idToken))
@@ -107,12 +108,12 @@
         }
     );
   }
-  
+
   function trySilentLogin() {
     window.plugins.googleplus.trySilentLogin(
         {},
         function (obj) {
-          
+
         },
         function (msg) {
           // document.querySelector("#feedback").innerHTML = "error: " + msg;
@@ -141,7 +142,7 @@
             Gusuario_id=0;
             Gusuario_nombre='';
             mySwiper_inicio=undefined;
-            mySwiper_curso=undefined; 
+            mySwiper_curso=undefined;
             mySwiper_curso_det=undefined;
             $$(".swiper-container-menu .swiper-slide").html('');
 
@@ -172,7 +173,7 @@
   //           document.querySelector("#feedback").innerHTML ='signing out from firebase';
   //           firebase.auth().signOut();
 
-            
+
 
   //         }
   //       },
@@ -188,4 +189,3 @@
   function handleOpenURL (url) {
     document.querySelector("#feedback").innerHTML = "App was opened by URL: " + url;
   }
-

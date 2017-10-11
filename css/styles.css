@@ -64,7 +64,7 @@
 	width:100%;
 	padding:6px;
 	color:white;
-	text-align:center;
+	text-align:left;
 	position:absolute;
 	font-size:23px;
 }
@@ -253,6 +253,20 @@
   box-shadow: 0px 0px 8px 1px rgba(0,0,0,.2);
   position: relative;
   margin-bottom:7px;
+}
+.vpanel.panel-curso-nuevo{
+  margin-top: 10px;
+  padding-top:10px;
+  padding-bottom: 10px;
+  width:calc(50% - 5px);
+  height:100px;
+  display:inline-block;
+}
+.vpanel .subpanel{
+  width: 95%;
+  margin: auto;
+  border-top:1px solid #EEEEEE;
+  padding:3px;
 }
 
 .contenido{

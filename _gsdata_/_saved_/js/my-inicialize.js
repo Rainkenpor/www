@@ -1,7 +1,6 @@
 var isMaterial = Framework7.prototype.device.ios === false;
 var isIos = Framework7.prototype.device.ios === true;
 
-
 Template7.global = {
   material: isMaterial,
   ios: isIos,
@@ -10,7 +9,6 @@ Template7.global = {
 // for(key in localStorage) {localStorage.removeItem(key);}
 Template7.registerHelper('if_compare', function (a, operator, b, options) {
     var match = false;
-
     if (
         (operator === '==' && (a == b)) ||
         (operator === '===' && (a === b)) ||

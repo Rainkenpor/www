@@ -1,73 +1,26 @@
 <div class="pull-to-refresh-layer"><div class="preloader"></div><div class="pull-to-refresh-arrow"></div></div>
 
 {{#each datos}}
-
-
-<div class="vpanel panel-curso-nuevo" name="Nuevo Tema" style="margin-top: 10px;padding-top:10px; padding-bottom: 10px;width:calc(50% - 5px);height:70px;display:inline-block;margin-right:3px"
-id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
-  <table width="100%" style="border-spacing:0px">
-    <tr>
-      <td width="50px">
-            <span class="icon-book-4" style="font-size: 34px"></span>
-            <span class=" icon-plus-circled" style="font-size: 22px;color:#2196F3;position: absolute;top: 40px;left: 20px"></span>
-      </td>
-      <td  valign="top" style="padding-top:5px">
-        <b style="font-size: 16px;"> Nuevo Tema</b>
-        <div style="color:#90A4AE;font-size: 13px">Permite crear nuevos temas</div>
-
-      </td>
-    </tr>
-  </table>
+<div class="vpanel panel-curso-nuevo" name="Nuevo Tema" style="margin-right:3px;" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
+        <span class="icon-book-4" style="font-size: 34px;color:#2196F3"></span><br>
+        <b style="font-size: 16px;">Tema</b>
 </div>
 
-<div class="vpanel panel-curso-nuevo" name="Nueva Tarea" style="margin-top: 10px;padding-top:10px; padding-bottom: 10px;width:calc(50% - 5px);height:70px;display:inline-block" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
-  <table width="100%" style="border-spacing:0px">
-    <tr>
-      <td width="50px">
-            <span class="icon-pencil-alt-1" style="font-size: 34px"></span>
-            <span class=" icon-plus-circled" style="font-size: 22px;color:#2196F3;position: absolute;top: 40px;left: 20px"></span>
-      </td>
-      <td  valign="top" style="padding-top:5px">
-        <b style="font-size: 16px;"> Nueva Tarea</b>
-        <div style="color:#90A4AE;font-size: 13px">Permite crear nuevas tareas</div>
-
-      </td>
-    </tr>
-  </table>
-
+<div class="vpanel panel-curso-nuevo" name="Nueva Tarea" style="" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
+        <span class="icon-pencil-alt-1" style="font-size: 34px;color:#4CAF50"></span><br>
+        <b style="font-size: 16px;">Tarea</b>
 </div>
 
-<div class="vpanel panel-curso-nuevo" name="Nueva Evento" style="padding-top:10px; padding-bottom: 10px;height:70px" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
-  <table width="100%" style="border-spacing:0px">
-    <tr>
-      <td width="50px">
-            <span class="icon-clock-3" style="font-size: 34px"></span>
-            <span class=" icon-plus-circled" style="font-size: 22px;color:#2196F3;position: absolute;top: 40px;left: 20px"></span>
-      </td>
-      <td  valign="top" style="padding-top:5px">
-        <b style="font-size: 16px;"> Nueva Evento</b>
-        <div style="color:#90A4AE;font-size: 13px">Permite crear nuevos eventos</div>
-
-      </td>
-    </tr>
-  </table>
+<div class="vpanel panel-curso-nuevo" name="Nueva Activida" style="margin-top:0px;margin-right:3px" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
+        <span class="icon-trophy" style="font-size: 34px;color:#FFC107"></span><br>
+        <b style="font-size: 16px;">Actividad</b>
 </div>
-
-
-<div class="vpanel panel-curso-nuevo" name="Nueva Evento" style="padding-top:10px; padding-bottom: 10px;height:70px" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
-  <table width="100%" style="border-spacing:0px">
-    <tr>
-      <td width="50px">
-            <span class="icon-users" style="font-size: 34px"></span>
-          
-      </td>
-      <td  valign="top" style="padding-top:5px">
-        <b style="font-size: 16px;"> Administrador de Alumnos</b>
-        <div style="color:#90A4AE;font-size: 13px">Permite administrar a los alumnos asignados al curso.</div>
-
-      </td>
-    </tr>
-  </table>
+<div class="vpanel panel-curso-nuevo" name="Nueva Evento" style="margin-top:0px;" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
+        <span class="icon-clock-3" style="font-size: 34px;color:#00BCD4"></span><br>
+        <b style="font-size: 16px;">Evento</b>
 </div>
-
+<div class="vpanel panel-curso-nuevo" name="Administracion_alumnos" style="margin-top:0px;width:calc(100% - 5px);height:55px" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
+      <span class="icon-users" style="font-size: 34px;color:#673AB7"></span>
+      <b style="font-size: 16px;">Administrador de Alumnos</b>
+</div>
 {{/each}}
