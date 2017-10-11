@@ -242,6 +242,7 @@ function escuchas(){
 				modal({titulo:$$(this).attr('name'),boton_ok:1, boton_ok_tipo:'nuevo_tarea', boton_ok_titulo: 'Crear'});
 				llenado_elemento($$(".fondo-blur #contenedor #data"),'base-curso-detalle-nuevotar.html','varios');
 			}
+      calendario('modal_fecha');
 	    }
 	    if ($$(this).hasClass('panel-curso-tarea') || ($$(this).hasClass('timeline-item-inner') && $$(this).attr('id_tarea')>0)) {
 	    	id_tarea=($$(this).attr('id_tarea'));
@@ -348,6 +349,46 @@ function modal(datos){
   // verificar_alto();
 }
 
+function calendario(id){
+	var monthNames = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto' , 'Septiembre' , 'Octubre', 'Noviembre', 'Diciembre'];
+	var dayNames =  ['Domingo', 'Lunes', 'Martes', 'Miercoles', 'Jueves', 'Viernes', 'Sabado'];
+	var dayNamesShort1=['Dom','Lun','Mar','Mie','Jue','Vie','Sab'];
+
+	var calendarInline = myApp.calendar({
+	    // container: '#curso_include_tareas_normal_calendario',
+	    input: '#'+id,
+	    value: [new Date()],
+	    weekHeader: true,
+	     dateFormat: 'dd/MM/yyyy',
+	    dayNamesShort:dayNamesShort1,
+	    toolbarTemplate:
+	        '<div class="toolbar calendar-custom-toolbar">' +
+	            '<div class="toolbar-inner" style="background-color:#2196F3;color:white">' +
+	                '<div class="left">' +
+	                    '<a href="#" class="link icon-only"><i class="icon icon-back"></i></a>' +
+	                '</div>' +
+	                '<div class="center"></div>' +
+	                '<div class="right">' +
+	                    '<a href="#" class="link icon-only"><i class="icon icon-forward"></i></a>' +
+	                '</div>' +
+	            '</div>' +
+	        '</div>',
+	    onOpen: function (p) {
+	        $$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
+	        $$('.calendar-custom-toolbar .left .link').on('click', function () {
+	            calendarInline.prevMonth();
+	        });
+	        $$('.calendar-custom-toolbar .right .link').on('click', function () {
+	            calendarInline.nextMonth();
+	        });
+	    },
+	    onMonthYearChangeStart: function (p) {
+	        $$('.calendar-custom-toolbar .center').text(monthNames[p.currentMonth] +', ' + p.currentYear);
+	    }
+	});
+
+}
+
 function cronograma(storage){
       var conteo_temas=0;
       var conteo_tareas=0;
@@ -400,21 +441,24 @@ function cronograma_expandir(element){
   mes=$$(element).attr('mes');
 
   id_curs=$$(element).attr('id_curs');
-  var arr=[];
+  var vdata=[];
   var conteo=0;
   if (id_curs==null){
+    datosc=[];
       for (arr in array){
         if (array[arr].mes==mes){
           if (array[arr].dia==dia){
+            
+            console.log(array[arr]);
+            vdata.push(array[arr]);
             conteo++;
-            arr[conteo]['datos'].push(array[arr]);
           }
         }
       }
   }
   // console.log(id_curs);
-  datos = '[{ "elementos":"'+arr+'"}]';
-  console.log(arr);
+  datos = JSON.stringify(vdata);
+  console.log(datos);
   localStorage.setItem('cronograma-detalle', datos);
   $$(element).append('<div class="subpanel"></div>');
   llenado_elemento($$(element).find('.subpanel') ,'base-cronograma-detalle.html','cronograma-detalle');
