@@ -435,10 +435,16 @@ function cronograma(storage){
 }
 
 function cronograma_expandir(element){
+  elements=$$(element).parents('.vpanel');
+  if ($$(elements).find('.subpanel').length>0){
+    console.log($$(elements).find('.subpanel'));
+    $$(elements).find('.subpanel').remove();
+    return false;
+  }
   array=JSON.parse(localStorage.getItem('evento'));
-  dia=$$(element).attr('dia');
-  mes=$$(element).attr('mes');
-  id_curs=$$(element).attr('id_curs');
+  dia=$$(elements).attr('dia');
+  mes=$$(elements).attr('mes');
+  id_curs=$$(elements).attr('id_curs');
   var vdata=[];
   var conteo=-1;
   if (id_curs==null){
@@ -465,8 +471,8 @@ function cronograma_expandir(element){
       }
   }
   localStorage.setItem('cronograma-detalle', JSON.stringify(vdata));
-  $$(element).append('<div class="subpanel"></div>');
-  llenado_elemento($$(element).find('.subpanel') ,'base-cronograma-detalle.html','cronograma-detalle');
+  $$(elements).append('<div class="subpanel"></div>');
+  llenado_elemento($$(elements).find('.subpanel') ,'base-cronograma-detalle.html','cronograma-detalle');
 }
 
 function storage_clear(search){

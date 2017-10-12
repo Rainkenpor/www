@@ -2,57 +2,58 @@
 <div class="pull-to-refresh-layer"><div class="preloader"></div><div class="pull-to-refresh-arrow"></div></div>
 
 {{#each elementos}}
-  <div class="vpanel" onclick="cronograma_expandir(this);" dia="{{dia}}" mes="{{mes}}">
-    <table width="100%">
-      <tr>
-        <td width="50px" style="text-align:center">
-          <div style="font-size:30px">{{dia}}</div>
-          <small>{{mes}}</small>
-        </td>
-        <td width="10px">
+  <div class="vpanel" dia="{{dia}}" mes="{{mes}}">
+    <div onclick="cronograma_expandir(this);">
+      <table width="100%"  >
+        <tr>
+          <td width="50px" style="text-align:center">
+            <div style="font-size:30px">{{dia}}</div>
+            <small>{{mes}}</small>
+          </td>
+          <td width="10px">
 
-        </td>
-        <td>
-          <table width="100%">
-            <tr>
-              <td>
-                <span class="icon-bell"></span> Sin Notificaciones
-              </td>
-            </tr>
-            <tr>
-              <td>
-                {{#if_compare conteo_tem ">" 0}}
-                <div class="chip">
-                  <div class="chip-media bg-blue"><i class="icon-book-4"></i></div>
-                  <div class="chip-label">{{conteo_tem}}</div>
-                </div>
-                {{/if_compare}}
-                {{#if_compare conteo_tar ">" 0}}
-                <div class="chip">
-                  <div class="chip-media bg-blue"><i class="icon-pencil-alt-1"></i></div>
-                  <div class="chip-label">{{conteo_tar}}</div>
-                </div>
-                {{/if_compare}}
-                {{#if conteo_act}}
-                <div class="chip">
-                  <div class="chip-media bg-blue"><i class="icon-trophy"></i></div>
-                  <div class="chip-label">{{conteo_tar}}</div>
-                </div>
-                {{/if}}
-                {{#if conteo_event}}
-                <div class="chip">
-                  <div class="chip-media bg-blue"><i class="icon-clock-3"></i></div>
-                  <div class="chip-label">{{conteo_tar}}</div>
-                </div>
-                {{/if}}
-              </td>
-            </tr>
-          </table>
+          </td>
+          <td>
+            <table width="100%">
+              <tr>
+                <td>
+                  <span class="icon-bell"></span> Sin Notificaciones
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  {{#if_compare conteo_tem ">" 0}}
+                  <div class="chip">
+                    <div class="chip-media bg-blue"><i class="icon-book-4"></i></div>
+                    <div class="chip-label">{{conteo_tem}}</div>
+                  </div>
+                  {{/if_compare}}
+                  {{#if_compare conteo_tar ">" 0}}
+                  <div class="chip">
+                    <div class="chip-media bg-blue"><i class="icon-pencil-alt-1"></i></div>
+                    <div class="chip-label">{{conteo_tar}}</div>
+                  </div>
+                  {{/if_compare}}
+                  {{#if conteo_act}}
+                  <div class="chip">
+                    <div class="chip-media bg-blue"><i class="icon-trophy"></i></div>
+                    <div class="chip-label">{{conteo_tar}}</div>
+                  </div>
+                  {{/if}}
+                  {{#if conteo_event}}
+                  <div class="chip">
+                    <div class="chip-media bg-blue"><i class="icon-clock-3"></i></div>
+                    <div class="chip-label">{{conteo_tar}}</div>
+                  </div>
+                  {{/if}}
+                </td>
+              </tr>
+            </table>
 
 
-        </td>
-      </tr>
-    </table>
-
+          </td>
+        </tr>
+      </table>
+    </div>
   </div>
 {{/each}}
