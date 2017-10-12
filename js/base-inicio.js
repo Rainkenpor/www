@@ -53,7 +53,8 @@ function llenado_elemento(elemento,include,storage,is_cronograma){
     		if (is_cronograma){
   			elemento.html(compiledTemplate(cronograma(storage)));
     		}else{
-    			elemento.html(compiledTemplate({"datos":JSON.parse(localStorage.getItem(storage)) }));
+          elemento.html(compiledTemplate({"datos":JSON.parse(localStorage.getItem(storage)) }));
+
     		}
         elemento.attr({storage:storage});
         elemento.attr({vinclude:include});
@@ -105,7 +106,6 @@ function escuchas(){
 
 		mySwiper_inicio.on('slideChangeStart', function () {
       vconsole('listen > slideChangeStart');
-		    console.log('slide change start '+mySwiper.realIndex);
 		    $$('.toolbar-inner table tr td').removeClass("activo");
 		    if (mySwiper.realIndex === 0) {$$("#btn-home").parents('td').addClass("activo");}
 		    if (mySwiper.realIndex === 1) {$$("#btn-tarea").parents('td').addClass("activo");}
@@ -396,7 +396,6 @@ function cronograma(storage){
       var elementos=[];
       var t_mes=0;var t_dia=0;var pos_ant=0;
       for (a in array){
-        console.log(array[a].dia +'-'+ array[a].mes);
         vconteo=elementos.length;
         if (array[a].mes!=t_mes || array[a].dia != t_dia){
           elementos[vconteo]=[];
@@ -429,7 +428,7 @@ function cronograma(storage){
         t_mes=array[a].mes;
         t_dia=array[a].dia;
       }
-      console.log(elementos);
+
       var context_curso = {"elementos":elementos};
       // $$('.cursos.detalle .contenido').html(compiledTemplate(context_curso));
       return context_curso;
@@ -439,27 +438,33 @@ function cronograma_expandir(element){
   array=JSON.parse(localStorage.getItem('evento'));
   dia=$$(element).attr('dia');
   mes=$$(element).attr('mes');
-
   id_curs=$$(element).attr('id_curs');
   var vdata=[];
-  var conteo=0;
+  var conteo=-1;
   if (id_curs==null){
     datosc=[];
+    prev_curs=''
       for (arr in array){
         if (array[arr].mes==mes){
           if (array[arr].dia==dia){
-            
-            console.log(array[arr]);
-            vdata.push(array[arr]);
-            conteo++;
+            conteo_tar=0;
+            conteo_tem=0;
+            if (array[arr].tipo=='tar'){conteo_tar=1;}else{conteo_tem=1;}
+            if (array[arr].id_curs!=prev_curs){
+              conteo++;
+              vdata[conteo]=[];
+              vdata[conteo]={id_curs:array[arr].id_curs,curso:array[arr].curso,conteo_tar:conteo_tar,conteo_tem:conteo_tem,data:[array[arr]]};
+            }else{
+              vdata[conteo]['data'].push(array[arr]);
+              vdata[conteo]['conteo_tar']=vdata[conteo]['conteo_tar']+conteo_tar;
+              vdata[conteo]['conteo_tem']=vdata[conteo]['conteo_tem']+conteo_tem;
+            }
+            prev_curs=array[arr].id_curs;
           }
         }
       }
   }
-  // console.log(id_curs);
-  datos = JSON.stringify(vdata);
-  console.log(datos);
-  localStorage.setItem('cronograma-detalle', datos);
+  localStorage.setItem('cronograma-detalle', JSON.stringify(vdata));
   $$(element).append('<div class="subpanel"></div>');
   llenado_elemento($$(element).find('.subpanel') ,'base-cronograma-detalle.html','cronograma-detalle');
 }
