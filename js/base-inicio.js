@@ -238,21 +238,6 @@ function escuchas(){
 			}
       calendario('modal_fecha');
 	    }
-	    if ($$(this).hasClass('panel-curso-tarea') || ($$(this).hasClass('timeline-item-inner') && $$(this).attr('id_tarea')>0)) {
-	    	id_tarea=($$(this).attr('id_tarea'));
-		    vconsole('TAREA SELECCIONADA: '+id_tarea);
-        // favorito:1, fav_tipo:'###', fav_id:###, fav_select=1 < si se ha seleccionado como favorito previamente
-		    modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tar',fav_id:id_tarea});
-		    llenado_elemento($$('.fondo-blur #contenedor #data'),'base-curso-detalle-tareasdet.html','curso_'+id_tarea+'_tareasdet',);
-	    }
-	    if ($$(this).hasClass('panel-curso-tema') || ($$(this).hasClass('timeline-item-inner') && $$(this).attr('id_tema')>0)) {
-	    	id_tema=($$(this).attr('id_tema'));
-		    vconsole('TEMA SELECCIONADO: '+id_tema);
-		    // modal($$(".swiper-slide[name='curso'] .titulo small").html(),id_tema,'tem',null,10);
-        modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tem',fav_id:id_tema,nivel:10});
-        llenado_elemento($$('.fondo-blur #contenedor #data'),'base-curso-detalle-temasdet.html','curso_'+id_tema+'_temasdet',);
-	    }
-
 	});
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	// submodal
@@ -310,6 +295,22 @@ function escuchas(){
 	})
 };
 
+
+
+function curso_seleccion_opcion(elemento){
+  // favorito:1, fav_tipo:'###', fav_id:###, fav_select=1 < si se ha seleccionado como favorito previamente
+  id_tipo=$$(elemento).attr('tipo');
+  id_codigo=$$(elemento).attr('codigo');
+  if (id_tipo=="tar"){
+    modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tar',fav_id:id_codigo});
+    llenado_elemento($$('.fondo-blur #contenedor #data'),'base-curso-detalle-tareasdet.html','curso_'+id_codigo+'_tareasdet',);
+  }
+  if (id_tipo=="tem"){
+    modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tem',fav_id:id_codigo,nivel:10});
+    llenado_elemento($$('.fondo-blur #contenedor #data'),'base-curso-detalle-temasdet.html','curso_'+id_codigo+'_temasdet',);
+  }
+}
+
 function modal(datos){
 	if (!datos.nivel) datos.nivel=10;// titulo,id,tipo,tipo_crear,nivel	// nivel indica el z-index
 	txt='<div class="fondo-blur" id="'+datos.nivel+'" style="z-index:'+datos.nivel+'">';
@@ -327,11 +328,12 @@ function modal(datos){
 	txt+=	'</div>';
 	txt+=	'<div id="data"></div>';
 	txt+=	'<div id="opciones">';
-	txt+=	'<span class="boton" cerrar="true">Cerrar</span>';
+
   //  para indicar el boton  //  boton_ok:1, boton_ok_tipo:"####", boton_ok_titulo: "######"
 	if (datos.boton_ok)	txt+=	'<span class="boton" crear="true" tipo="'+datos.boton_ok_tipo+'" style="background-color: #2196F3;color:white; padding:10px 50px;margin-left:5px">'+datos.boton_ok_titulo+'</span>';
 	txt+=	'</div>';
 	txt+=	'</div>';
+  txt+=	'<div class="boton" cerrar="true"><span class="icon-cancel-outline"></span></div>';
 	txt+=	'</div>';
 	$$('body').prepend(txt);
 }

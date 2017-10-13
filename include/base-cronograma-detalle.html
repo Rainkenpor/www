@@ -1,7 +1,7 @@
 {{#each datos}}
   {{#if seleccion_curso}}
     {{#each data}}
-    <div style="box-shadow:0px 3px 4px rgba(0,0,0,0.1);padding:15px 5px;border-radius:3px; font-size:16px" tipo="{{tipo}}" codigo="{{codigo}}">
+    <div style="box-shadow:0px 3px 4px rgba(0,0,0,0.1);padding:15px 5px;border-radius:3px; font-size:16px" tipo="{{tipo}}" codigo="{{codigo}}" onclick="curso_seleccion_opcion(this)">
       <b>{{titulo}}</b>
       {{#if_compare tipo "==" "tem"}}<div class="chip-media bg-blue" style="float:right;margin-right:11px;margin-top:-3px"><i class="icon-book-4"></i></div>{{/if_compare}}
       {{#if_compare tipo "==" "tar"}}<div class="chip-media bg-blue" style="float:right;margin-right:11px;margin-top:-3px"><i class="icon-pencil-alt-1"></i></div>{{/if_compare}}
