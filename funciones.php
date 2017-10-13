@@ -578,18 +578,18 @@ if ($conn->connect_error) {
 			$conn->multi_query($strQuery);
 		}
 
-		$strQuery = "select 'tar' tipo,id_tar codigo, tarea titulo,descripcion,fecha_finalizacion,
+		$strQuery = "select id_curs,'tar' tipo,id_tar codigo, tarea titulo,descripcion,fecha_finalizacion,
 						DATE_FORMAT(fecha_finalizacion,'%d') dia,
 						DATE_FORMAT(fecha_finalizacion,'%b') mes
 						from curs_tar
 						where id_curs=$v_curso
 					union all
- 					select 'tem' tipo,id_tem codigo, tema titulo,descripcion,fecha_habilitacion,
+ 					select id_curs, 'tem' tipo,id_tem codigo, tema titulo,descripcion,fecha_habilitacion,
                         DATE_FORMAT(fecha_habilitacion,'%d') dia,
                         DATE_FORMAT(fecha_habilitacion,'%b') mes
                         from curs_tem
                         where id_curs=$v_curso
-						order by 5 desc" ;
+						order by 6 desc" ;
 		if ($conn->multi_query($strQuery)){
 			if ($result=$conn->store_result()){
 				while($row=$result->fetch_assoc()){

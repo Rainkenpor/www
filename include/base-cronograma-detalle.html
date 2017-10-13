@@ -1,16 +1,20 @@
 {{#each datos}}
-<div style="box-shadow:0px 3px 4px rgba(0,0,0,0.1);padding:15px 5px;border-radius:3px; font-size:16px" id="{{id_curs}}" >
-  {{curso}}
-  {{#if conteo_tem}}<div class="chip-media bg-blue" style="float:right;margin-right:11px;margin-top:-3px"><i class="icon-book-4"></i></div>{{/if}}
-  {{#if conteo_tar}}<div class="chip-media bg-blue" style="float:right;margin-right:11px;margin-top:-3px"><i class="icon-pencil-alt-1"></i></div>{{/if}}
-</div>
-{{#each data}}
-<div tipo="{{tipo}}" codigo="{{codigo}}" style="display:none">
-  <b>{{titulo}}</b>
-  <br>
-  {{descripcion}}
-</div>
-  <!-- {{fecha_creacion}}
-  {{fecha_finalizacion}} -->
-{{/each}}
+  {{#if seleccion_curso}}
+    {{#each data}}
+    <div style="box-shadow:0px 3px 4px rgba(0,0,0,0.1);padding:15px 5px;border-radius:3px; font-size:16px" tipo="{{tipo}}" codigo="{{codigo}}">
+      <b>{{titulo}}</b>
+      {{#if_compare tipo "==" "tem"}}<div class="chip-media bg-blue" style="float:right;margin-right:11px;margin-top:-3px"><i class="icon-book-4"></i></div>{{/if_compare}}
+      {{#if_compare tipo "==" "tar"}}<div class="chip-media bg-blue" style="float:right;margin-right:11px;margin-top:-3px"><i class="icon-pencil-alt-1"></i></div>{{/if_compare}}
+      <br>
+      {{descripcion}}
+
+    </div>
+    {{/each}}
+  {{else}}
+    <div style="box-shadow:0px 3px 4px rgba(0,0,0,0.1);padding:15px 5px;border-radius:3px; font-size:16px" id="{{id_curs}}" >
+      {{curso}}
+      {{#if conteo_tem}}<div class="chip-media bg-blue" style="float:right;margin-right:11px;margin-top:-3px"><i class="icon-book-4"></i></div>{{/if}}
+      {{#if conteo_tar}}<div class="chip-media bg-blue" style="float:right;margin-right:11px;margin-top:-3px"><i class="icon-pencil-alt-1"></i></div>{{/if}}
+    </div>
+  {{/if}}
 {{/each}}

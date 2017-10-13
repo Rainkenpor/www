@@ -43,15 +43,12 @@ function start(elemento){
 }
 // ----------------------------------------------------------------------------------------------------------------------------------------
 function llenado_elemento(elemento,include,storage,is_cronograma){
-  vconsole(storage);
     if (localStorage.getItem(storage) || storage==null)	{
-
-        vconsole('utilizado');
         if(!localStorage.getItem(include))$$.ajax({url:'include/'+include,async:false,success: function(resp) {localStorage.setItem(include,resp);}});
         resp=localStorage.getItem(include);
     		var compiledTemplate = Template7.compile(resp);
     		if (is_cronograma){
-  			elemento.html(compiledTemplate(cronograma(storage)));
+          elemento.html(compiledTemplate(cronograma(storage)));
     		}else{
           elemento.html(compiledTemplate({"datos":JSON.parse(localStorage.getItem(storage)) }));
 
@@ -60,8 +57,6 @@ function llenado_elemento(elemento,include,storage,is_cronograma){
         elemento.attr({vinclude:include});
         if (is_cronograma)
           elemento.attr({is_cronograma:1});
-
-
     }else{
       vconsole(1);
       if (is_cronograma){
@@ -82,7 +77,6 @@ function escuchas(){
     vstorage=$$(this).attr('storage');
     vinclude=$$(this).attr('vinclude');
     vcronograma=$$(this).attr('is_cronograma');
-    // vconsole($$(this).attr('storage'));
     storage_clear(vstorage);
     vconsole(vinclude);
     llenado_elemento($$(this),vinclude,vstorage,vcronograma);
@@ -267,15 +261,11 @@ function escuchas(){
     vconsole('listen > submodal');
 		if ($$(this).attr('tipo')=="tema"){
       if ($$(this).attr('opcion')=="comentario"){
-				// modal($$(".swiper-slide[name='curso'] .titulo small").html()+ ' - comentario',null,null,null,11);
         modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html()+' - Comentario',nivel:11});
         id_tem=$$(this).attr('id');
 				datos = '[{"id_tem":"'+$$(this).attr('id')+'"}]';localStorage.setItem('varios', datos);
 				llenado_elemento($$(".fondo-blur[id='11'] #contenedor #data"),'base-curso-detalle-temasdet_comentario.html','varios');
-        // datos = {autoscroll:1,elemento:".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_tem,usuario:Gusuario_id};
-        // script(datos);
         intervalo_actual=setInterval(function () {
-          // localStorage.removeItem('curso_temascomment_'+id_tem);
           datos = {autoscroll:1,elemento:".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_tem,usuario:Gusuario_id};
           script(datos);
         }, 5000);
@@ -321,8 +311,7 @@ function escuchas(){
 };
 
 function modal(datos){
-  // titulo,id,tipo,tipo_crear,nivel	// nivel indica el z-index
-	if (!datos.nivel) datos.nivel=10;
+	if (!datos.nivel) datos.nivel=10;// titulo,id,tipo,tipo_crear,nivel	// nivel indica el z-index
 	txt='<div class="fondo-blur" id="'+datos.nivel+'" style="z-index:'+datos.nivel+'">';
 	txt+='<div id="contenedor">';
 	txt+='<div style="background-color:#2196F3;padding:20px 6px;height:26px;color:white;font-size:18px;border-radius:5px 5px 0px 0px;">'+datos.titulo;
@@ -339,14 +328,12 @@ function modal(datos){
 	txt+=	'<div id="data"></div>';
 	txt+=	'<div id="opciones">';
 	txt+=	'<span class="boton" cerrar="true">Cerrar</span>';
-  //  para indicar el boton
-  //  boton_ok:1, boton_ok_tipo:"####", boton_ok_titulo: "######"
+  //  para indicar el boton  //  boton_ok:1, boton_ok_tipo:"####", boton_ok_titulo: "######"
 	if (datos.boton_ok)	txt+=	'<span class="boton" crear="true" tipo="'+datos.boton_ok_tipo+'" style="background-color: #2196F3;color:white; padding:10px 50px;margin-left:5px">'+datos.boton_ok_titulo+'</span>';
 	txt+=	'</div>';
 	txt+=	'</div>';
 	txt+=	'</div>';
 	$$('body').prepend(txt);
-  // verificar_alto();
 }
 
 function calendario(id){
@@ -405,6 +392,8 @@ function cronograma(storage){
           datos_crono=[];
           elementos[vconteo]['mes']=array[a].mes;
           elementos[vconteo]['dia']=array[a].dia;
+          elementos[vconteo]['id_curs']=array[a].id_curs;
+          elementos[vconteo]['storage']=storage;
 
           if (array[a].tipo=='tar'){ elementos[vconteo]['conteo_tar']++;}else{elementos[vconteo]['conteo_tem']++;}
 
@@ -428,33 +417,30 @@ function cronograma(storage){
         t_mes=array[a].mes;
         t_dia=array[a].dia;
       }
-
       var context_curso = {"elementos":elementos};
-      // $$('.cursos.detalle .contenido').html(compiledTemplate(context_curso));
       return context_curso;
 }
 
 function cronograma_expandir(element){
   elements=$$(element).parents('.vpanel');
   if ($$(elements).find('.subpanel').length>0){
-    console.log($$(elements).find('.subpanel'));
     $$(elements).find('.subpanel').remove();
     return false;
   }
-  array=JSON.parse(localStorage.getItem('evento'));
   dia=$$(elements).attr('dia');
   mes=$$(elements).attr('mes');
   id_curs=$$(elements).attr('id_curs');
+  storage=$$(elements).attr('storage');
+
+  array=JSON.parse(localStorage.getItem(storage));
   var vdata=[];
   var conteo=-1;
   if (id_curs==null){
-    datosc=[];
     prev_curs=''
       for (arr in array){
         if (array[arr].mes==mes){
           if (array[arr].dia==dia){
-            conteo_tar=0;
-            conteo_tem=0;
+            conteo_tar=0;conteo_tem=0;
             if (array[arr].tipo=='tar'){conteo_tar=1;}else{conteo_tem=1;}
             if (array[arr].id_curs!=prev_curs){
               conteo++;
@@ -469,7 +455,22 @@ function cronograma_expandir(element){
           }
         }
       }
+  }else{
+      for (arr in array){
+        if (array[arr].mes==mes){
+          if (array[arr].dia==dia){
+            if (array[arr].id_curs==id_curs){
+              conteo_tar=0;conteo_tem=0;
+              if (array[arr].tipo=='tar'){conteo_tar=1;}else{conteo_tem=1;}
+              conteo++;
+              vdata[conteo]=[];
+              vdata[conteo]={seleccion_curso:1, id_curs:array[arr].id_curs,curso:'',conteo_tar:conteo_tar,conteo_tem:conteo_tem,data:[array[arr]]};
+            }
+          }
+        }
+      }
   }
+
   localStorage.setItem('cronograma-detalle', JSON.stringify(vdata));
   $$(elements).append('<div class="subpanel"></div>');
   llenado_elemento($$(elements).find('.subpanel') ,'base-cronograma-detalle.html','cronograma-detalle');

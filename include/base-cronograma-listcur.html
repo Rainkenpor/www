@@ -2,7 +2,7 @@
 <div class="pull-to-refresh-layer"><div class="preloader"></div><div class="pull-to-refresh-arrow"></div></div>
 
 {{#each elementos}}
-  <div class="vpanel" dia="{{dia}}" mes="{{mes}}">
+  <div class="vpanel" dia="{{dia}}" mes="{{mes}}" storage="{{storage}}">
     <div onclick="cronograma_expandir(this);">
       <table width="100%"  >
         <tr>
@@ -49,8 +49,6 @@
                 </td>
               </tr>
             </table>
-
-
           </td>
         </tr>
       </table>
