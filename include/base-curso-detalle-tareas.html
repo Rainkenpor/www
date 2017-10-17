@@ -1,7 +1,7 @@
-<div class="pull-to-refresh-layer"><div class="preloader"></div><div class="pull-to-refresh-arrow"></div></div>  
+<div class="pull-to-refresh-layer"><div class="preloader"></div><div class="pull-to-refresh-arrow"></div></div>
 
 {{#each datos}}
-<div class="vpanel panel-curso-tarea" id_tarea="{{id_tar}}">
+<div class="vpanel panel-curso-tarea" tipo="tar" codigo="{{id_tar}}" onclick="curso_seleccion_opcion(this)">
   <table width="100%" style="border-spacing:0px">
     <tr>
       <td width="10px">
