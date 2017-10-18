@@ -2,7 +2,7 @@ function modal(datos){
 	if (!datos.nivel) datos.nivel=10;// titulo,id,tipo,tipo_crear,nivel	// nivel indica el z-index
 	txt='<div class="fondo-blur" id="'+datos.nivel+'" style="z-index:'+datos.nivel+'">';
 	txt+='<div id="contenedor">';
-	txt+='<div style="background-color:#2196F3;padding:20px 6px;height:26px;color:white;font-size:18px;border-radius:5px 5px 0px 0px;">'+datos.titulo;
+	txt+='<div class="fondo" style="padding:20px 6px;height:26px;font-size:18px;border-radius:5px 5px 0px 0px;">'+datos.titulo;
   // para indicar favoritos los requisitos son
   //  favorito:1, fav_tipo:'###', fav_id:###, fav_select=1 < si se ha seleccionado como favorito previamente
 	if (datos.favorito){

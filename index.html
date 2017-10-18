@@ -18,6 +18,7 @@
     <!-- <link rel="stylesheet" href="css/animate.css"> -->
     <link rel="stylesheet" href="css/fontello.css">
     <script src="js/firebase.js"></script>
+
 </head>
 
 <body>
@@ -119,12 +120,32 @@
 
     <script type="text/javascript" src="js/base-modal.js"></script>
     <script>
-    for(key in localStorage) {localStorage.removeItem(key);};
-    var Gusuario_id=183;
-    var Gusuario_disp=412;
-    $$('.login').hide();
-    carga_datetime();
-    start();
+      for(key in localStorage) {localStorage.removeItem(key);};
+      // var Gusuario_id=183;
+      // var Gusuario_disp=412;
+      // $$('.login').hide();
+      // carga_color('#e74c3c');
+      // start();
+
+
+      var data=script({opcion:"usuario_entrar", email:'walteromarr@gmail.com'},1);
+      data=JSON.parse(data);
+      Gusuario_id=data.id_usu;
+      Gusuario_nombre=data.usuario;
+      Gusuario_frase=data.frase;
+      Gusuario_dia=data.dia;
+      Gusuario_mes=data.mes;
+      Gusuario_fecha=data.date;
+      $$('.login').hide();
+      $$('.login .google').hide();
+      console.log(data.date);
+      console.log(data.time);
+      console.log(data.dia);
+      console.log(data.mes);
+      carga_color(data.color);
+      start();
+      var Gusuario_disp=412;
+      // notificaciones_push();
     </script>
     <!-- <script type="text/javascript" src="js/my-login.js"></script> -->
 

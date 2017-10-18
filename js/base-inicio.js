@@ -3,13 +3,10 @@ var mySwiper_curso;
 var mySwiper_curso_det;
 var myEscucha=0;
 
+var curso_seleccion=[];
+
 var intervalo_actual;
 var intervalos=[]; //array que almacena los intervalos
-
-function carga_datetime(){
-  datos = {opcion:'admin_datetime'};
-  console.log(script(datos,2));
-}
 
 function start(elemento){
   if (!elemento){
@@ -86,6 +83,8 @@ function escuchas(){
 	mySwiper.on('slideChangeStart', function () {
     vconsole('listen > slideChangeStart');
 	    $$('.toolbar-inner table tr td').removeClass("activo");
+      $$(".swiper-slide[name='curso'] .titulo").html('Curso');
+      curso_seleccion=[];
 	    if (mySwiper.realIndex === 0) {$$("#btn-home").parents('td').addClass("activo");}
 	    if (mySwiper.realIndex === 1) {$$("#btn-tarea").parents('td').addClass("activo");}
 	    if (mySwiper.realIndex === 2) {$$("#btn-curso").parents('td').addClass("activo");}
@@ -100,6 +99,7 @@ function escuchas(){
 
 		mySwiper_inicio.on('slideChangeStart', function () {
       vconsole('listen > slideChangeStart');
+      curso_seleccion=[];
 		    $$('.toolbar-inner table tr td').removeClass("activo");
 		    if (mySwiper.realIndex === 0) {$$("#btn-home").parents('td').addClass("activo");}
 		    if (mySwiper.realIndex === 1) {$$("#btn-tarea").parents('td').addClass("activo");}
@@ -151,6 +151,9 @@ function escuchas(){
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	$$(document).on('click','.toolbar-inferior div',function(event){
     event.preventDefault();
+    $$(".swiper-slide[name='curso'] .titulo").html('Curso');
+    curso_seleccion=[];
+
     vconsole('listen > toolbar-inferior div');
     		if (mySwiper_inicio) {
     			mySwiper_inicio.slideTo(0);
@@ -160,7 +163,7 @@ function escuchas(){
     		if (mySwiper_curso){mySwiper_curso.slideTo(0);}
 	      mySwiper.slideTo($$(this).attr('index'));
 	      $$('.fondo-blur').remove();
-        if (!(localStorage.getItem('favorito_listado'))) {datos = {elemento:'.swiper-slide[storage="favorito_listado"]',opcion:"favorito_listado",usuario:Gusuario_id};	script(datos);}
+        // if (!(localStorage.getItem('favorito_listado'))) {datos = {elemento:'.swiper-slide[storage="favorito_listado"]',opcion:"favorito_listado",usuario:Gusuario_id};	script(datos);}
 	});
 
 	//-------------------------------------------------------------------------------------------------------------------------------------
@@ -190,6 +193,7 @@ function escuchas(){
 			if (!mySwiper_curso) mySwiper_curso = myApp.swiper('.swiper-container-curso',{onlyExternal:true,speed:300});
 			if (!mySwiper_curso_det) mySwiper_curso_det = myApp.swiper('.swiper-container-curso-detalle',{onlyExternal:true,speed:0});
 			// llenando las pantallas del detalle
+      curso_seleccion={curso:curso,rol:rol,id_curso:id_curso};
 			if (rol==1){
         llenado_elemento($$('.swiper-container-curso-detalle #curso_cronograma'),'base-cronograma.html','curso_'+id_curso+'_cronograma',1);
 			}else{
@@ -200,7 +204,7 @@ function escuchas(){
 			if (rol==1) {$$('.contenedor-curso .boton[index="4"]').css({'display':'none'});}
 			if (rol==2) {$$('.contenedor-curso .boton[index="4"]').css({'display':'inline'});}
 
-			$$(".swiper-slide[name='curso'] .titulo").html('Curso<small style="display:block;margin-top:-12px;font-size:13px">'+curso+'</small>');
+			$$(".swiper-slide[name='curso'] .titulo").html(curso);
 			$$('.swiper-container-curso #curso_detalle').attr('id_curso',id_curso);
 			mySwiper_curso.slideTo(1);
 			$$('.contenedor-curso .boton').removeClass('activo');
@@ -220,7 +224,7 @@ function escuchas(){
 				modal({titulo:$$(this).attr('name'),boton_ok:1, boton_ok_tipo:'nuevo_tarea', boton_ok_titulo: 'Crear'});
 				llenado_elemento($$(".fondo-blur #contenedor #data"),'base-curso-detalle-nuevotar.html','varios');
 			}
-      calendario('modal_fecha');
+
 	    }
 	});
 	//-------------------------------------------------------------------------------------------------------------------------------------
@@ -279,21 +283,41 @@ function escuchas(){
 	})
 };
 
+// opciones
+      function opcion_cambiocolor(elemento){
+        modal({titulo:'Cambio de Color',nivel:10});
+        llenado_elemento($$('.fondo-blur #contenedor #data'),'base-inicio-opcion-color.html');
+      }
+      function opcion_cambiocolor_select(color){
+        carga_color(color);
+        $$('#configuracion-color').css('background-color', color);
+      }
 
+// curso
+      function curso_seleccion_cronograma(elemento){
+        id_curs=$$(elemento).attr('id_curs');
+        curso=$$(elemento).attr('curso');
+        modal({titulo:curso,favorito:1,fav_tipo:'curs',fav_id:id_curs,nivel:9});
+        llenado_elemento($$('.fondo-blur[id="9"] #contenedor #data'),'base-cronograma.html','curso_'+id_curs+'_cronograma',1);
+        calendario('modal_fecha');
+      }
 
-function curso_seleccion_opcion(elemento){
-  // favorito:1, fav_tipo:'###', fav_id:###, fav_select=1 < si se ha seleccionado como favorito previamente
-  id_tipo=$$(elemento).attr('tipo');
-  id_codigo=$$(elemento).attr('codigo');
-  if (id_tipo=="tar"){
-    modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tar',fav_id:id_codigo});
-    llenado_elemento($$('.fondo-blur #contenedor #data'),'base-curso-detalle-tareasdet.html','curso_'+id_codigo+'_tareasdet',);
-  }
-  if (id_tipo=="tem"){
-    modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html(),favorito:1,fav_tipo:'tem',fav_id:id_codigo,nivel:10});
-    llenado_elemento($$('.fondo-blur #contenedor #data'),'base-curso-detalle-temasdet.html','curso_'+id_codigo+'_temasdet',);
-  }
-}
+      function curso_seleccion_opcion(elemento){
+        // favorito:1, fav_tipo:'###', fav_id:###, fav_select=1 < si se ha seleccionado como favorito previamente
+        id_tipo=$$(elemento).attr('tipo');
+        id_codigo=$$(elemento).attr('codigo');
+        curso=(curso_seleccion.curso)?curso_seleccion.curso:$$(elemento).attr('curso');
+
+        if (id_tipo=="tar"){
+          modal({titulo:curso,favorito:1,fav_tipo:'tar',fav_id:id_codigo});
+          llenado_elemento($$('.fondo-blur[id="10"] #contenedor #data'),'base-curso-detalle-tareasdet.html','curso_'+id_codigo+'_tareasdet',);
+        }
+        if (id_tipo=="tem"){
+          modal({titulo:curso,favorito:1,fav_tipo:'tem',fav_id:id_codigo,nivel:10});
+          llenado_elemento($$('.fondo-blur[id="10"] #contenedor #data'),'base-curso-detalle-temasdet.html','curso_'+id_codigo+'_temasdet',);
+        }
+        calendario('modal_fecha');
+      }
 
 
 

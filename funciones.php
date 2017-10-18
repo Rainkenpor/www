@@ -70,7 +70,11 @@ if ($conn->connect_error) {
 	if ($v_opcion=='usuario_entrar'){
 		$v_correo=htmlspecialchars($_POST['email'],ENT_QUOTES);
 		  $v_encontrado=0;
-			$strQuery = "select id_usu,usuario,imagen,correo,genero,fecha_cumple from admin_usu where correo='$v_correo'";
+			$strQuery = "select id_usu,usuario,imagen,correo,genero,fecha_cumple,
+                  curdate() date,time(now()) time,color,frase,DATE_FORMAT(curdate(),'%d') dia,
+      						DATE_FORMAT(curdate(),'%b') mes
+                  from admin_usu
+                  where correo='$v_correo'";
 
 			if ($conn->multi_query($strQuery)){
 		  	if ($result=$conn->store_result()){

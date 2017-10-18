@@ -2,25 +2,38 @@
 function cronograma(storage){
       var conteo_temas=0;
       var conteo_tareas=0;
+      var dia_hoy=0;
       var array=JSON.parse(localStorage.getItem(storage));
       var elementos=[];
       var t_mes=0;var t_dia=0;var pos_ant=0;
+
       for (a in array){
         vconteo=elementos.length;
+        if(dia_hoy==0) var diferencia =  Math.floor(( Date.parse(array[a].fecha_finalizacion) - Date.parse(Gusuario_fecha) )/86400000);
         if (array[a].mes!=t_mes || array[a].dia != t_dia){
+
+          // dia de hoy
+          if (diferencia<0 && dia_hoy==0){
+            elementos[vconteo]=[];
+            elementos[vconteo]['hoy_dia']=Gusuario_dia;
+            elementos[vconteo]['hoy_mes']=Gusuario_mes;
+            vconteo=elementos.length;
+            dia_hoy=1;
+          }
+
           elementos[vconteo]=[];
           elementos[vconteo]['datos']=[];
           elementos[vconteo]['conteo_tem']=0;
           elementos[vconteo]['conteo_tar']=0;
-          datos_crono=[];
           elementos[vconteo]['mes']=array[a].mes;
           elementos[vconteo]['dia']=array[a].dia;
           elementos[vconteo]['id_curs']=array[a].id_curs;
           elementos[vconteo]['storage']=storage;
 
+          datos_crono=[];
           if (array[a].tipo=='tar'){ elementos[vconteo]['conteo_tar']++;}else{elementos[vconteo]['conteo_tem']++;}
-
           pos_ant=vconteo;
+
           datos_crono['codigo']=array[a].codigo;
           datos_crono['tarea']=array[a].tipo;
           datos_crono['titulo']=array[a].titulo;
@@ -53,6 +66,7 @@ function cronograma_expandir(element){
   dia=$$(elements).attr('dia');
   mes=$$(elements).attr('mes');
   id_curs=$$(elements).attr('id_curs');
+  curso=$$(elements).attr('curso');
   storage=$$(elements).attr('storage');
 
   array=JSON.parse(localStorage.getItem(storage));
@@ -79,21 +93,24 @@ function cronograma_expandir(element){
         }
       }
   }else{
+    var dia_hoy=0;
+    console.log(arr);
       for (arr in array){
+        if(dia_hoy==0) var diferencia =  Math.floor(( Date.parse(array[a].fecha_finalizacion) - Date.parse(Gusuario_fecha) )/86400000);
         if (array[arr].mes==mes){
           if (array[arr].dia==dia){
             if (array[arr].id_curs==id_curs){
               conteo_tar=0;conteo_tem=0;
               if (array[arr].tipo=='tar'){conteo_tar=1;}else{conteo_tem=1;}
+
               conteo++;
               vdata[conteo]=[];
-              vdata[conteo]={seleccion_curso:1, id_curs:array[arr].id_curs,curso:'',conteo_tar:conteo_tar,conteo_tem:conteo_tem,data:[array[arr]]};
+              vdata[conteo]={seleccion_curso:1, id_curs:array[arr].id_curs,curso:curso,conteo_tar:conteo_tar,conteo_tem:conteo_tem,data:[array[arr]]};
             }
           }
         }
       }
   }
-
   localStorage.setItem('cronograma-detalle', JSON.stringify(vdata));
   $$(elements).append('<div class="subpanel"></div>');
   llenado_elemento($$(elements).find('.subpanel') ,'base-cronograma-detalle.html','cronograma-detalle');

@@ -10,7 +10,7 @@
 	</div>
 
 	<div style="text-align: center;font-size: 13px">
-		<span class="icon-quote-left-1"></span>Nunca te detengas, sigue aprendiendo siempres<span class="icon-quote-right-1"></span>
+		<span class="icon-quote-left-1"></span>{{frase}}<span class="icon-quote-right-1"></span>
 	</div>
 
 	<table width="100%" style="text-align: center;margin-top: 15px;margin-bottom: 5px">
@@ -34,23 +34,28 @@
 	</table>
 
 	<div class="chip" onclick="logout()">Salir</div>
-	<div class="chip" onclick="clear_storage('curso')">Limpiar Curso</div>
 
 	<div style="padding:5px 10px;margin-top: 10px">
 		Pertenece a:
 	</div>
-	 	<div class="chip">
+	 	<div class="chip ">
 	    	<div class="chip-media bg-blue">U</div>
 	    	<div class="chip-label">Mariano Galvez de Guatemala</div>
 	  	</div>
-	  	<div class="chip">
-	    	<div class="chip-media bg-blue">I</div>
+	  	<div class="chip ">
+	    	<div class="chip-media">I</div>
 	    	<div class="chip-label">Intecap</div>
 	  	</div>
 	  	<div class="chip">
-	    	<div class="chip-media bg-blue">C</div>
+	    	<div class="chip-media">C</div>
 	    	<div class="chip-label">Calusac</div>
 	  	</div>
+	<div style="padding:5px 10px;margin-top: 10px">
+		Configuraciones:
+	</div>
+	<div id="configuracion-color" style="border:5px solid white;box-shadow:1px 1px 5px rgba(0,0,0,0.5);margin-bottom:10px;margin-left:10px; height:40px;width:40px;background-color:{{color}}" onclick="opcion_cambiocolor(this);">
+	</div>
+
 </div>
 {{else}}
 sin datos

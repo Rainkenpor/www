@@ -22,16 +22,12 @@
         Gusuario_nombre=data.usuario;
         $$('.login').hide();
         $$('.login .google').hide();
-        carga_datetime();
+        console.log(data.date);
+        console.log(data.time);
+        carga_color(data.color);
         start();
 
         notificaciones_push();
-
-
-
-        $$('.toolbar-inferior').show();
-
-
 
        //
          // myApp.params.swipePanelOnlyClose=false;

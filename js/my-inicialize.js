@@ -57,6 +57,68 @@ function vconsole(txt){
   // $$("#app-status-ul").append('<br>'+txt);
 }
 
+function hexToRgb(hex) {
+    // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
+    var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+    hex = hex.replace(shorthandRegex, function(m, r, g, b) {
+        return r + r + g + g + b + b;
+    });
+
+    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16)
+    } : null;
+}
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+}
+
+function carga_color(color){
+var vcolor=hexToRgb(color);
+// porcentajes de color
+// StatusBar.backgroundColorByHexString(color);
+p1=(vcolor.r-40<0)?0:vcolor.r-40;
+p2=(vcolor.g-40<0)?0:vcolor.g-40;
+p3=(vcolor.b-40<0)?0:vcolor.b-40;
+var color2=rgbToHex(p1,p2,p3);
+$$('head style').remove();
+ $$('head').append(
+'<style>'+
+'    .perfil_background{'+
+'      background-color:'+color+' !important;'+
+'      color:white !important;'+
+'    }'+
+'    .fondo{'+
+'      background-color:'+color+';'+
+'      color:white;'+
+'    }'+
+'    .toolbar-inferior td.activo{'+
+'      background-color: '+color+';'+
+'      color:white;'+
+'    }'+
+'    .swiper-slide .swpanel .boton.activo{'+
+'      background-color: white;'+
+'      color:'+color+';'+
+'    }'+
+'    .swiper-slide .swpanel .boton{'+
+'      color:'+color2+';'+
+'    }'+
+'    .chip-media{'+
+'      background-color: '+color+';'+
+'      color:white;'+
+'    }'+
+'</style>');
+try {
+StatusBar.backgroundColorByHexString(color);
+} catch (e) {
+
+} finally {
+
+}
+
+}
 
 function extension_archivo(archivo){
     var ext=archivo.split('.').pop();
@@ -85,28 +147,21 @@ function pad (str, max) {
 }
 
 $$(document).on('deviceready', function() {
-    // StatusBar.backgroundColorByHexString('#3399FF');
-
     vconsole("Device is ready!");
     var permissions = cordova.plugins.permissions;
     permissions.requestPermission(permissions.READ_EXTERNAL_STORAGE, success, error);
-
     function error() {
       vconsole('Permiso de escritura erroneo');
     }
-
     function success( status ) {
         if( !status.hasPermission ) error();
         vconsole('Permiso de escritura success'+status);
     }
-
     document.addEventListener("backbutton", function (e) {
       alert('back');
       e.preventDefault();
     }, false );
-
     vconsole(FileTransfer);
-
 });
 
 

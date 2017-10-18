@@ -4,18 +4,11 @@
 <div class="vpanel panel-curso" id_curso="{{id_curs}}" curso="{{curso}}" rol="{{id_rol}}">
   <table width="100%" style="border-spacing:0px">
     <tr>
-      <td width="10px">
-
-          {{#if_compare id_rol "===" "1"}}
-            <div  style="background-color:#8BC34A;height:88px;position:absolute;top:0px;width:4px;"> </div>
-          {{else}}
-            <div  style="background-color:#2196F3;height:88px;position:absolute;top:0px;width:4px;"> </div>
-          {{/if_compare}}
-
-
-      </td>
       <td  valign="top" style="padding-top:5px">
         <b style="font-size: 16px;"> {{curso}}</b>
+        {{#if_compare id_rol "===" "2"}}
+          <span class="icon-graduation-cap chip-media" style="position:absolute;top:5px;right:5px;padding:3px;border-radius:10px"> </span>
+        {{/if_compare}}
         <br>
         <div style="color:#90A4AE;font-size: 13px"><span class="icon-user-o"></span> {{usuario}}</div>
         <!-- <div style="color:#90A4AE;font-size: 12px"><span class="icon-clock-3"></span> {{fecha_creacion}}</div> -->

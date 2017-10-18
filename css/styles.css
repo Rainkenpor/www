@@ -55,7 +55,7 @@
   background-color:#FAFAFA;
 }
 .swiper-slide .fondo{
-	background-color:#2196F3;
+	/*background-color:#2196F3;*/
 	width:100%;
 	height:160px;
 	position:absolute;
@@ -95,13 +95,11 @@
 .swiper-slide .swpanel .boton{
 	border-radius:5px 5px 0px 0px;
 	padding:10px;
-	font-size: 25px;
+	font-size: 20px;
 	background-color: #/*ECEFF1*/;
 	color:#BBDEFB;
 }
 .swiper-slide .swpanel .boton.activo{
-	background-color: white;
-	color:#2196F3;
 	padding:10px 20px;
 	/*box-shadow: 0px 0px  3px rgba(0,0,0,.5);*/
 }
@@ -183,8 +181,6 @@
 }
 .toolbar-inferior td.activo{
 	transition: 0.5s;
-	background-color: #2196F3;
-	color:white;
 }
 .toolbar-inferior td{
 	padding:0px;
