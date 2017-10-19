@@ -62,17 +62,24 @@ if ($conn->connect_error) {
         echo json_encode($data);
       }
 
+
       $strQuery = "delete from admin_storage_clear where id_usu_disp='$v_dispositivo'";
   	  $conn->multi_query($strQuery);
   }
 // usuario
 // -----------------------------------------------------------------------------------------------------------------------------------
 	if ($v_opcion=='usuario_entrar'){
+
+    $data_fecha=date("Y-m-d");
+    $data_dia=date("d");
+    $data_mes=date("M");
+    $data_hora=date("H:i:s");
+
 		$v_correo=htmlspecialchars($_POST['email'],ENT_QUOTES);
 		  $v_encontrado=0;
 			$strQuery = "select id_usu,usuario,imagen,correo,genero,fecha_cumple,
-                  curdate() date,time(now()) time,color,frase,DATE_FORMAT(curdate(),'%d') dia,
-      						DATE_FORMAT(curdate(),'%b') mes
+                  '$data_fecha' date, '$data_hora' time,color,frase,$data_dia dia,
+      						'$data_mes' mes
                   from admin_usu
                   where correo='$v_correo'";
 
