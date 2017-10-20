@@ -1,6 +1,7 @@
 var mySwiper_inicio;
 var mySwiper_curso;
 var mySwiper_curso_det;
+var mySwiper_curso_temdet;
 var myEscucha=0;
 
 var curso_seleccion=[];
@@ -39,28 +40,26 @@ function start(elemento){
   }
 }
 // ----------------------------------------------------------------------------------------------------------------------------------------
-function llenado_elemento(elemento,include,storage,is_cronograma){
+function llenado_elemento(elemento,include,storage,is_cronograma,handleData){
     if (localStorage.getItem(storage) || storage==null)	{
-        if(!localStorage.getItem(include))$$.ajax({url:'include/'+include,async:false,success: function(resp) {localStorage.setItem(include,resp);}});
-        resp=localStorage.getItem(include);
-    		var compiledTemplate = Template7.compile(resp);
-    		if (is_cronograma){
-          elemento.html(compiledTemplate(cronograma(storage)));
-    		}else{
-          elemento.html(compiledTemplate({"datos":JSON.parse(localStorage.getItem(storage)) }));
-
-    		}
-        elemento.attr({storage:storage});
-        elemento.attr({vinclude:include});
-        if (is_cronograma)
-          elemento.attr({is_cronograma:1});
+        if (elemento.attr('storage')!=storage || elemento.attr('vinclude')!=include){
+          if(!localStorage.getItem(include))$$.ajax({url:'include/'+include,async:false,success: function(resp) {localStorage.setItem(include,resp);}});
+      		var compiledTemplate = Template7.compile(localStorage.getItem(include));
+          if (is_cronograma){
+            elemento.html(compiledTemplate(cronograma(storage)));
+      		}else{
+            elemento.html(compiledTemplate({"datos":JSON.parse(localStorage.getItem(storage)) }));
+      		}
+          elemento.attr({storage:storage});
+          elemento.attr({vinclude:include});
+          if (is_cronograma) elemento.attr({is_cronograma:1});
+          if (handleData) handleData(1);
+        }
     }else{
-      vconsole(1);
-      if (is_cronograma){
-        datos = {elemento:elemento ,storage:storage,include:include, usuario:Gusuario_id,is_cronograma};
-      }else{
-        datos = {elemento:elemento ,storage:storage,include:include, usuario:Gusuario_id};
-      }
+      elemento.removeAttr('storage');
+      elemento.removeAttr('vinclude');
+      elemento.html('');
+      datos = {elemento:elemento ,storage:storage,include:include, usuario:Gusuario_id,is_cronograma,handleData};
       script(datos);
     }
 }
@@ -138,12 +137,10 @@ function escuchas(){
 				 // llenado_peticion('base-curso-detalle-tareas.html','curso_tareas_'+id_curso,'.swiper-container-curso-detalle #curso_tareas');
 			mySwiper_curso_det.slideTo($$(this).attr('index'));
 		}
-
     if ($$(this).attr('enviar')){
       tipo=$$(this).attr('tipo');
 			modal_enviar($$(this),tipo);
     }
-
 	});
 
 	//-------------------------------------------------------------------------------------------------------------------------------------
@@ -235,15 +232,8 @@ function escuchas(){
 		if ($$(this).attr('tipo')=="tema"){
       if ($$(this).attr('opcion')=="comentario"){
         modal({titulo:$$(".swiper-slide[name='curso'] .titulo small").html()+' - Comentario',nivel:11});
-        id_tem=$$(this).attr('id');
-				datos = '[{"id_tem":"'+$$(this).attr('id')+'"}]';localStorage.setItem('varios', datos);
-				llenado_elemento($$(".fondo-blur[id='11'] #contenedor #data"),'base-curso-detalle-temasdet_comentario.html','varios');
-        intervalo_actual=setInterval(function () {
-          datos = {autoscroll:1,elemento:".fondo-blur[id='11'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_tem,usuario:Gusuario_id};
-          script(datos);
-        }, 5000);
-        intervalos['11']=intervalo_actual;
-        intervalo_actual=null;
+
+
 			}
 			if ($$(this).attr('opcion')=="nota"){
 				// modal($$(".swiper-slide[name='curso'] .titulo small").html()+ ' nota',null,null,null,11);
@@ -289,6 +279,7 @@ function escuchas(){
         llenado_elemento($$('.fondo-blur #contenedor #data'),'base-inicio-opcion-color.html');
       }
       function opcion_cambiocolor_select(color){
+        var data=script({opcion:"configuracion_color", color:color, usu:Gusuario_id},1);
         carga_color(color);
         $$('#configuracion-color').css('background-color', color);
       }
@@ -314,7 +305,22 @@ function escuchas(){
         }
         if (id_tipo=="tem"){
           modal({titulo:curso,favorito:1,fav_tipo:'tem',fav_id:id_codigo,nivel:10});
-          llenado_elemento($$('.fondo-blur[id="10"] #contenedor #data'),'base-curso-detalle-temasdet.html','curso_'+id_codigo+'_temasdet',);
+          llenado_elemento($$('.fondo-blur[id="10"] #contenedor #data'),'base-curso-detalle-temasdet.html','curso_'+id_codigo+'_temasdet',null,function(e){
+            mySwiper_curso_temdet = myApp.swiper('.swiper-container-curso-temedet',{onlyExternal:false,speed:300});
+            mySwiper_curso_temdet.slideTo(0);
+
+    				// datos = '[{"id_tem":"'+id_codigo+'"}]';localStorage.setItem('varios', datos);
+    				// llenado_elemento($$(".fondo-blur[id='10'] #contenedor #tema_comentario_listado"),'base-curso-detalle-temasdet_comentario.html','varios');
+            datos = {autoscroll:1,elemento:$$(".fondo-blur[id='10'] #contenedor #data #tema_comentario_listado"),include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_codigo,usuario:Gusuario_id};
+            script(datos);
+            intervalo_actual=setInterval(function () {
+              datos = {autoscroll:1,elemento:$$(".fondo-blur[id='10'] #contenedor #data #tema_comentario_listado"),include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_codigo,usuario:Gusuario_id};
+               script(datos);
+            }, 5000);
+            intervalos['10']=intervalo_actual;
+            intervalo_actual=null;
+          });
+
         }
         calendario('modal_fecha');
       }

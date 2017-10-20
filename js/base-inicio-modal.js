@@ -43,6 +43,7 @@ function modal_cerrar(elemento){
       storage_clear('curso_temascomment_');
       delete intervalos[vid];
   }
+
   $$(elemento).parents('.fondo-blur').remove();
 }
 

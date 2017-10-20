@@ -15,33 +15,22 @@
   firebase.auth().onAuthStateChanged(function(user) {
 
     if (user) {
-        // alert("fire logged! "+user.email +" - "+user.userId);
         var data=script({opcion:"usuario_entrar", email:user.email},1);
         data=JSON.parse(data);
         Gusuario_id=data.id_usu;
         Gusuario_nombre=data.usuario;
+        Gusuario_frase=data.frase;
+        Gusuario_dia=data.dia;
+        Gusuario_mes=data.mes;
+        Gusuario_fecha=data.date;
         $$('.login').hide();
         $$('.login .google').hide();
         console.log(data.date);
         console.log(data.time);
         carga_color(data.color);
-        start();
-
         notificaciones_push();
-
-       //
-         // myApp.params.swipePanelOnlyClose=false;
-         //  mainView.router.load({
-         //    template: myApp.templates.index,
-         //    animatePages: false,
-         //    // context: {carpetas: info,cursos:info_curso},
-         //    reload: true,
-         //  });
-
     } else {
-
       $$('.login .google').show();
-
     }
   });
 
@@ -54,40 +43,25 @@
                  'offline': true
         },
         function (obj) {
-          // alert(obj);
-            // document.querySelector("#image").src = obj.imageUrl;
-            // document.querySelector("#image").style.visibility = 'visible';
             vconsole('Registrando usuario');
             script({opcion:"registro_google", id:obj.userId,usu:obj.displayName,email:obj.email,imagen:obj.imageUrl},1);
-            // alert(1);
             vconsole('Registro Finalizado');
             var data=script({opcion:"usuario_entrar", email:obj.email},1);
             vconsole('=====================================================================');
             vconsole(data);
             data=JSON.parse(data);
-            vconsole(data.usuario);
-            vconsole(data.imagen);
-            vconsole('Cargando datos de usuario');
             vconsole('=====================================================================');
             Gusuario_id=data.id_usu;
             Gusuario_nombre=data.usuario;
-
+            Gusuario_frase=data.frase;
+            Gusuario_dia=data.dia;
+            Gusuario_mes=data.mes;
+            Gusuario_fecha=data.date;
             $$('.login').hide();
             $$('.login .google').hide();
-            carga_datetime();
-            start();
+            carga_color(data.color);
             notificaciones_push();
-              // $$(".panel-left .content-block #login .usuario").html(data.usuario);
-              // $$(".panel-left .content-block #login .image-temp").hide();
-              // $$(".panel-left .content-block #login #imagen #image").show();
-
-
-            // document.querySelector("#feedback").innerHTML = "Hi, " + obj.displayName + ", " + obj.email;
             if (!firebase.auth().currentUser) {
-
-
-
-                // document.querySelector("#feedback").innerHTML ='signing firebase';
                 firebase.auth().signInWithCredential(firebase.auth.GoogleAuthProvider.credential(obj.idToken))
                 .then((success) => {
                     vconsole("success: " + JSON.stringify(success)); // to long json to put it in #feedback
@@ -122,32 +96,17 @@
     window.plugins.googleplus.logout(
         function (msg) {
           vconsole(msg);
-          // document.querySelector("#image").style.visibility = 'hidden';
-          // document.querySelector("#feedback").innerHTML = msg;
-          // $$(".panel-left .content-block #login .image-temp").show();
-            // $$(".panel-left .content-block #login #imagen #image").hide();
-            // $$(".panel-left .content-block #login .usuario").html('Iniciar Sesión');
-            // myApp.closePanel();
             vconsole('cerrando sesion');
             for(key in localStorage) {localStorage.removeItem(key);}
-
-
             $$('.login').show();
             $$('.login .google').show();
-
             Gusuario_id=0;
             Gusuario_nombre='';
-            mySwiper_inicio=undefined;
-            mySwiper_curso=undefined;
-            mySwiper_curso_det=undefined;
-            $$(".swiper-container-menu .swiper-slide").html('');
-
-
-
-          if(firebase.auth().currentUser){
-            // document.querySelector("#feedback").innerHTML ='signing out from firebase';
-            firebase.auth().signOut();
-          }
+            Gusuario_frase='';
+            Gusuario_dia='';
+            Gusuario_mes='';
+            Gusuario_fecha='';
+            if(firebase.auth().currentUser){firebase.auth().signOut();}
         },
         function (msg) {
           // document.querySelector("#feedback").innerHTML = msg;
@@ -183,5 +142,5 @@
     vconsole(what + '; ' + line + '; ' + file);
   };
   function handleOpenURL (url) {
-    document.querySelector("#feedback").innerHTML = "App was opened by URL: " + url;
+    vconsole("App was opened by URL: " + url);
   }

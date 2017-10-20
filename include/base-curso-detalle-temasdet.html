@@ -1,33 +1,45 @@
+<div class="swpanel menu" style="padding:10px 5px;padding-bottom:5px;text-align:center">
+	<span index="0" class="boton menu"><span class="icon-attach-2"></span></span>
+  <span index="1" class="boton menu"><span class="icon-comment-6"></span></span>
+  <span index="2" class="boton menu"><span class="icon-sticky-note-o"></span></span>
+  <span index="3" class="boton menu"><span class="icon-attach-2"></span></span>
+
+</div>
 {{#each datos}}
-	<div  style="width: calc(100% - 15px);height: calc(100% - 130px);overflow: auto; background-color: #FAFAFA;color:#78909C;border:1px solid #EEEEEE;border-radius: 5px;padding: 6px">
-		<b>{{tema}}</b><br>
-		{{descripcion}}
-	</div>
-	<span style="background-color: #4CAF50;color:white;padding:7px;box-shadow: 0px 0px 5px rgba(0,0,0,.4);font-size: 12px;border-radius: 5px;float: right;">{{fecha_habilitacion}}</span>
-<br>
+<div  style="height: calc(100% - 60px); overflow: auto">
+  <div class="swiper-container swiper-container-curso-temedet">
+    <div class="swiper-wrapper" >
 
-<table style="width:100%">
-	<tr>
-		<td width="33%">
-			<div class="submodal" id="{{id_tem}}" tipo="tema" opcion="comentario" style="text-align:center; padding:10px;border-right:1px solid #ccc;">
-				<span class="icon-comment-6" style="font-size:20px"></span> <br>Comentarios
+      <div class="swiper-slide" id="curso_temadet_info" style=" background-color:white; overflow: auto;padding-top: 6px;">
+					<div  style="width: calc(100% - 15px);height: calc(100% - 130px);overflow: auto; background-color: #FAFAFA;color:#78909C;border:1px solid #EEEEEE;border-radius: 5px;padding: 6px">
+						<b>{{tema}}</b><br>
+						{{descripcion}}
+					</div>
+					<span style="background-color: #4CAF50;color:white;padding:7px;box-shadow: 0px 0px 5px rgba(0,0,0,.4);font-size: 12px;border-radius: 5px;float: right;">{{fecha_habilitacion}}</span>
 			</div>
-		</td>
-		<td width="33%">
-			<div class="submodal" id="{{id_tem}}" tipo="tema" opcion="nota" style="text-align:center; padding:10px;border-right:1px solid #ccc;">
-				<span class="icon-sticky-note-o" style="font-size:20px"></span> <br>Notas
-			</div>
-		</td>
-		<td width="33%">
-			<div class="submodal" id="{{id_tem}}" tipo="tema" opcion="adjunto" style="text-align:center; padding:10px;">
-				<span class="icon-attach-2" style="font-size:20px"></span> <br>Adjuntos
-			</div>
-		</td>
-	</tr>
-</table>
 
+      <div class="swiper-slide" id="curso_temadet_comentario" style=" background-color:white; overflow: auto; padding-top: 6px;">
+				<div style="height: calc(100% - 55px); width:100%;overflow:auto;margin-bottom:10px" id='tema_comentario_listado'>
+				</div>
+				<input type="text" id="txt_comentario" id_tema="{{id_tem}}" class="form-control" style="width:calc(100% - 60px);float:left">
+				<div class="boton" enviar="1" id_tema="{{id_tem}}" tipo="tema_comentario" style="float:right">
+					<span class="icon-paper-plane" style="color:#2196F3;font-size: 27px"></span>
+				</div>
+				<div style="clear:both; border-bottom:1px solid #ccc;padding-top:3px"></div>
+      </div>
 
+      <div class="swiper-slide" id="curso_temadet_notas" style=" background-color:white; padding-top: 6px; overflow: auto;">
 
+      </div>
+
+      <div class="swiper-slide" id="curso_temadet_adjuntos" style=" background-color:white; overflow: auto;">
+
+      </div>
+
+    </div>
+    <!-- <div class="swiper-pagination"></div> -->
+  </div>
+</div>
 {{else}}
 sin informacion
 {{/each}}

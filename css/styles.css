@@ -280,17 +280,15 @@
 
 .cronograma-hoy{
   margin-bottom: 10px;
-  margin-top: 20px;
+  margin-top: 10px;
   font-size: 18px;
   color:#6d6d72;
-  border-bottom: 4px solid  #9E9E9E;
-  border-bottom-left-radius: 21px;
+  border: 2px solid  #9E9E9E;
+  border-radius: 21px;
+  padding:10px;
 }
 
 .cronograma-hoy span{
-  height: 40px;
-  width: 40px;
-  border-radius: 100%;
   padding: 8px;
   color:#9E9E9E;
   /*background-color: #2196F3;*/
@@ -303,43 +301,15 @@
 	width: 100%;
 	padding-bottom: 70px;
 }
-.contenido .notificacion{
-	background-color:white;
-	height: 70px;
-	width: 90%;
-	margin:auto;
-	margin-top: 5px;
-	padding:10px;
-	border-radius: 6px;
-	box-shadow: 0px 3px 4px #BDBDBD;
+
+.notificacion-vacio{
+  font-size: 16px;
+  text-align: center;
+  padding-top: 20px;
 }
-.contenido .notificacion .icono{
-	font-size: 30px;
-	color:white;
-	text-align: center;
-	line-height: 50px;
-	border-radius: 100%;
-	height: 50px;
-	width: 50px;
-}
-.contenido .notificacion .usuario{
-	color:#2196F3;
-	font-size: 17px;
-}
-.contenido .notificacion .titulo{
-	color:#8BC34A;
-	font-size: 17px;
-}
-.contenido .notificacion .curso{
-	font-size:12px;
-	color:#606060;
-	margin-top: -2px;
-}
-.contenido .notificacion.conversacion .icono{
-	background-color: #2196F3;
-}
-.contenido .notificacion.tarea .icono{
-	background-color: #8BC34A;
+.notificacion-vacio span{
+  display: block;
+  font-size: 30px
 }
 
 .page > .titulo{

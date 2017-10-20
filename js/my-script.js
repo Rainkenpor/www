@@ -76,7 +76,7 @@ function script(datos,devolver){
               elemento=datos.elemento;
               elemento.attr({storage:''});
               elemento.attr({vinclude:''});
-              llenado_elemento(elemento,datos.include,storage,datos.is_cronograma);
+              llenado_elemento(elemento,datos.include,storage,datos.is_cronograma,datos.handleData);
               if (datos.autoscroll) $(elemento).animate({scrollTop: 9999}, 1000);
             }
           // storage clear

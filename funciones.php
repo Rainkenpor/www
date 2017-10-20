@@ -15,33 +15,25 @@ date_default_timezone_set('America/Guatemala');
 
         if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']))
             header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-
     }
-
 
 $servername = "localhost";
 $username = "id1923973_zaion_user01";
 $password = "Zaion1250";
 $dbname = "id1923973_01_curso";
-
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
-
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+if ($conn->connect_error) {die("Connection failed: " . $conn->connect_error);}
+//echo ">>." . PHP_EOL;
+$v_opcion=$_POST['opcion'];
 
-	//echo ">>." . PHP_EOL;
-	$v_opcion=$_POST['opcion'];
+$data_fecha=date("Y-m-d");
+$data_dia=date("d");
+$data_mes=date("M");
+$data_hora=date("H:i:s");
 
 
-//echo "Información del host: " . mysqli_POST_host_info($conn) . PHP_EOL;
-  if ($v_opcion=='admin_datetime'){
-    $data['fecha']=date("d/m/y");
-    $data['hora']=date("H:i:s");
-    echo json_encode($data);
-  }
 
   if ($v_opcion=='admin_storageclear'){
       $v_dispositivo=htmlspecialchars($_POST['dispositivo'],ENT_QUOTES);
@@ -66,17 +58,22 @@ if ($conn->connect_error) {
       $strQuery = "delete from admin_storage_clear where id_usu_disp='$v_dispositivo'";
   	  $conn->multi_query($strQuery);
   }
+
+  // CONFIGURACION
+  // -----------------------------------------------------------------------------------------------------------------------------------
+  if ($v_opcion=='configuracion_color'){
+		$v_color=$_POST['color'];
+		$v_usuario=$_POST['usu'];
+		$strQuery = "update admin_usu set color='$v_color' where id_usu=$v_usuario";
+  	$conn->multi_query($strQuery);
+  	echo 1;
+	}
 // usuario
 // -----------------------------------------------------------------------------------------------------------------------------------
 	if ($v_opcion=='usuario_entrar'){
-
-    $data_fecha=date("Y-m-d");
-    $data_dia=date("d");
-    $data_mes=date("M");
-    $data_hora=date("H:i:s");
-
 		$v_correo=htmlspecialchars($_POST['email'],ENT_QUOTES);
-		  $v_encontrado=0;
+    $v_encontrado=0;
+
 			$strQuery = "select id_usu,usuario,imagen,correo,genero,fecha_cumple,
                   '$data_fecha' date, '$data_hora' time,color,frase,$data_dia dia,
       						'$data_mes' mes
@@ -96,16 +93,16 @@ if ($conn->connect_error) {
 	  		echo 0;
 	  	}
 	}
+
 	if ($v_opcion=='registro_google'){
 		$v_id=$_POST['id'];
 		$v_usuario=$_POST['usu'];
 		$v_correo=htmlspecialchars($_POST['email'],ENT_QUOTES);
 		$v_imagen=$_POST['imagen'];
-		$strQuery = "insert into admin_usu (id_tiplog,id_login,usuario,nombre,correo,imagen,id_est) ".
-                            " values (1,'$v_id','$v_usuario','$v_usuario','$v_correo','$v_imagen',1)  ON DUPLICATE KEY UPDATE entrada=entrada+1";
-
+		$strQuery = "insert into admin_usu (id_tiplog,id_login,usuario,nombre,correo,imagen,id_est,color) ".
+                            " values (1,'$v_id','$v_usuario','$v_usuario','$v_correo','$v_imagen',1,'#2980b9')  ON DUPLICATE KEY UPDATE entrada=entrada+1";
 	  	$conn->multi_query($strQuery);
-	  	echo $strQuery;
+	  	echo 1;
 	}
 	if ($v_opcion=='registro_facebook'){
 		$v_usuario=$_POST['usu'];
@@ -142,6 +139,7 @@ if ($conn->connect_error) {
 	  		echo 0;
 	  	}
 	}
+
 	if ($v_opcion=='usuario_dispositivo'){
 		$v_usuario=htmlspecialchars($_POST['usuario'],ENT_QUOTES);
 		$v_dispositivo=$_POST['dispositivo'];
@@ -154,19 +152,34 @@ if ($conn->connect_error) {
       $result=$conn->store_result();
       $row=$result->fetch_assoc();
       echo $row['id'];
-
 	}
+
+  if ($v_opcion=='inicio_notificacion'){
+    $v_usuario=htmlspecialchars($_POST['usuario'],ENT_QUOTES);
+    $v_encontrado=0;
+    $strQuery = "select * from admin_notifi where id_usu=$v_usuario order by fecha_creado desc LIMIT 10";
+      if ($conn->multi_query($strQuery)){
+        if ($result=$conn->store_result()){
+          while($row=$result->fetch_assoc()){
+            $row['fecha_creado'] =time_elapsed_string($row['fecha_creado']);
+            $data[] = json_encode($row);
+            $v_encontrado=1;
+          }
+          $result->free();
+        }
+      }
+      if ($v_encontrado==0){
+  			echo 0;
+  		}else{
+  			echo json_encode($data);
+  		}
+  }
 
 	if ($v_opcion=='inicio_perfil'){
 		$v_usuario=htmlspecialchars($_POST['usuario'],ENT_QUOTES);
 		$v_encontrado=0;
 
-		$strQuery = "
-		select *
-		from
-			admin_usu
-		where
-			id_usu=$v_usuario" ;
+		$strQuery = "select * from	admin_usu	where	id_usu=$v_usuario" ;
 		if ($conn->multi_query($strQuery)){
 			if ($result=$conn->store_result()){
 				while($row=$result->fetch_assoc()){
@@ -749,5 +762,37 @@ if ($conn->connect_error) {
 	}
 
 
+  function time_elapsed_string($datetime, $full = false) {
+      $now = new DateTime;
+      $ago = new DateTime($datetime);
+      $diff = $now->diff($ago);
+
+      $diff->w = floor($diff->d / 7);
+      $diff->d -= $diff->w * 7;
+
+      $string = array(
+          'y' => 'año',
+          'm' => 'mes',
+          'w' => 'semana',
+          'd' => 'dia',
+          'h' => 'hora',
+          'i' => 'minuto',
+          's' => 'segundo',
+      );
+      foreach ($string as $k => &$v) {
+          if ($diff->$k) {
+              $v = $diff->$k . ' ' . $v . ($diff->$k > 1 ? 's' : '');
+          } else {
+              unset($string[$k]);
+          }
+      }
+
+      if (!$full) $string = array_slice($string, 0, 1);
+      return $string ? 'hace '.implode(', ', $string)  : 'justo ahora';
+  }
+
+
 mysqli_close($conn);
+
+
  ?>

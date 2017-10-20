@@ -1,8 +1,27 @@
+<div class="pull-to-refresh-layer"><div class="preloader"></div><div class="pull-to-refresh-arrow"></div></div>
 
+{{#each datos}}
+<div class="vpanel">
+  <table width="100%" style="border-spacing:0px">
+    <tr>
+      <td width="10px"></td>
+      <td  valign="top" style="padding-top:5px">
+        <b style="font-size: 16px;"> {{titulo}}</b>
+				<span style="position:absolute;top:5px;right:5px;padding:3px;border-radius:10px;font-size:10px">{{fecha_creado}}</span>
+        <br>
+        <div style="color:#90A4AE;font-size: 13px"><span class="icon-bell"></span>{{descripcion}}</div>
+      </td>
+    </tr>
+  </table>
+
+</div>
+
+{{else}}
 <div style="text-align:center;padding-top:20px">
 	<span class="icon-bell-1" style="font-size:30px"></span><br>
 	Sin Notificaciones
 </div>
+{{/each}}
 
 <!-- <div class="checkbox notificacion" style="border-bottom: 1px solid #ccc;padding:10px 0px;padding-left: 40px;">
 	<span class="icon-circle-empty" style="float:left;margin-left: -40px;font-size: 26px"></span>

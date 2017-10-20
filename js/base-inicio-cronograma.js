@@ -94,7 +94,6 @@ function cronograma_expandir(element){
       }
   }else{
     var dia_hoy=0;
-    console.log(arr);
       for (arr in array){
         if(dia_hoy==0) var diferencia =  Math.floor(( Date.parse(array[a].fecha_finalizacion) - Date.parse(Gusuario_fecha) )/86400000);
         if (array[arr].mes==mes){

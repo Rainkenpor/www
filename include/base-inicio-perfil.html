@@ -9,6 +9,8 @@
 		{{nombre}}
 	</div>
 
+<div class="chip" onclick="logout()" style="background-color:#F44336;position:absolute;top:0px;right:0px;color:white">Salir</div>
+
 	<div style="text-align: center;font-size: 13px">
 		<span class="icon-quote-left-1"></span>{{frase}}<span class="icon-quote-right-1"></span>
 	</div>
@@ -18,12 +20,12 @@
 			<td>
 				<span class="icon-birthday" style="font-size: 30px"></span>
 				<br>
-				16/06/1991
+				{{fecha_cumple}}
 			</td>
 			<td style="border-left:1px solid #ccc">
 				<span class="icon-venus-mars" style="font-size: 30px"></span>
 				<br>
-				Masculino
+				{{#if_compare genero "==" "F"}} Femenino {{else}} Masculino {{/if_compare}}
 			</td>
 			<td style="border-left:1px solid #ccc">
 				<span class="icon-gmail" style="font-size: 30px"></span>
@@ -33,7 +35,7 @@
 		</tr>
 	</table>
 
-	<div class="chip" onclick="logout()">Salir</div>
+
 
 	<div style="padding:5px 10px;margin-top: 10px">
 		Pertenece a:

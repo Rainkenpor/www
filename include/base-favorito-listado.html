@@ -1,21 +1,21 @@
 <div class="pull-to-refresh-layer"><div class="preloader"></div><div class="pull-to-refresh-arrow"></div></div>
 {{#each datos}}
 {{#if_compare tipo "==" "tem"}}
-<div class="vpanel panel-curso-tema" id_curso="{{id_curs}}" curso="{{curso}}" style="border:1px solid #E0E0E0; box-shadow:none; background-color:#E3F2FD; padding-top:0px" id_tema="{{id_tem}}">
+<div class="vpanel panel-curso-tema" id_curso="{{id_curs}}" curso="{{curso}}" codigo="{{id_tem}}" tipo="tem" onclick="curso_seleccion_opcion(this)">
   <div style="padding:9px 6px;color:#757575;border-radius: 5px 5px 0px 0px;">
     <b style="font-size: 16px;">{{tema}} </b>
-    <span class="icon-book-4" style="float:right;font-size: 50px;color:#2196F3;opacity:0.2"></span>
+      <span class="icon-book-4 chip-media" style="position:absolute;top:5px;right:5px;padding:3px;border-radius:10px"> </span>
     <br>
     <small>{{curso}}</small>
   </div>
 </div>
 {{/if_compare}}
 {{#if_compare tipo "==" "tar"}}
-<div class="vpanel panel-curso-tarea" id_curso="{{id_curs}}" curso="{{curso}}" style="border:1px solid #E0E0E0; box-shadow:none; background-color:#E8F5E9;padding-top:0px" id_tarea="{{id_tem}}">
+<div class="vpanel panel-curso-tarea" id_curso="{{id_curs}}" curso="{{curso}}" codigo="{{id_tem}}" tipo="tar" onclick="curso_seleccion_opcion(this)">
   <div style="padding:9px 6px;color:#757575; border-radius: 5px 5px 0px 0px;">
     <b style="font-size: 16px;">{{tema}} </b>
     <!-- <span style="float:right;background-color:#4CAF50;color:white;border-radius:6px;padding:1px 8px">tarea</span> -->
-    <span class="icon-pencil-alt-1" style="float:right;font-size: 50px;color:#4CAF50;opacity:0.2"></span>
+    <span class="icon-pencil-alt-1 chip-media" style="position:absolute;top:5px;right:5px;padding:3px;border-radius:10px"> </span>
     <br>
     <small>{{curso}}</small>
   </div>
