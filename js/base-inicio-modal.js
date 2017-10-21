@@ -1,7 +1,7 @@
 function modal(datos){
 	if (!datos.nivel) datos.nivel=10;// titulo,id,tipo,tipo_crear,nivel	// nivel indica el z-index
 	txt='<div class="fondo-blur" id="'+datos.nivel+'" style="z-index:'+datos.nivel+'">';
-	txt+='<div id="contenedor">';
+	txt+='<div id="contenedor" style="height:'+(glob_alto-100)+'px">';
 	txt+='<div class="fondo" style="padding:20px 6px;height:26px;font-size:18px;border-radius:5px 5px 0px 0px;">'+datos.titulo;
   // para indicar favoritos los requisitos son
   //  favorito:1, fav_tipo:'###', fav_id:###, fav_select=1 < si se ha seleccionado como favorito previamente
@@ -39,12 +39,59 @@ function modal_cerrar(elemento){
   // $$(this).parents('.fondo-blur').removeClass('jackInTheBox').removeClass('animated').addClass('fadeOutUp animated');
   // si es un submodal de comentario de curso
   if (intervalos[vid]){
-      clearInterval(intervalos[vid]);
+      clearTimeout(intervalos[vid]);
       storage_clear('curso_temascomment_');
       delete intervalos[vid];
   }
 
   $$(elemento).parents('.fondo-blur').remove();
+}
+
+
+function modal_ok(elemento,tipo){
+	if (tipo=='nuevo_tarea'){
+		var arr=localStorage.getItem('varios');
+		vtitulo=$$('.fondo-blur #contenedor #titulo').val();
+		vdescripcion=$$('.fondo-blur #contenedor #descripcion').val();
+		vfecha=$$('.fondo-blur #contenedor #modal_fecha').val();
+		vfecha= new Date(vfecha);
+		vfecha=vfecha.getFullYear() +"-"+(vfecha.getMonth() + 1) + '-' + vfecha.getDate() + '- 00:00:00' ;
+		vcurso=JSON.parse(arr)[0].id_curso;
+
+		datos = {opcion:"curso_tarea_nuevo",usuario:Gusuario_id,curso:vcurso,tarea:vtitulo,descripcion:vdescripcion,fecha_finalizacion:vfecha,tipo:2};
+		script(datos,function (e){
+				$$('.fondo-blur').removeClass('jackInTheBox').removeClass('animated').addClass('fadeOutUp animated');
+		});
+
+	}
+	if (tipo=='nuevo_tema'){
+		var arr=localStorage.getItem('varios');
+		vtitulo=$$('.fondo-blur #contenedor #titulo').val();
+		vdescripcion=$$('.fondo-blur #contenedor #descripcion').val();
+		vfecha=$$('.fondo-blur #contenedor #modal_fecha').val();
+		vfecha= new Date(vfecha);
+		vfecha=vfecha.getFullYear() +"-"+(vfecha.getMonth() + 1) + '-' + vfecha.getDate() + '- 00:00:00' ;
+		vcurso=JSON.parse(arr)[0].id_curso;
+
+		datos = {opcion:"curso_tema_nuevo",usuario:Gusuario_id,curso:vcurso,tema:vtitulo,descripcion:vdescripcion,fecha_habilitacion:vfecha};
+		vconsole(datos);
+		script(datos,function(e){
+			$$('.fondo-blur').removeClass('jackInTheBox').removeClass('animated').addClass('fadeOutUp animated');
+		});
+
+	}
+
+}
+
+function modal_enviar(elemento,tipo){
+	if (tipo=='tema_comentario'){
+		texto=$$(elemento).parent().find('#txt_comentario').val();
+		vtema=$$(elemento).attr('id_tema');
+		datos = {opcion:"curso_tema_comentario",usuario:Gusuario_id,tema:vtema,comentario:texto};
+		script(datos,function(e){
+			$$(elemento).parent().find('#txt_comentario').val('');
+		});
+	}
 }
 
 function calendario(id){

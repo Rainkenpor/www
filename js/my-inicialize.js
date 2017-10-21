@@ -51,10 +51,10 @@ pushState: !!Framework7.prototype.device.os,
 });
 
 function vconsole(txt){
-  $$('#login_console').append('<br>'+txt)
-  $$('.swiper-slide[name="inicio-log"]').append('<br>'+txt);
-  console.log(txt);
-  $$("#app-status-ul").append('<br>'+txt);
+  // $$('#login_console').append('<br>'+txt)
+  // $$('.swiper-slide[name="inicio-log"]').append('<br>'+txt);
+  // console.log(txt);
+  // $$("#app-status-ul").append('<br>'+txt);
 }
 
 function hexToRgb(hex) {
@@ -170,6 +170,7 @@ var mainView = myApp.addView('.view-main', {
     // Because we want to use dynamic navbar, we need to enable it for this view:
     dynamicNavbar: true,
     domCache: true,
+    allowPageChange :true,
 });
 
 
