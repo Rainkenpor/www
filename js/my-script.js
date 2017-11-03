@@ -1,17 +1,14 @@
 var Gusuario_id     =0;
 var Gusuario_nombre ='';
 var Gusuario_disp   ='';
-// devolver 2= no devuelve respuesta
 function script(datos,devolver){
-  // devolver es opcional null = no ; 1 = si; 2 = ejecuta el query sin storage
-
   // convirtiendo tipo de datos
   if (!datos.opcion)
     datos.opcion=datos.storage;
 
   var subelementos=datos.opcion;
   if (subelementos){
-    vconsole(subelementos);
+    vconsole('subelemento> '+subelementos);
     var subelementos2=subelementos.split('_');
     if ((subelementos2.length)==3){
       codigo1=subelementos2[1];
@@ -36,29 +33,27 @@ function script(datos,devolver){
 
 
   if (datos.nopreload == undefined) {myApp.showIndicator();}
-  var v_async=true;
-  var glob_resp;
 
-  if (devolver){ v_async=false; vconsole('EN ESPERA');}
 
+  if (devolver){  vconsole('Devolucion Ajax');}
+// vconsole('Carga ajax');
   $$.ajax({
     dataType: 'jsonp',
     data: datos,
     jsonp: "callback",
-    async:v_async,
-    processData: true,
+    // async:v_async,
+    // processData: true,
     url: 'https://zaionnet.000webhostapp.com/funcion.php',
     method:'POST',
     success: function respuesta(resp) {
+      vconsole('Respuesta ajax');
       // vconsole('......................RESPUESTA OK......................');
-      glob_resp=resp;
+      // glob_resp=resp;
       // vconsole(resp);
-      if (devolver!=2){
         // vconsole( JSON.stringify(datos));
 
         if (resp!=''){
   	    	resp2=JSON.parse(resp);
-          // if (datos.opcion=='usuario_entrar') return resp2;
   	    	var info=[];
           try{
           // ====================================================================================================
@@ -73,45 +68,42 @@ function script(datos,devolver){
             localStorage.setItem(storage, JSON.stringify(info));
 
             if (datos.elemento && existeCambio==0){
-              elemento=datos.elemento;
-              elemento.attr({storage:''});
-              elemento.attr({vinclude:''});
+              elemento=$$(datos.elemento);
+              vconsole('Respuesta handles');
+              // vconsole(datos.handleData);
               llenado_elemento(elemento,datos.include,storage,datos.is_cronograma,datos.handleData);
-              if (datos.autoscroll) $(elemento).animate({scrollTop: 9999}, 1000);
+              if (datos.autoscroll) elemento.animate({scrollTop: 9999}, 1000);
             }
           // storage clear
-            if (datos.storageclear){
-              resp2.forEach(function(valor,indice,array){
-                data=JSON.parse(valor);
-                vconsole('limpiando->'+data.storage);
-                storage_clear(data.storage)
-              });
-
-            }
+            // if (datos.storageclear){
+            //   resp2.forEach(function(valor,indice,array){
+            //     data=JSON.parse(valor);
+            //     vconsole('limpiando->'+data.storage);
+            //     storage_clear(data.storage)
+            //   });
+            //
+            // }
           // ====================================================================================================
           }catch(e){
 
           }
-          myApp.hideIndicator();
+
   	    }
         // si no existen valore
         // script_carga(datos.opcion);
-    }
-    myApp.hideIndicator();
+
+      myApp.hideIndicator();
+      if (devolver) devolver(resp);
 
     },
     error: function searchError(xhr, err) {
+
       vconsole("Error on ajax call: " + err);
       vconsole(JSON.stringify(xhr));
       if (devolver){ return err;}
         // script_carga(datos.opcion);
        myApp.hideIndicator();
+       if (devolver) devolver(0);
     }
   });
-
-  if (devolver){
-    vconsole('respuesta');
-    vconsole(glob_resp);
-    return glob_resp;
-  }
 }

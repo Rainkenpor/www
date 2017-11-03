@@ -9,6 +9,17 @@ var curso_seleccion=[];
 var intervalo_actual;
 var intervalos=[]; //array que almacena los intervalos
 
+var glob_alto=$$(window).height();
+vconsole(glob_alto);
+$$('body').css({'height':glob_alto+'px'});
+
+$$(window).resize(function() {
+	glob_alto=$$(window).height();
+	var alto=(glob_alto-50)+'px';
+	vconsole(alto);
+	$$('.fondo-blur #contenedor').css("height",alto);
+});
+
 function start(elemento){
   if (!elemento){
     $$('[include]').each(function(e){
@@ -125,6 +136,7 @@ function escuchas(){
 	      	mySwiper_inicio.slideTo($$(this).attr('index'));
 		}
 		if ($$(this).hasClass('menu_curso')){
+			myApp.showIndicator()
 			if (!mySwiper_curso_det) mySwiper_curso_det = myApp.swiper('.swiper-container-curso-detalle',{onlyExternal:true,speed:0});
 		      id_curso=($$(this).parents('#curso_detalle').attr('id_curso'));
 		      if ($$(this).attr('index')==0)
@@ -136,6 +148,7 @@ function escuchas(){
 			   //if ($$(this).attr('index')==3)
 				 // llenado_peticion('base-curso-detalle-tareas.html','curso_tareas_'+id_curso,'.swiper-container-curso-detalle #curso_tareas');
 			mySwiper_curso_det.slideTo($$(this).attr('index'));
+			myApp.hideIndicator();
 		}
     if ($$(this).attr('enviar')){
       tipo=$$(this).attr('tipo');
@@ -279,9 +292,11 @@ function escuchas(){
         llenado_elemento($$('.fondo-blur #contenedor #data'),'base-inicio-opcion-color.html');
       }
       function opcion_cambiocolor_select(color){
-        var data=script({opcion:"configuracion_color", color:color, usu:Gusuario_id},1);
-        carga_color(color);
-        $$('#configuracion-color').css('background-color', color);
+        var data=script({opcion:"configuracion_color", color:color, usu:Gusuario_id},function(e){
+					carga_color(color);
+	        $$('#configuracion-color').css('background-color', color);
+				});
+
       }
 
 // curso
@@ -308,22 +323,24 @@ function escuchas(){
           llenado_elemento($$('.fondo-blur[id="10"] #contenedor #data'),'base-curso-detalle-temasdet.html','curso_'+id_codigo+'_temasdet',null,function(e){
             mySwiper_curso_temdet = myApp.swiper('.swiper-container-curso-temedet',{onlyExternal:false,speed:300});
             mySwiper_curso_temdet.slideTo(0);
-
-    				// datos = '[{"id_tem":"'+id_codigo+'"}]';localStorage.setItem('varios', datos);
-    				// llenado_elemento($$(".fondo-blur[id='10'] #contenedor #tema_comentario_listado"),'base-curso-detalle-temasdet_comentario.html','varios');
-            datos = {autoscroll:1,elemento:$$(".fondo-blur[id='10'] #contenedor #data #tema_comentario_listado"),include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_codigo,usuario:Gusuario_id};
-            script(datos);
-            intervalo_actual=setInterval(function () {
-              datos = {autoscroll:1,elemento:$$(".fondo-blur[id='10'] #contenedor #data #tema_comentario_listado"),include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_codigo,usuario:Gusuario_id};
-               script(datos);
-            }, 5000);
-            intervalos['10']=intervalo_actual;
-            intervalo_actual=null;
+            curso_tema_comentarios_refresh(id_codigo);
           });
-
         }
         calendario('modal_fecha');
       }
+
+			function curso_tema_comentarios_refresh(id_codigo){
+				datos = {autoscroll:1,elemento:".fondo-blur[id='10'] #contenedor #data #tema_comentario_listado",include:'base-curso-detalle-temasdet_comentario_listado.html',nopreload:0,opcion:'curso_temascomment',id:id_codigo,usuario:Gusuario_id};
+				vconsole(datos);
+				 script(datos,function(e){
+					//  vconsole(e);
+					 intervalo_actual=	setTimeout(function () {
+					 		curso_tema_comentarios_refresh(id_codigo);
+					 }, 5000);
+					 intervalos['10']=intervalo_actual;
+					 intervalo_actual=null;
+				 });
+			}
 
 
 

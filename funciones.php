@@ -501,8 +501,9 @@ $data_hora=date("H:i:s");
 
 			$strQuery = "insert into curs_tem_comment (id_tem,comentario,id_usu) values ('$v_tema','$v_comentario',$v_usuario)";
 			$conn->multi_query($strQuery);
-
-			echo $strQuery;
+      $data['success']=1;
+      $data['query']=$strQuery;
+			echo json_encode($data);
 		}else{
 			echo 'Debe de ingresar el titulo del tema';
 		}
